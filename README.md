@@ -17,4 +17,3 @@ A web-based attendance and daily activity logbook system designed to help employ
 
 ![User Flow](Docs/images/logbook_user_flow.png)
 ![Admin Flow](Docs/images/logbook_admin_flow.png)
-
