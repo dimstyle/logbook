@@ -15,4 +15,6 @@ A web-based attendance and daily activity logbook system designed to help employ
 
 ## 📖 Project Workflow
 
-![Application Flow](Docs/logbook_flow.png)
+![User Flow](Docs/images/logbook_user_flow.png)
+![Admin Flow](Docs/images/logbook_admin_flow.png)
+
