@@ -1,4 +1,4 @@
-export default function Home(): React.ReactElement{
+export default function Home(){
     const data = "hello";
     return(
         <>
