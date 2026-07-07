@@ -1,4 +1,5 @@
 import "@fontsource/freckle-face"
+import "@fontsource/fredoka-one"
 import { createInertiaApp } from "@inertiajs/react";
 
 createInertiaApp({

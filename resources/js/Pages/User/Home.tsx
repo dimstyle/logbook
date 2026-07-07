@@ -1,11 +1,87 @@
 import Navbar from "../../Components/User/Navbar.js";
 
 export default function Home(){
-    const data = "hello";
     return(
         <>
-            <Navbar></Navbar>
-            <h1>hello world</h1>
+            <Navbar>
+                <input className="w-70 p-1.5 bg-white rounded-lg" type="text" placeholder="Search Reports" />
+                <div className="flex justify-between w-60 mr-2 text-white">
+                    <a href="">History</a>
+                    <a href="">Attendance</a>
+                    <a href="">Logout</a>
+                </div>
+            </Navbar>
+            <div className="p-4 pt-25">
+                <table className="min-w-full border-collapse divide-y divide-white-100 bg-[#838383] text-white">
+                    <thead className="bg-[#505050]">
+                        <tr className="divide-x divide-white-100">
+                            <th>Activities</th>
+                            <th>Clock In</th>
+                            <th>Clock Out</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-center divide-y divide-white-100">
+                        <tr className="divide-x divide-white-100 h-20">
+                            <td>Membuat website</td>
+                            <td>08.00</td>
+                            <td>16.00</td>
+                            <td>9-11-2001</td>
+                            <td><span className="bg-[#FF5454] rounded-lg p-1.5">Edit</span></td>
+                        </tr>
+                        <tr className="divide-x divide-white-100 h-20">
+                            <td>Membuat website</td>
+                            <td>08.00</td>
+                            <td>16.00</td>
+                            <td>9-11-2001</td>
+                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5">View</span></td>
+                        </tr>
+                        <tr className="divide-x divide-white-100 h-20">
+                            <td>Membuat website</td>
+                            <td>08.00</td>
+                            <td>16.00</td>
+                            <td>9-11-2001</td>
+                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5">View</span></td>
+                        </tr>
+                        <tr className="divide-x divide-white-100 h-20">
+                            <td>Membuat website</td>
+                            <td>08.00</td>
+                            <td>16.00</td>
+                            <td>9-11-2001</td>
+                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5">View</span></td>
+                        </tr>
+                        <tr className="divide-x divide-white-100 h-20">
+                            <td>Membuat website</td>
+                            <td>08.00</td>
+                            <td>16.00</td>
+                            <td>9-11-2001</td>
+                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5">View</span></td>
+                        </tr>
+                        <tr className="divide-x divide-white-100 h-20">
+                            <td>Membuat website</td>
+                            <td>08.00</td>
+                            <td>16.00</td>
+                            <td>9-11-2001</td>
+                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5">View</span></td>
+                        </tr>
+                        <tr className="divide-x divide-white-100 h-20">
+                            <td>Membuat website</td>
+                            <td>08.00</td>
+                            <td>16.00</td>
+                            <td>9-11-2001</td>
+                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5">View</span></td>
+                        </tr>
+                        <tr className="divide-x divide-white-100 h-20">
+                            <td>Membuat website</td>
+                            <td>08.00</td>
+                            <td>16.00</td>
+                            <td>9-11-2001</td>
+                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5">View</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </>
     )
 }
