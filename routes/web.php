@@ -3,6 +3,5 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Home');
-});
+Route::get('/', fn() => Inertia::render('Home'));
+Route::get('/login', fn() => Inertia::render('Login'));

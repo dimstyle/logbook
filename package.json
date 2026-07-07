@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "@fontsource/freckle-face": "^5.2.7",
+        "@fontsource/fredoka-one": "^5.2.5",
         "@inertiajs/react": "^3.6.0",
         "@inertiajs/vite": "^3.6.0",
         "react": "^19.2.7",
