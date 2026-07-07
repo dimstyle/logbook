@@ -1,7 +1,7 @@
 export default function Login(){
     return(
         <>
-            <h1>Nigger</h1>
+            <h1></h1>
         </>
     )
 }
