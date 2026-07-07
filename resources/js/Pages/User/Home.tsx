@@ -12,6 +12,7 @@ export default function Home(){
                 </div>
             </Navbar>
             <div className="p-4 pt-25">
+                <span className="bg-[#FF5454] text-white p-2 inline-block mb-5 rounded-lg cursor-pointer">Export as PDF</span>
                 <table className="min-w-full border-collapse divide-y divide-white-100 bg-[#838383] text-white">
                     <thead className="bg-[#505050]">
                         <tr className="divide-x divide-white-100">
@@ -28,56 +29,56 @@ export default function Home(){
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#FF5454] rounded-lg p-1.5">Edit</span></td>
+                            <td><span className="bg-[#FF5454] rounded-lg p-1.5 cursor-pointer">Edit</span></td>
                         </tr>
                         <tr className="divide-x divide-white-100 h-20">
                             <td>Membuat website</td>
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5">View</span></td>
+                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</span></td>
                         </tr>
                         <tr className="divide-x divide-white-100 h-20">
                             <td>Membuat website</td>
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5">View</span></td>
+                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</span></td>
                         </tr>
                         <tr className="divide-x divide-white-100 h-20">
                             <td>Membuat website</td>
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5">View</span></td>
+                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</span></td>
                         </tr>
                         <tr className="divide-x divide-white-100 h-20">
                             <td>Membuat website</td>
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5">View</span></td>
+                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</span></td>
                         </tr>
                         <tr className="divide-x divide-white-100 h-20">
                             <td>Membuat website</td>
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5">View</span></td>
+                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</span></td>
                         </tr>
                         <tr className="divide-x divide-white-100 h-20">
                             <td>Membuat website</td>
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5">View</span></td>
+                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</span></td>
                         </tr>
                         <tr className="divide-x divide-white-100 h-20">
                             <td>Membuat website</td>
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5">View</span></td>
+                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</span></td>
                         </tr>
                     </tbody>
                 </table>
