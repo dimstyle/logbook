@@ -14,17 +14,17 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('username');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('password');
             $table->string('sekolah');
             $table->string('jurusan');
             $table->string('nomor_telepon');
-            $table->integer('hadir');
-            $table->integer('tidak_masuk');
-            $table->integer('laporan');
+            $table->integer('hadir')->default(0);
+            $table->integer('tidak_masuk')->default(0);
+            $table->integer('laporan')->default(0);
             $table->date('periode_awal');
             $table->date('periode_akhir');
-            $table->string('role');
+            $table->string('role')->default('user');
             $table->timestamps();
         });
     }

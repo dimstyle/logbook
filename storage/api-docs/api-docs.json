@@ -1,0 +1,143 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My Backend API",
+        "description": "Backend API Documentation",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api"
+        }
+    ],
+    "paths": {
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Create User Account",
+                "operationId": "942681186878cb5e89feacd1832acfe5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success to Create User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Something error on the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "DefaultResponse": {
+                "required": [
+                    "message"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "MessageWithErrorResponse": {
+                "required": [
+                    "message",
+                    "error"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "error": {
+                        "type": "error_obj"
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterRequest": {
+                "required": [
+                    "username",
+                    "email",
+                    "password",
+                    "sekolah",
+                    "jurusan",
+                    "nomor_telepon",
+                    "periode_awal",
+                    "periode_akhir"
+                ],
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "sekolah": {
+                        "type": "string"
+                    },
+                    "jurusan": {
+                        "type": "string"
+                    },
+                    "nomor_telepon": {
+                        "type": "string"
+                    },
+                    "periode_awal": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "periode_akhir": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        }
+    ]
+}
