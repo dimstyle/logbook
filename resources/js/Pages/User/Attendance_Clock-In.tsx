@@ -32,7 +32,7 @@ export default function ClockIn() {
                         <label htmlFor="wfo">WFO</label><br />
                     </div>
                     <div className="flex justify-center mt-5">
-                        <a href="/" className="flex justify-center items-center bg-[#FF5454] w-20 rounded-lg p-1.5 cursor-pointer text-white ">Submit</a>
+                        <a href="/report" className="flex justify-center items-center bg-[#FF5454] w-20 rounded-lg p-1.5 cursor-pointer text-white ">Submit</a>
                     </div>
                 </div>
             </div>
