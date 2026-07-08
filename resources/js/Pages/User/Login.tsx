@@ -11,7 +11,7 @@ export default function Login(){
                     <input type="text" className="w-full p-1.5 bg-white rounded-lg" />
                     <h2>Email</h2>
                     <input type="text" className="w-full p-1.5 bg-white rounded-lg" />
-                    <h2>Password</h2>
+                    <h2>Passcode</h2>
                     <input type="text" className="w-full p-1.5 bg-white rounded-lg" />
                     <div className="flex justify-center mt-5">
                         <button className="bg-[#FF5454] w-20 rounded-lg p-1.5 cursor-pointer text-white ">Login</button>
