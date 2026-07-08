@@ -4,8 +4,8 @@ export default function ClockIn() {
     return (
         <>
             <Navbar>
-                <input className="w-70 p-1.5 bg-white rounded-lg" type="text" placeholder="Search Reports" />
-                <div className="flex justify-between items-center w-60 mr-2 text-white">
+                <div className="w-full justify-start" />
+                <div className="flex gap-2 items-center w-60 mr-2 text-white">
                     <a href="/" className="p-1">History</a>
                     <a href="" className="bg-white text-black p-1 rounded-lg">Attendance</a>
                     <a href="/login" className="p-1">Logout</a>
@@ -32,7 +32,7 @@ export default function ClockIn() {
                         <label htmlFor="wfo">WFO</label><br />
                     </div>
                     <div className="flex justify-center mt-5">
-                        <a href="/" className="flex justify-center items-center bg-[#FF5454] w-20 rounded-lg p-1.5 cursor-pointer text-white ">Submit</a>
+                        <a href="/report" className="flex justify-center items-center bg-[#FF5454] w-20 rounded-lg p-1.5 cursor-pointer text-white ">Submit</a>
                     </div>
                 </div>
             </div>
