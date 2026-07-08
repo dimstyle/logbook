@@ -34,9 +34,9 @@ const EditReport = () => {
                         </label>
                     </div>
                 </span>
-                <button className="bg-[#FF5454] w-[130px] text-white h-[32px] mt-5 rounded-[10px]">
-                    Done
-                </button>
+                <div className="flex justify-center mt-4">
+                    <a href="/" className="flex justify-center items-center bg-[#FF5454] w-20 rounded-lg p-1.5 cursor-pointer text-white ">Done</a>
+                </div>
             </div>
         </div>
     );

@@ -29,7 +29,9 @@ export default function Home(){
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#FF5454] rounded-lg p-1.5 cursor-pointer">Edit</span></td>
+                            <td>
+                                <a href="/reportedit" className="bg-[#FF5454] rounded-lg p-1.5 cursor-pointer">Edit</a>
+                            </td>
                         </tr>
                         <tr className="divide-x divide-white-100 h-20">
                             <td>Membuat website</td>
