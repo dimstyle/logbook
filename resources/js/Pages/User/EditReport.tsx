@@ -5,10 +5,11 @@ const EditReport = () => {
     return (
         <div className="h-screen">
             <Navbar>
-                <div className="flex items-center mr-3 ml-auto space-x-4 text-white">
-                    <a href="">History</a>
-                    <a href="">Attendance</a>
-                    <a href="">Logout</a>
+                <div className="w-full justify-start" />
+                <div className="flex gap-2 items-center w-60 mr-2 text-white">
+                    <a href="/">History</a>
+                    <a href="/clock-in">Attendance</a>
+                    <a href="/login">Logout</a>
                 </div>
             </Navbar>
 
