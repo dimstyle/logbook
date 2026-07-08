@@ -7,4 +7,7 @@ class AuthRepository{
         return User::create($userData);
     }
 
+    public function getUserByEmail(string $email): User{
+        return User::where('email', $email)->firstOrFail();
+    }
 }

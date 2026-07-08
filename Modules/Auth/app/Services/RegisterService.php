@@ -1,11 +1,9 @@
 <?php
 
 namespace Modules\Auth\Services;
-use Illuminate\Support\Collection;
 use Modules\Auth\Repositories\AuthRepository;
 use Modules\Auth\DTO\RegisterAuthDTO;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 
 class RegisterService{
     /*
