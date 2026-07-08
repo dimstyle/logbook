@@ -1,6 +1,5 @@
 export default function Login(){
     return(
-        <>
         <div className="flex h-screen w-full justify-center items-center">
             <div>
                 <span className="flex bg-[#FF5454] justify-center items-center font-freckle text-3xl p-5 w-100 rounded-tl-lg rounded-tr-lg">
@@ -11,7 +10,7 @@ export default function Login(){
                     <h2>Username</h2>
                     <input type="text" className="w-full p-1.5 bg-white rounded-lg" />
                     <h2>Email</h2>
-                    <input type="email" className="w-full p-1.5 bg-white rounded-lg" />
+                    <input type="text" className="w-full p-1.5 bg-white rounded-lg" />
                     <h2>Password</h2>
                     <input type="password" className="w-full p-1.5 bg-white rounded-lg" />
                     <div className="flex justify-center mt-5">
@@ -20,6 +19,5 @@ export default function Login(){
                 </span>
             </div>
         </div>
-        </>
     )
 }
