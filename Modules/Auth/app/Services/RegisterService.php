@@ -14,7 +14,7 @@ class RegisterService{
         private AuthRepository $authRepository
     ){}
 
-    public function index(RegisterDTO $userData): int{
+    public function handle(RegisterDTO $userData): int{
         $this->MakeHashedPassword($userData);
 
         $account = $this->authRepository->createUser($userData->toArray());

@@ -82,6 +82,15 @@
                 "responses": {
                     "200": {
                         "description": "Success",
+                        "headers": {
+                            "Authorization": {
+                                "description": "JWT access token",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Bearer eyJ..."
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -122,6 +131,92 @@
                     },
                     "500": {
                         "description": "Something error on the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/refresh": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "a667dbdc4334fbe2df97006ad6f27ebd",
+                "parameters": [
+                    {
+                        "name": "Authentication",
+                        "in": "header",
+                        "description": "Client jwt access token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success re-create token",
+                        "headers": {
+                            "Authorization": {
+                                "description": "JWT access token",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Bearer eyJ..."
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/createinfo": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "create user info",
+                "operationId": "d25bb07b765a6eae87fe2f6dc8709bd8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUserInfoRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success Create User Data",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -240,12 +335,23 @@
                 },
                 "type": "object"
             }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
         }
     },
     "tags": [
         {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "User",
+            "description": "User"
         }
     ]
 }

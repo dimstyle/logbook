@@ -4,7 +4,7 @@ namespace Modules\User\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUserInfo extends FormRequest
+class CreateUserInfoRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
