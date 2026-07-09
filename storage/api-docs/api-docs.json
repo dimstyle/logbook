@@ -34,7 +34,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/DefaultResponse"
+                                    "$ref": "#/components/schemas/RegisterResponse"
                                 }
                             }
                         }
@@ -110,6 +110,16 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Unauthorized (password or email not valid)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "description": "Something error on the server",
                         "content": {
@@ -126,6 +136,35 @@
     },
     "components": {
         "schemas": {
+            "CreateUserInfoRequest": {
+                "required": [
+                    "sekolah",
+                    "jurusan",
+                    "nomor_telepon",
+                    "periode_awal",
+                    "periode_akhir"
+                ],
+                "properties": {
+                    "sekolah": {
+                        "type": "string"
+                    },
+                    "jurusan": {
+                        "type": "string"
+                    },
+                    "nomor_telepon": {
+                        "type": "string"
+                    },
+                    "periode_awal": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "periode_akhir": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                },
+                "type": "object"
+            },
             "DefaultResponse": {
                 "required": [
                     "message"
@@ -171,12 +210,7 @@
                 "required": [
                     "username",
                     "email",
-                    "password",
-                    "sekolah",
-                    "jurusan",
-                    "nomor_telepon",
-                    "periode_awal",
-                    "periode_akhir"
+                    "password"
                 ],
                 "properties": {
                     "username": {
@@ -187,23 +221,21 @@
                     },
                     "password": {
                         "type": "string"
-                    },
-                    "sekolah": {
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterResponse": {
+                "required": [
+                    "message",
+                    "account_id"
+                ],
+                "properties": {
+                    "message": {
                         "type": "string"
                     },
-                    "jurusan": {
-                        "type": "string"
-                    },
-                    "nomor_telepon": {
-                        "type": "string"
-                    },
-                    "periode_awal": {
-                        "type": "string",
-                        "format": "date"
-                    },
-                    "periode_akhir": {
-                        "type": "string",
-                        "format": "date"
+                    "account_id": {
+                        "type": "integer"
                     }
                 },
                 "type": "object"

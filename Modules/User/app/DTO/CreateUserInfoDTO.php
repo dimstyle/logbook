@@ -1,12 +1,15 @@
 <?php 
 
-namespace Modules\Auth\DTO;
+namespace Modules\User\DTO;
 use Illuminate\Support\Collection;
 
-class LoginAuthDTO {
+class CreateUserInfoDTO{
     public function __construct(
-        public string $email,
-        public string $password
+        public string $sekolah,
+        public string $jurusan,
+        public string $nomor_telepon,
+        public string $periode_awal,
+        public string $periode_akhir
     ){}
 
     public static function fromArray(array $data): self{

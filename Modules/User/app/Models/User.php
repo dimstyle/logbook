@@ -2,12 +2,12 @@
 
 namespace Modules\User\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Guarded;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
-#[Guarded(["role", "id"])]
-class User extends Model
-{
-    use HasFactory;
+class User extends Model{
+    use HasFactory, Notifiable;
+
+
 }
