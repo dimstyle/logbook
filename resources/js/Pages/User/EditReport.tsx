@@ -1,15 +1,15 @@
 import Navbar from "../../Components/User/Navbar.js";
 import Plus from "../../../../assets/plus.png"
 
-const EditReport = () => {
+export default function EditReport() {
     return (
-        <div className="h-screen">
+        <>
             <Navbar>
                 <div className="w-full justify-start" />
                 <div className="flex gap-2 items-center w-60 mr-2 text-white">
-                    <a href="/">History</a>
-                    <a href="/clock-in">Attendance</a>
-                    <a href="/login">Logout</a>
+                    <a href="/" className="p-1">History</a>
+                    <a href="/clock-in" className="p-1">Attendance</a>
+                    <a href="/login" className="p-1">Logout</a>
                 </div>
             </Navbar>
 
@@ -39,8 +39,6 @@ const EditReport = () => {
                     <a href="/" className="flex justify-center items-center bg-[#FF5454] w-20 rounded-lg p-1.5 cursor-pointer text-white ">Done</a>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
-
-export default EditReport;

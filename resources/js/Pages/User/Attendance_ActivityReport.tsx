@@ -1,7 +1,7 @@
 import Navbar from "../../Components/User/Navbar.js";
 import Plus from "../../../../assets/plus.png"
 
-const Attendance_ActivityReport = () => {
+export default function ActivityReport() {
     return (
         <div className="h-screen">
             <Navbar>
@@ -43,5 +43,3 @@ const Attendance_ActivityReport = () => {
         </div>
     )
 }
-
-export default Attendance_ActivityReport;
