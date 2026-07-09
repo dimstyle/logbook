@@ -27,7 +27,7 @@ export default function EditReport() {
                 </span>
                 <span className="text-sm m-4 w-[559px]">
                     <h2 className="text-[15px] mt-4 text-[#414141]">Dokumentasi</h2>
-                    <div className="bg-white w-[190px] h-[190px] rounded-[29px] mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
+                    <div className="bg-white w-50 h-50 rounded-lg mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
                         <input type="file" className="hidden" id="file-upload"/>
                         <label htmlFor="file-upload" className="flex flex-col items-center cursor-pointer">
                             <img src={Plus} className="w-12 h-12"/>

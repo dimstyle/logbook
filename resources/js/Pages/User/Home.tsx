@@ -40,49 +40,63 @@ export default function Home(){
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</span></td>
+                            <td>
+                                <a href="/view_report" className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</a>
+                            </td>
                         </tr>
                         <tr className="divide-x divide-white-100 h-20">
                             <td>Membuat website</td>
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</span></td>
+                            <td>
+                                <a href="/view_report" className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</a>
+                            </td>
                         </tr>
                         <tr className="divide-x divide-white-100 h-20">
                             <td>Membuat website</td>
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</span></td>
+                            <td>
+                                <a href="/view_report" className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</a>
+                            </td>
                         </tr>
                         <tr className="divide-x divide-white-100 h-20">
                             <td>Membuat website</td>
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</span></td>
+                            <td>
+                                <a href="/view_report" className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</a>
+                            </td>
                         </tr>
                         <tr className="divide-x divide-white-100 h-20">
                             <td>Membuat website</td>
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</span></td>
+                            <td>
+                                <a href="/view_report" className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</a>
+                            </td>
                         </tr>
                         <tr className="divide-x divide-white-100 h-20">
                             <td>Membuat website</td>
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</span></td>
+                            <td>
+                                <a href="/view_report" className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</a>
+                            </td>
                         </tr>
                         <tr className="divide-x divide-white-100 h-20">
                             <td>Membuat website</td>
                             <td>08.00</td>
                             <td>16.00</td>
                             <td>9-11-2001</td>
-                            <td><span className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</span></td>
+                            <td>
+                                <a href="/view_report" className="bg-[#1D4ED8] rounded-lg p-1.5 cursor-pointer">View</a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
