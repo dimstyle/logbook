@@ -1,11 +1,11 @@
 <?php
 
 namespace Modules\Auth\Services;
+use Illuminate\Validation\UnauthorizedException;
 use Modules\Auth\Repositories\AuthRepository;
 use Modules\Auth\DTO\LoginDTO;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class LoginService{
     /*
@@ -15,27 +15,14 @@ class LoginService{
         private AuthRepository $authRepository
     ){}
 
-    public function index(LoginDTO $userData){
-        $email = $userData->email;
-        $data = $this->authRepository->getAccountByEmail($email);
+    public function handle(LoginDTO $userData): string{
+        if(!$access_token = Auth::attempt($userData->toArray())){
+            Log::warning("Invalid password or email");
+            throw new UnauthorizedException("Invalid password or email");
+        }   
 
-        
-        $reqPassword = $userData->password;
-        $password = $data->password;
+        Log::info("User authorized");
 
-        if(!$this->checkPassword($reqPassword, $password)){
-            Log::warning("Invalid password or email",[
-                'account_id' => $data->account_id,
-                'username' => $data->username
-            ]);
-            throw new AuthenticationException("invalid email or password");
-        }
-
-        
+        return $access_token;
     }
-
-    private function checkPassword(string $requestPassword, string $hashedPassword): bool{
-        return Hash::check($requestPassword, $hashedPassword);
-    }
-
 }

@@ -3,54 +3,41 @@
 namespace Modules\User\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Modules\User\Services\CreateUserInfoService;
+use Modules\User\Http\Requests\CreateUserInfoRequest;
+use Modules\User\DTO\CreateUserInfoDTO;
+use OpenApi\Attributes as OA;
 
-class UserController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return view('user::index');
+
+class UserController extends Controller{
+    /*
+        define Controller's Services
+    */
+    public function __construct(
+        private CreateUserInfoService $createUserInfoService
+    ){}
+
+    #[OA\Post(
+        path: "/api/user/createinfo",
+        summary:  "create user info",
+        tags: ["User"]
+    )]
+    #[OA\RequestBody(
+        required: true,
+        content: new OA\JsonContent(
+            ref: "#/components/schemas/CreateUserInfoRequest"
+        )
+    )]
+    #[OA\Response(
+        response: 201,
+        description: "Success Create User Data",
+        content: new OA\JsonContent(
+            ref: "#/components/schemas/DefaultResponse"
+        )
+    )]
+    public function createUserInfo(CreateUserInfoRequest $request){
+        $data = CreateUserInfoDTO::fromArray($request->validated());
+        
+        $this->createUserInfoService->handle($data);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('user::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) {}
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('user::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('user::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id) {}
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
 }

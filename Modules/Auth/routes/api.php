@@ -8,4 +8,5 @@ Route::prefix('auth')
 ->group(function (){
     Route::post('/login','login');
     Route::post('/register','register');
+    Route::post('/refresh', 'refreshToken');
 });
