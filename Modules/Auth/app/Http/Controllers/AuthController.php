@@ -10,7 +10,6 @@ use Modules\Auth\Services\RegisterService;
 use Modules\Auth\Services\LoginService;
 use Modules\Auth\Http\Requests\RegisterRequest;
 use Modules\Auth\Http\Requests\LoginRequest;
-use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use PHPOpenSourceSaver\JWTAuth\JWTGuard;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -172,8 +171,6 @@ class AuthController extends Controller
         ], Response::HTTP_OK)
         ->header('Authorization', 'Bearer '. $token);
     }
-
-
 
 
     /*

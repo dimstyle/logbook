@@ -12,6 +12,7 @@ class CreateUserInfoRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'account_id' => ['required', 'integer'], 
             'sekolah' => ['required', 'string'],
             'jurusan' => ['required', 'string'],
             'nomor_telepon' => ['required', 'string'],

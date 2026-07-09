@@ -14,6 +14,7 @@ use OpenApi\Attributes as OA;
         "periode_awal","periode_akhir"
     ],
     properties: [
+        new OA\Property(property: "account_id", type: "integer"),
         new OA\Property(property: "sekolah", type: "string"),
         new OA\Property(property: "jurusan", type: "string"),
         new OA\Property(property: "nomor_telepon", type: "string"),

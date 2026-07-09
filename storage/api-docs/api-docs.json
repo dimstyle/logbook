@@ -224,6 +224,26 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -240,6 +260,9 @@
                     "periode_akhir"
                 ],
                 "properties": {
+                    "account_id": {
+                        "type": "integer"
+                    },
                     "sekolah": {
                         "type": "string"
                     },

@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('account_id')->unique()->constrained();
-            $table->string('sekolah');
-            $table->string('jurusan');
+            $table->foreignId('account_id');
+            $table->string('perusahaan');
+            $table->string('divisi');
             $table->string('nomor_telepon');
-            $table->integer('hadir')->default(0);
-            $table->integer('tidak_masuk')->default(0);
-            $table->integer('laporan')->default(0);
+            $table->integer('siswa_pkl')->default(0);
+            $table->integer('sekolah_mitra')->default(0);
+            $table->integer('laporan_hari_ini')->default(0);
             $table->date('periode_awal');
             $table->date('periode_akhir');
             $table->timestamps();
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('admins');
     }
 };

@@ -3,8 +3,13 @@
 namespace Modules\User\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Modules\User\Services\CreateUserInfoService;
 use Modules\User\Http\Requests\CreateUserInfoRequest;
+use Symfony\Component\HttpFoundation\Response;
+
 use Modules\User\DTO\CreateUserInfoDTO;
 use OpenApi\Attributes as OA;
 
@@ -35,9 +40,33 @@ class UserController extends Controller{
             ref: "#/components/schemas/DefaultResponse"
         )
     )]
+    #[OA\Response(
+        response: 401,
+        description: "Unauthorized",
+        content: new OA\JsonContent(
+            ref: "#/components/schemas/DefaultResponse"
+        )
+    )]
+    #[OA\Response(
+        response: 422,
+        description: "Unprocessable Content",
+        content: new OA\JsonContent(
+            ref: "#/components/schemas/MessageWithErrorResponse"
+        )
+    )]
     public function createUserInfo(CreateUserInfoRequest $request){
         $data = CreateUserInfoDTO::fromArray($request->validated());
         
-        $this->createUserInfoService->handle($data);
+        try{
+            $this->createUserInfoService->handle($data);
+        }catch(UniqueConstraintViolationException $e){
+            return response()->json([
+                "message" => "User already exist"
+            ],Response::HTTP_CONFLICT);
+        }
+
+        return response()->json([
+            'message' => 'Success to create user info'
+        ],Response::HTTP_CREATED);
     }
 }
