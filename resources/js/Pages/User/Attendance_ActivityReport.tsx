@@ -37,7 +37,7 @@ export default function ActivityReport() {
             </div>
             <div className="p-4 pt-5">
                 <div className="justify-center flex mt-5 mb-10">
-                    <a href="/" className="flex justify-center items-center bg-[#FF5454] w-[130px] h-[32] rounded-lg p-1.5 cursor-pointer text-white ">Submit</a>
+                    <a href="/clock-out" className="flex justify-center items-center bg-[#FF5454] w-[130px] h-[32] rounded-lg p-1.5 cursor-pointer text-white ">Submit</a>
                 </div>
             </div>
         </div>

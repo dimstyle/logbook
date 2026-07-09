@@ -21,9 +21,9 @@ export default function ClockIn() {
                     <h2>Jurusan/Fakultas</h2>
                     <input type="text" className="w-full p-1.5 bg-white rounded-lg" />
                     <h2>Tanggal</h2>
-                    <input type="text" className="w-full p-1.5 bg-white rounded-lg" />
+                    <input type="date" className="w-50 p-1.5 bg-white rounded-lg" />
                     <h2>Jam Masuk</h2>
-                    <input type="text" className="w-full p-1.5 bg-white rounded-lg" />
+                    <input type="time" className="w-50 p-1.5 bg-white rounded-lg" />
                     <h2>Kehadiran</h2>
                     <div className="flex align-start gap-5">
                         <input type="radio" value={"wfh"} name="attendance" className="w-5 accent-[#FF5454]" />
