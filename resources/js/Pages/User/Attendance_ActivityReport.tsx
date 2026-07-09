@@ -16,16 +16,16 @@ export default function ActivityReport() {
             </Navbar>
             <div className="flex flex-col p-4 pt-30 w-full items-center ">
                 <h1 className="text-2xl">Attendance Activity Report</h1>
-                <div className="flex w-170 flex-col gap-4">
+                <div className="flex w-170 flex-col gap-5">
                     <h2 className="mt-10">Nama Lengkap</h2>
                     <input type="text" className="bg-white rounded-lg p-1.5 w-full"/>
-                    <h2 className="mt-5">Asal Sekolah</h2>
+                    <h2>Asal Sekolah</h2>
                     <input type="text" className="bg-white rounded-lg p-1.5 w-full"/>
-                    <h2 className="mt-5">Jurusan/Fakultas</h2>
+                    <h2>Jurusan/Fakultas</h2>
                     <input type="text" className="bg-white rounded-lg p-1.5 w-full"/>
-                    <h2 className="mt-5">Kegiatan</h2>
+                    <h2>Kegiatan</h2>
                     <input type="text" className="bg-white rounded-lg p-1.5 w-full"/>
-                    <h2 className="mt-5">Dokumentasi</h2>
+                    <h2>Dokumentasi</h2>
                     <div className="bg-white w-[190px] h-[190px] rounded-[29px] mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
                         <input type="file" className="hidden" id="file-upload"/>
                         <label htmlFor="file-upload" className="flex flex-col items-center cursor-pointer">

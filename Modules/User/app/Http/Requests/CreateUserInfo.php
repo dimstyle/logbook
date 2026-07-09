@@ -1,11 +1,10 @@
 <?php
 
-namespace Modules\Auth\Http\Requests;
+namespace Modules\User\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class RegisterRequest extends FormRequest
+class CreateUserInfo extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -13,9 +12,11 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => ['required','string'],
-            'email' => ['required', 'email',Rule::unique('accounts','email')],
-            'password' => ['required', 'string', 'min:8'],
+            'sekolah' => ['required', 'string'],
+            'jurusan' => ['required', 'string'],
+            'nomor_telepon' => ['required', 'string'],
+            'periode_awal' => ['required', 'date'],
+            'periode_akhir' => ['required', 'date']
         ];
     }
 

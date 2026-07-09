@@ -2,7 +2,7 @@ import Navbar from "../../Components/User/Navbar.js";
 
 export default function ClockOut() {
     return (
-        <div>
+        <div className="h-full">
             <Navbar>
                 <div className="w-full justify-start" />
                 <div className="flex gap-2 items-center w-60 mr-2 text-white">
