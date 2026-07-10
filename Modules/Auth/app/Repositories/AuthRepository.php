@@ -1,15 +1,20 @@
 <?php
 namespace Modules\Auth\Repositories;
 use Modules\Auth\Models\Account;
+use Modules\User\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Throwable;
 
 class AuthRepository{
-    public function createUser(array $userData): ?Account{
+    public function createAccount(array $userData): ?Account{
         try{
-            return Account::create($userData);
+            $account = Account::create($userData);
+            User::create([
+                'account_id' => $account->id
+            ]);
+            return $account;
         }catch(UniqueConstraintViolationException $e){
             Log::error('email already exists',[
                 'exception' => $e
