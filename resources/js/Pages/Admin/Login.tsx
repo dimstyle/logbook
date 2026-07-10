@@ -1,7 +1,23 @@
 export default function AdminLogin() {
     return (
         <>
-            <h1>Nigger</h1>
+            <div className="flex h-screen w-full justify-center items-center">
+                <div>
+                    <span className="flex bg-[#FF5454] justify-center items-end font-freckle p-5 w-100 rounded-tl-lg rounded-tr-lg">
+                        <h1 className="text-white text-4xl">Login</h1>
+                        <h1 className="text-[#560000] text-2xl">Admin</h1>
+                    </span>
+                    <span className="flex bg-[#C0BDBD] flex-col p-5 rounded-bl-lg rounded-br-lg gap-3">
+                        <h2>Email</h2>
+                        <input type="text" className="w-full p-1.5 bg-white rounded-lg" />
+                        <h2>Password</h2>
+                        <input type="password" className="w-full p-1.5 bg-white rounded-lg" />
+                        <div className="flex justify-center mt-5">
+                            <a href="/admin/daily-attendance" className="flex justify-center items-center bg-[#FF5454] w-20 rounded-lg p-1.5 cursor-pointer text-white ">Login</a>
+                        </div>
+                    </span>
+                </div>
+            </div>
         </>
     )
 }

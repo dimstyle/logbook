@@ -2,9 +2,9 @@ export default function Login(){
     return(
         <div className="flex h-screen w-full justify-center items-center">
             <div>
-                <span className="flex bg-[#FF5454] justify-center items-center font-freckle text-3xl p-5 w-100 rounded-tl-lg rounded-tr-lg">
-                    <h1 className="text-white">Login</h1>
-                    <h1 className="text-[#560000]">User</h1>
+                <span className="flex bg-[#FF5454] justify-center items-end font-freckle p-5 w-100 rounded-tl-lg rounded-tr-lg">
+                    <h1 className="text-white text-4xl">Login</h1>
+                    <h1 className="text-[#560000] text-2xl">User</h1>
                 </span>
                 <span className="flex bg-[#C0BDBD] flex-col p-5 rounded-bl-lg rounded-br-lg gap-3">
                     <h2>Username</h2>

@@ -17,3 +17,4 @@ Route::get('/view_report', fn() => Inertia::render('User/ViewReport'));
 // Admin
 
 Route::get('/admin/login', fn() => Inertia::render('Admin/Login'));
+Route::get('/admin/daily-attendance', fn() => Inertia::render('Admin/Daily_Attendance'));
