@@ -12,9 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Modules\User\DTO\CreateUserInfoDTO;
 use OpenApi\Attributes as OA;
+use Throwable;
 
 
-class UserController extends Controller{
+class CreateUserInfoController extends Controller{
     /*
         define Controller's Services
     */
@@ -54,7 +55,14 @@ class UserController extends Controller{
             ref: "#/components/schemas/MessageWithErrorResponse"
         )
     )]
-    public function createUserInfo(CreateUserInfoRequest $request){
+    #[OA\Response(
+        response: 500,
+        description: "Internal server error",
+        content: new OA\JsonContent(
+            ref: "#/components/schemas/DefaultResponse"
+        )
+    )]
+    public function handle(CreateUserInfoRequest $request){
         $data = CreateUserInfoDTO::fromArray($request->validated());
         
         try{
@@ -63,10 +71,15 @@ class UserController extends Controller{
             return response()->json([
                 "message" => "User already exist"
             ],Response::HTTP_CONFLICT);
+        }catch(Throwable $e){
+            return response()->json([
+                'message' => 'Internal server error'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return response()->json([
             'message' => 'Success to create user info'
         ],Response::HTTP_CREATED);
     }
+
 }

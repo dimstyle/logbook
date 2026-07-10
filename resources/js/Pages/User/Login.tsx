@@ -1,4 +1,33 @@
+import React, { useRef } from "react"
+import { type loginRequestBody } from "../types/auth.js"
+import { type DefaultResponse } from "../types/default.js"
+
 export default function Login(){
+    const emailRef: React.RefObject<HTMLInputElement|null> = useRef(null);
+    const passwordRef: React.RefObject<HTMLInputElement|null> = useRef(null);
+
+    const loginEvent = async ()=>{
+        if ( !emailRef.current || !passwordRef.current) return;
+        if ( !emailRef.current.value || !passwordRef.current.value) return;
+
+        const payload: loginRequestBody = {
+            email : emailRef.current.value,
+            password: passwordRef.current.value
+        }
+
+        const response = await fetch('/api/auth/login',{
+            method: 'POST',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const resdata: DefaultResponse = await response.json();
+
+        alert(resdata.message);
+    }
+
     return(
         <div className="flex h-screen w-full justify-center items-center">
             <div>
@@ -7,14 +36,14 @@ export default function Login(){
                     <h1 className="text-[#560000]">User</h1>
                 </span>
                 <span className="flex bg-[#C0BDBD] flex-col p-5 rounded-bl-lg rounded-br-lg gap-3">
-                    <h2>Username</h2>
-                    <input type="text" className="w-full p-1.5 bg-white rounded-lg" />
+                    {/* <h2>Username</h2>
+                    <input type="text" className="w-full p-1.5 bg-white rounded-lg" /> */}
                     <h2>Email</h2>
-                    <input type="text" className="w-full p-1.5 bg-white rounded-lg" />
+                    <input ref={emailRef} type="text" className="w-full p-1.5 bg-white rounded-lg" />
                     <h2>Password</h2>
-                    <input type="password" className="w-full p-1.5 bg-white rounded-lg" />
+                    <input ref={passwordRef} type="password" className="w-full p-1.5 bg-white rounded-lg" />
                     <div className="flex justify-center mt-5">
-                        <a href="/" className="flex justify-center items-center bg-[#FF5454] w-20 rounded-lg p-1.5 cursor-pointer text-white ">Login</a>
+                        <button onClick={loginEvent} className="flex justify-center items-center bg-[#FF5454] w-20 rounded-lg p-1.5 cursor-pointer text-white ">Login</button>
                     </div>
                 </span>
             </div>

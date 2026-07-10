@@ -5,6 +5,7 @@ namespace Modules\Auth\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Modules\Auth\Models\Account;
+use Modules\User\Models\Admin;
 
 class AdminDatabaseSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class AdminDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Account::firstOrCreate(
+        $account = Account::firstOrCreate(
             ['email' => 'admin@example.com'],
             [
                 'username' => 'admin',
@@ -21,5 +22,9 @@ class AdminDatabaseSeeder extends Seeder
                 'role' => 'admin'
             ]
         );
+        Admin::firstOrCreate(
+            ['account_id' => $account->id]
+        );
+
     }
 }

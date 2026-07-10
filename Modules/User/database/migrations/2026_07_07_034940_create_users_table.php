@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('account_id')->unique()->constrained();
-            $table->string('sekolah');
-            $table->string('jurusan');
-            $table->string('nomor_telepon');
+            $table->string('sekolah')->default('');
+            $table->string('jurusan')->default('');
+            $table->string('nomor_telepon')->default('');
             $table->integer('hadir')->default(0);
             $table->integer('tidak_masuk')->default(0);
             $table->integer('laporan')->default(0);
-            $table->date('periode_awal');
-            $table->date('periode_akhir');
+            $table->date('periode_awal')->default('');
+            $table->date('periode_akhir')->default('');
             $table->timestamps();
         });
     }

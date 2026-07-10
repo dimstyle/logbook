@@ -1,12 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Auth\Http\Controllers\AuthController;
+use Modules\Auth\Http\Controllers\LoginController;
+use Modules\Auth\Http\Controllers\RegisterController;
+
 
 Route::prefix('auth')
-->controller(AuthController::class)
 ->group(function (){
-    Route::post('/login','login');
-    Route::post('/register','register');
-    Route::post('/refresh', 'refreshToken');
+    Route::post('/login', [LoginController::class, 'handle']);
+    Route::post('/register', [RegisterController::class, 'handle']);
+    // Route::post('/refresh', 'refreshToken');
 });

@@ -82,15 +82,6 @@
                 "responses": {
                     "200": {
                         "description": "Success",
-                        "headers": {
-                            "Authorization": {
-                                "description": "JWT access token",
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Bearer eyJ..."
-                                }
-                            }
-                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -148,29 +139,9 @@
                     "Auth"
                 ],
                 "operationId": "a667dbdc4334fbe2df97006ad6f27ebd",
-                "parameters": [
-                    {
-                        "name": "Authentication",
-                        "in": "header",
-                        "description": "Client jwt access token",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Success re-create token",
-                        "headers": {
-                            "Authorization": {
-                                "description": "JWT access token",
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Bearer eyJ..."
-                                }
-                            }
-                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -189,12 +160,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/api/user/createinfo": {
@@ -203,7 +169,7 @@
                     "User"
                 ],
                 "summary": "create user info",
-                "operationId": "d25bb07b765a6eae87fe2f6dc8709bd8",
+                "operationId": "1c648b50c6a78e51d52070462a35b67e",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -241,6 +207,67 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/getprofile": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "get user profile data",
+                "operationId": "5963478ba981568b4a3a8959dc03b9b1",
+                "responses": {
+                    "200": {
+                        "description": "Success to get user profile",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
                                 }
                             }
                         }

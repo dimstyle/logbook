@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('account_id');
-            $table->string('perusahaan');
-            $table->string('divisi');
-            $table->string('nomor_telepon');
+            $table->foreignId('account_id')->unique()->constrained();
+            $table->string('perusahaan')->default('');
+            $table->string('divisi')->default('');
+            $table->string('nomor_telepon')->default('');
             $table->integer('siswa_pkl')->default(0);
             $table->integer('sekolah_mitra')->default(0);
             $table->integer('laporan_hari_ini')->default(0);
-            $table->date('periode_awal');
-            $table->date('periode_akhir');
+            $table->date('periode_awal')->default('');
+            $table->date('periode_akhir')->default('');
             $table->timestamps();
         });
     }
