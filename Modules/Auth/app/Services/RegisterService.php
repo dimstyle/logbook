@@ -17,7 +17,7 @@ class RegisterService{
     public function handle(RegisterDTO $userData): int{
         $this->MakeHashedPassword($userData);
 
-        $account = $this->authRepository->createUser($userData->toArray());
+        $account = $this->authRepository->createAccount($userData->toArray());
 
         Log::info('Account Created',[
             'account_id' => $account->id
