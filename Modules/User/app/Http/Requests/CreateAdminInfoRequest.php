@@ -4,19 +4,18 @@ namespace Modules\User\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetUserProfileRequest extends FormRequest
+class CreateAdminInfoRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
      */
     public function rules(): array
     {
-        $required_value = collect([]);
-        if( $this->user()->role === 'admin'){
-            $required_value->put('account_id' , ['required', 'integer','exists:accounts,id']);
-        }
-
-        return $required_value->toArray();
+        return [
+            'perusahaan' => ['required', 'string'],
+            'divisi' => ['required', 'string'],
+            'nomor_telepon' => ['required', 'string']
+        ];
     }
 
     /**
@@ -26,6 +25,7 @@ class GetUserProfileRequest extends FormRequest
     {
         return true;
     }
+
     protected function prepareForValidation(): void
     {
         $this->replace(

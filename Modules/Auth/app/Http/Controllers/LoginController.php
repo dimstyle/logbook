@@ -65,13 +65,6 @@ class LoginController extends Controller
             ref: "#/components/schemas/DefaultResponse"
         )
     )]
-    #[OA\Response(
-        response: 500,
-        description: "Internal server error",
-        content: new OA\JsonContent(
-            ref: "#/components/schemas/DefaultResponse"
-        )
-    )]
     public function handle(LoginRequest $request){
         $data = LoginDTO::fromArray($request->validated());
 

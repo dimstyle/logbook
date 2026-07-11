@@ -4,37 +4,39 @@ namespace Modules\User\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Database\UniqueConstraintViolationException;
-use Modules\User\Services\CreateUserInfoService;
-use Modules\User\Http\Requests\CreateUserInfoRequest;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Modules\User\DTO\CreateAdminInfoDTO;
+use Modules\User\Http\Requests\CreateAdminInfoRequest;
+use Modules\User\Services\CreateAdminInfoService;
 
-use Modules\User\DTO\CreateUserInfoDTO;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 
-class CreateUserInfoController extends Controller{
-    /*
-        define Controller's Services
-    */
+class CreateAdminInfoController extends Controller
+{
     public function __construct(
-        private CreateUserInfoService $createUserInfoService
+        private CreateAdminInfoService $createAdminInfoservice
     ){}
 
+
     #[OA\Post(
-        path: "/api/user/createuserinfo",
-        summary:  "create user info",
-        tags: ["User"]
+        path: "/api/user/createadmininfo",
+        summary: 'Create admin information',
+        tags: ['User']
+
     )]
     #[OA\RequestBody(
         required: true,
         content: new OA\JsonContent(
-            ref: "#/components/schemas/CreateUserInfoRequest"
+            ref: "#/components/schemas/CreateAdminInfo"
         )
     )]
     #[OA\Response(
         response: 201,
-        description: "Success Create User Data",
+        description: 'Success to create admin info',
         content: new OA\JsonContent(
             ref: "#/components/schemas/DefaultResponse"
         )
@@ -67,24 +69,29 @@ class CreateUserInfoController extends Controller{
             ref: "#/components/schemas/DefaultResponse"
         )
     )]
-    public function handle(CreateUserInfoRequest $request){
-        $data = CreateUserInfoDTO::fromArray($request->validated());
-        
+    public function handle(CreateAdminInfoRequest $request){
+        $data = $request->validated();
+        $user = Auth::user();
+
         try{
-            $this->createUserInfoService->handle($data);
+            $this->createAdminInfoservice->handle(CreateAdminInfoDTO::fromArray(
+                collect([
+                    'account_id' => $user->id,
+                    ...$data
+                ])->toArray()
+            ));
         }catch(UniqueConstraintViolationException $e){
             return response()->json([
                 "message" => "User already exist"
             ],Response::HTTP_CONFLICT);
         }catch(Throwable $e){
             return response()->json([
-                'message' => 'Internal server error'
+                'message' => 'Internal server erro'
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return response()->json([
-            'message' => 'Success to create user info'
-        ],Response::HTTP_CREATED);
+            'message' => 'Success to create admin info'
+        ], Response::HTTP_CREATED);
     }
-
 }

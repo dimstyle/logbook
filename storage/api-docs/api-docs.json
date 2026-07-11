@@ -11,64 +11,13 @@
         }
     ],
     "paths": {
-        "/api/auth/register": {
-            "post": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Create User Account",
-                "operationId": "942681186878cb5e89feacd1832acfe5",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RegisterRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Success Create Data",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RegisterResponse"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Content",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Something error on the server",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/DefaultResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/auth/login": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "authenticate account",
-                "operationId": "4792d88bfaf2b1bca3ff19daafa8c1dc",
+                "operationId": "6c581f1581d3001c77dcb5fb7ed8a98b",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -138,7 +87,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "operationId": "a667dbdc4334fbe2df97006ad6f27ebd",
+                "operationId": "2f6168e63eaad531f907d2148e774fa1",
                 "responses": {
                     "200": {
                         "description": "Success re-create token",
@@ -159,17 +108,149 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
-        "/api/user/createinfo": {
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Create User Account",
+                "operationId": "ef6d3d9d1af1e975cebc1b1659d554de",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success Create Data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegisterResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Something error on the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/createadmininfo": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create admin information",
+                "operationId": "855684647a8d7b7d916ec5b003dda235",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateAdminInfo"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success to create admin info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict admin account",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/createuserinfo": {
             "post": {
                 "tags": [
                     "User"
                 ],
                 "summary": "create user info",
-                "operationId": "1c648b50c6a78e51d52070462a35b67e",
+                "operationId": "c8440ff65e5ee2c4d8338a11152a6870",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -193,6 +274,16 @@
                     },
                     "401": {
                         "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict admin account",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -278,6 +369,25 @@
     },
     "components": {
         "schemas": {
+            "CreateAdminInfo": {
+                "required": [
+                    "perusahaan",
+                    "divisi",
+                    "nomor_telepon"
+                ],
+                "properties": {
+                    "perusahaan": {
+                        "type": "string"
+                    },
+                    "divisi": {
+                        "type": "string"
+                    },
+                    "nomor_telepon": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "CreateUserInfoRequest": {
                 "required": [
                     "sekolah",

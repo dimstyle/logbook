@@ -50,13 +50,6 @@ class RegisterController extends Controller
             ref: "#/components/schemas/DefaultResponse"
         )
     )]
-    #[OA\Response(
-        response: 500,
-        description: "Internal server error",
-        content: new OA\JsonContent(
-            ref: "#/components/schemas/DefaultResponse"
-        )
-    )]
     public function handle(RegisterRequest $request){
         $data = RegisterDTO::fromArray($request->validated());
         
