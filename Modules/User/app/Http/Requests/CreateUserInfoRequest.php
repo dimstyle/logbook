@@ -28,4 +28,11 @@ class CreateUserInfoRequest extends FormRequest
     {
         return true;
     }
+
+    protected function prepareForValidation(): void
+    {
+        $this->replace(
+            $this->only(array_keys($this->rules()))
+        );
+    }
 }

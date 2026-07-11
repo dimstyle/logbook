@@ -13,11 +13,8 @@ class GetUserProfileService
         private UserRepository $userRepository
     ){}
 
-    public function handle(): User {
-        $user = Auth::user();
+    public function handle(int $accountId): User {
 
-
-        $accountId = $user->id;
         $user = $this->userRepository->getUserByAccountId($accountId);
        
         Log::info('Success to get user',[

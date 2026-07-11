@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Modules\User\Http\Requests\GetUserProfileRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 use Modules\User\Services\GetUserProfileService;
@@ -52,14 +55,24 @@ class GetUserProfileController extends Controller
             ref: "#/components/schemas/DefaultResponse"
         )
     )]
-    public function handle(){
+    public function handle(GetUserProfileRequest $request){
+        $data = $request->validated();
+        $user = Auth::user();
+
+        $accountId = $user->role === 'admin' ? $data['account_id'] : $user->id;
+
         try{
-            $user = $this->getUserProfileService->handle();
+            $user = $this->getUserProfileService->handle($accountId);
         }catch(ModelNotFoundException $e){
             return response()->json([
                 'message' => 'User not found'
             ], Response::HTTP_NOT_FOUND);
+        }catch(Throwable $e){
+            return response()->json([
+                'message' => 'Internal server error'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+
         return response()->json([
             'message' => 'Success to get user data',
             'user' => $user
