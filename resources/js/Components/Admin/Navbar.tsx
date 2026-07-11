@@ -10,7 +10,7 @@ export default function AdminNavbar({ children }: PropsWithChildren) {
                 <h1 className="font-freckle text-xl text-[#560000]">Admin</h1>
             </div>
             <div className='flex items-center w-200 justify-end ml-auto'>{children}</div>
-            <a href='/admin_profile'>
+            <a href='/admin/profile'>
                 <img src={ProfileIcon} alt="UserIcon" width={"70rem"} />
             </a>
         </nav>

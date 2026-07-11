@@ -24,8 +24,8 @@ export default function ClockOut() {
                     <input type="date" className="w-50 p-1.5 bg-white rounded-lg" />
                     <h2>Jam Masuk</h2>
                     <input type="time" className="w-50 p-1.5 bg-white rounded-lg" />
-                    <div className="flex justify-center mt-5">
-                        <a href="/" className="flex justify-center items-center bg-[#FF5454] w-20 rounded-lg p-1.5 cursor-pointer text-white ">Submit</a>
+                    <div className="flex justify-center mt-5 mb-10">
+                        <a href="/" className="flex justify-center items-center bg-[#FF5454] w-30 h-8 rounded-lg p-1.5 cursor-pointer text-white ">Submit</a>
                     </div>
                 </div>
             </div>
