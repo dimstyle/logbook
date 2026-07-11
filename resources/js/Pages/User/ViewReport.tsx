@@ -26,8 +26,8 @@ export default function ViewReport() {
                     <span className="flex justify-center items-center bg-[#838383] w-50 h-50 rounded-lg cursor-not-allowed">
                         <img src={Image} alt="" width={100}/>
                     </span>
-                    <div className="flex justify-center mt-4">
-                        <a href="/" className="flex justify-center items-center bg-[#FF5454] w-20 rounded-lg p-1.5 cursor-pointer text-white ">Done</a>
+                    <div className="flex justify-center mt-5 mb-10">
+                        <a href="/" className="flex justify-center items-center bg-[#FF5454] w-30 h-8 rounded-lg p-1.5 cursor-pointer text-white ">Done</a>
                     </div>
                 </div>
             </div>

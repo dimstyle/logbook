@@ -35,8 +35,8 @@ export default function EditReport() {
                         </label>
                     </div>
                 </span>
-                <div className="flex justify-center mt-4">
-                    <a href="/" className="flex justify-center items-center bg-[#FF5454] w-20 rounded-lg p-1.5 cursor-pointer text-white ">Done</a>
+                <div className="flex justify-center mt-5 mb-10">
+                    <a href="/" className="flex justify-center items-center bg-[#FF5454] w-30 h-8 rounded-lg p-1.5 cursor-pointer text-white ">Done</a>
                 </div>
             </div>
         </>
