@@ -315,20 +315,71 @@
                 }
             }
         },
-        "/api/user/getprofile": {
+        "/api/user/getadminprofile": {
             "get": {
                 "tags": [
                     "User"
                 ],
-                "summary": "get user profile data",
-                "operationId": "5963478ba981568b4a3a8959dc03b9b1",
+                "summary": "get admin profile data",
+                "operationId": "0fdbfa4a01ca1ad92f08994f0a91b366",
                 "responses": {
                     "200": {
                         "description": "Success to get user profile",
                         "content": {
                             "application/json": {
                                 "schema": {
+                                    "$ref": "#/components/schemas/GetAdminProfileResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
                                     "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/getuserprofile": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "get user profile data",
+                "operationId": "71a563f3b80d4e9f02f3082a467d8d4b",
+                "responses": {
+                    "200": {
+                        "description": "Success to get user profile",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetUserProfileResponse"
                                 }
                             }
                         }
@@ -427,6 +478,136 @@
                 "properties": {
                     "message": {
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "GetAdminProfileResponse": {
+                "required": [
+                    "message",
+                    "admin"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "admin": {
+                        "required": [
+                            "id",
+                            "account_id",
+                            "perusahaan",
+                            "divisi",
+                            "nomor_telepon",
+                            "siswa_pkl",
+                            "sekolah_mitra",
+                            "laporan_hari_ini",
+                            "periode_awal",
+                            "periode_akhir"
+                        ],
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "account_id": {
+                                "type": "integer"
+                            },
+                            "perusahaan": {
+                                "type": "string"
+                            },
+                            "divisi": {
+                                "type": "string"
+                            },
+                            "nomor_telepon": {
+                                "type": "string"
+                            },
+                            "siswa_pkl": {
+                                "type": "integer"
+                            },
+                            "sekolah_mitra": {
+                                "type": "integer"
+                            },
+                            "laporan_hari_ini": {
+                                "type": "integer"
+                            },
+                            "created_at": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "updated_at": {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "GetUserProfileResponse": {
+                "required": [
+                    "message",
+                    "user"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "user": {
+                        "required": [
+                            "id",
+                            "account_id",
+                            "sekolah",
+                            "jurusan",
+                            "nomor_telepon",
+                            "hadir",
+                            "tidak_masuk",
+                            "laporan",
+                            "periode_awal",
+                            "periode_akhir"
+                        ],
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "account_id": {
+                                "type": "integer"
+                            },
+                            "sekolah": {
+                                "type": "string"
+                            },
+                            "jurusan": {
+                                "type": "string"
+                            },
+                            "nomor_telepon": {
+                                "type": "string"
+                            },
+                            "hadir": {
+                                "type": "integer"
+                            },
+                            "tidak_masuk": {
+                                "type": "integer"
+                            },
+                            "laporan": {
+                                "type": "integer"
+                            },
+                            "periode_awal": {
+                                "type": "string",
+                                "format": "date"
+                            },
+                            "periode_akhir": {
+                                "type": "string",
+                                "format": "date"
+                            },
+                            "created_at": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "updated_at": {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"

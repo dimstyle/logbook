@@ -3,35 +3,30 @@
 namespace Modules\User\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-
-
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Modules\User\Http\Requests\GetUserProfileRequest;
-use Symfony\Component\HttpFoundation\Response;
+use Modules\User\Services\GetAdminProfileService;
 
-use Modules\User\Services\GetUserProfileService;
 use OpenApi\Attributes as OA;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-class GetUserProfileController extends Controller
+class GetAdminProfileController extends Controller
 {
     public function __construct(
-        private GetUserProfileService $getUserProfileService
+        private GetAdminProfileService $getAdminProfileService
     ){}
 
-
     #[OA\Get(
-        path: "/api/user/getuserprofile",
-        summary: "get user profile data",
+        path: "/api/user/getadminprofile",
+        summary: "get admin profile data",
         tags: ['User']
     )]
     #[OA\Response(
         response: 200,
         description: "Success to get user profile",
         content: new OA\JsonContent(
-            ref: "#/components/schemas/GetUserProfileResponse"
+            ref: "#/components/schemas/GetAdminProfileResponse"
         )
     )]
      #[OA\Response(
@@ -55,14 +50,10 @@ class GetUserProfileController extends Controller
             ref: "#/components/schemas/DefaultResponse"
         )
     )]
-    public function handle(GetUserProfileRequest $request){
-        $data = $request->validated();
-        $user = Auth::user();
-
-        $accountId = $user->role === 'admin' ? $data['account_id'] : $user->id;
+    public function handle(){
 
         try{
-            $user = $this->getUserProfileService->handle($accountId);
+            $admin = $this->getAdminProfileService->handle(Auth::user()->id);
         }catch(ModelNotFoundException $e){
             return response()->json([
                 'message' => 'User not found'
@@ -74,8 +65,8 @@ class GetUserProfileController extends Controller
         }
 
         return response()->json([
-            'message' => 'Success to get user data',
-            'user' => $user
-        ],Response::HTTP_OK);
+            'message' => 'Success to get Admin info',
+            'Admin' => $admin
+        ]);
     }
 }

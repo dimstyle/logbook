@@ -39,4 +39,15 @@ class UserRepository{
             throw $e;
         }
     }
+
+    public function getAdminByAccountId(int $accountId): Admin{
+        try{
+            return Admin::select('account_id', $accountId)->firstOrFail();
+        }catch(Throwable $e){
+            Log::error('Failed to get data',[
+                'exception' => $e
+            ]);
+            throw $e;
+        }
+    }
 }
