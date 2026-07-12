@@ -13,6 +13,7 @@ class CreateUserInfoRequest extends FormRequest
     {
         return [
             'account_id' => ['required', 'integer','exists:accounts,id'], 
+            'nama_lengkap' => ['required', 'string'],
             'sekolah' => ['required', 'string'],
             'jurusan' => ['required', 'string'],
             'nomor_telepon' => ['required', 'string'],

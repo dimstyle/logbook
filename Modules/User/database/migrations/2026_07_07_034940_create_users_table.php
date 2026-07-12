@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('account_id')->unique()->constrained();
+            $table->foreignId('admin_id')->constrained('accounts');
+            $table->string('nama_lengkap')->default('');
             $table->string('sekolah')->default('');
             $table->string('jurusan')->default('');
             $table->string('nomor_telepon')->default('');

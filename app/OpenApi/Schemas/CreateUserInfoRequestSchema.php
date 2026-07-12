@@ -15,6 +15,7 @@ use OpenApi\Attributes as OA;
     ],
     properties: [
         new OA\Property(property: "account_id", type: "integer"),
+        new OA\Property(property: "nama_lengkap", type: "string"),
         new OA\Property(property: "sekolah", type: "string"),
         new OA\Property(property: "jurusan", type: "string"),
         new OA\Property(property: "nomor_telepon", type: "string"),

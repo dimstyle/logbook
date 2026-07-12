@@ -9,10 +9,10 @@ use Illuminate\Notifications\Notifiable;
 
 #[Fillable([
     // account
-    'account_id',
+    'account_id', 'admin_id',
 
     // User info
-    'sekolah','jurusan','nomor_telepon',
+    'nama_lengkap','sekolah','jurusan','nomor_telepon',
     'hadir','tidak_masuk','laporan',
 
     //range date

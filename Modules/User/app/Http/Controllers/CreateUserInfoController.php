@@ -4,6 +4,7 @@ namespace Modules\User\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Support\Facades\Auth;
 use Modules\User\Services\CreateUserInfoService;
 use Modules\User\Http\Requests\CreateUserInfoRequest;
 use Symfony\Component\HttpFoundation\Response;
@@ -68,7 +69,10 @@ class CreateUserInfoController extends Controller{
         )
     )]
     public function handle(CreateUserInfoRequest $request){
-        $data = CreateUserInfoDTO::fromArray($request->validated());
+        $data = CreateUserInfoDTO::fromArray([
+                Auth::user()->id,
+                $request->validated()
+            ]);
         
         try{
             $this->createUserInfoService->handle($data);

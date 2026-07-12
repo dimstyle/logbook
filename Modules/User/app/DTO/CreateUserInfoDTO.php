@@ -5,7 +5,9 @@ use Illuminate\Support\Collection;
 
 class CreateUserInfoDTO{
     public function __construct(
+        public string $admin_id,
         public string $account_id,
+        public string $nama_lengkap,
         public string $sekolah,
         public string $jurusan,
         public string $nomor_telepon,

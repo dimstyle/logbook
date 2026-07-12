@@ -451,6 +451,9 @@
                     "account_id": {
                         "type": "integer"
                     },
+                    "nama_lengkap": {
+                        "type": "string"
+                    },
                     "sekolah": {
                         "type": "string"
                     },
