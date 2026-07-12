@@ -121,7 +121,7 @@ export default function DailyAttendance() {
 
                         return (
                             <div className="flex w-full p-5 bg-[#FFFFFF] rounded-lg">
-                                <img src={ProfileIcon} alt="UserIcon" />
+                                <img src={ProfileIcon} alt="UserIcon" width={130} />
                                 <div className="flex flex-col w-full justify-center gap-3 ml-2">
                                     <h1 className="text-2xl">{user.name}</h1>
                                     <div className="flex gap-2">
@@ -130,7 +130,7 @@ export default function DailyAttendance() {
                                         <h2>{user.major}</h2>
                                     </div>
                                     <div className="flex gap-3">
-                                        <span style={{backgroundColor: attendanceBGcolor, color: attendanceTxtcolor}} className="flex justify-center items-center p-1 rounded-lg">{theAttendance}</span>
+                                        <span style={{backgroundColor: attendanceBGcolor, color: attendanceTxtcolor}} className="flex justify-center items-center p-1 rounded-lg">{userAttendance}</span>
                                         <span style={{backgroundColor: wfoBGcolor, color: wfoTxtcolor}} className="flex justify-center items-center p-1 rounded-lg">{userWFO}</span>
                                         <span style={{backgroundColor: reportBGcolor, color: reportTxtcolor}} className="flex justify-center items-center p-1 rounded-lg">{userReport}</span>
                                         <span style={{backgroundColor: clockOutBGcolor, color: clockOutTxtcolor}} className="flex justify-center items-center p-1 rounded-lg">{userClockOut}</span>
