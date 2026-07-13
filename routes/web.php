@@ -21,3 +21,4 @@ Route::get('/admin/daily-attendance', fn() => Inertia::render('Admin/Daily_Atten
 Route::get('/admin/profile', fn() => Inertia::render('Admin/Admin_Profile'));
 Route::get('/admin/user-registration', fn() => Inertia::render('Admin/User_Registration'));
 Route::get('/admin/user-report', fn() => Inertia::render('Admin/AdminUserReport'));
+Route::get('/admin/user-list', fn() => Inertia::render('Admin/User_List'));
