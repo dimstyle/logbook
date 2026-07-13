@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->boolean('sudah_hadir');
             $table->time('jam_hadir');
-            
+                
             $table->boolean('sudah_pulang');
             $table->time('jam_pulang');
             

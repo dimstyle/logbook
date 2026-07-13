@@ -12,7 +12,7 @@ Route::prefix('user')
 ->group(function (){
     Route::post('/createuserinfo', [CreateUserInfoController::class,'handle']);
     Route::post('/createadmininfo',[CreateAdminInfoController::class, 'handle']);
-    Route::post('/getadminprofile',[GetAdminProfileController::class, 'handle']);
+    Route::get('/getadminprofile',[GetAdminProfileController::class, 'handle']);
 });
 
 

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->foreignId('account_id')->unique()->constrained();
-            $table->string('perusahaan')->default('');
-            $table->string('divisi')->default('');
-            $table->string('nomor_telepon')->default('');
+            $table->string('perusahaan')->default('N/A');
+            $table->string('divisi')->default('N/A');
+            $table->string('nomor_telepon')->default('N/A');
             $table->integer('siswa_pkl')->default(0);
             $table->integer('sekolah_mitra')->default(0);
             $table->integer('laporan_hari_ini')->default(0);

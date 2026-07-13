@@ -1,6 +1,7 @@
 <?php
 
 namespace Modules\Auth\Services;
+use Illuminate\Support\Facades\Auth;
 use Modules\Auth\Repositories\AuthRepository;
 use Modules\Auth\DTO\RegisterDTO;
 use Illuminate\Support\Facades\Hash;
@@ -15,9 +16,11 @@ class RegisterService{
     ){}
 
     public function handle(RegisterDTO $userData): int{
+        $admin = Auth::user();
+
         $this->MakeHashedPassword($userData);
 
-        $account = $this->authRepository->createAccount($userData->toArray());
+        $account = $this->authRepository->createAccount($userData->toArray(), $admin->id);
 
         Log::info('Account Created',[
             'account_id' => $account->id

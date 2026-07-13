@@ -8,11 +8,12 @@ use Illuminate\Database\UniqueConstraintViolationException;
 use Throwable;
 
 class AuthRepository{
-    public function createAccount(array $userData): ?Account{
+    public function createAccount(array $userData, int $adminId): ?Account{
         try{
             $account = Account::create($userData);
             User::create([
-                'account_id' => $account->id
+                'account_id' => $account->id,
+                'admin_id' => $adminId
             ]);
             return $account;
         }catch(UniqueConstraintViolationException $e){

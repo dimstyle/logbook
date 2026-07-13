@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('account_id')->unique()->constrained();
             $table->foreignId('admin_id')->constrained('accounts');
-            $table->string('nama_lengkap')->default('');
-            $table->string('sekolah')->default('');
-            $table->string('jurusan')->default('');
-            $table->string('nomor_telepon')->default('');
+            $table->string('nama_lengkap')->default('N/A');
+            $table->string('sekolah')->default('N/A');
+            $table->string('jurusan')->default('N/A');
+            $table->string('nomor_telepon')->default('N/A');
             $table->integer('hadir')->default(0);
             $table->integer('tidak_masuk')->default(0);
             $table->integer('laporan')->default(0);
