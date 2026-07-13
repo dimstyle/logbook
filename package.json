@@ -22,7 +22,9 @@
         "@fontsource/fredoka-one": "^5.2.5",
         "@inertiajs/react": "^3.6.0",
         "@inertiajs/vite": "^3.6.0",
+        "lucide-react": "^1.24.0",
         "react": "^19.2.7",
-        "react-dom": "^19.2.7"
+        "react-dom": "^19.2.7",
+        "react-router-dom": "^7.18.1"
     }
 }
