@@ -8,8 +8,8 @@ export default function AdminProfile() {
             <AdminNavbar>
                 <div className="w-full justify-start" />
                 <div className="flex gap-2 items-center w-60 mr-7 text-white">
-                    <a href="" className="p-1">Users</a>
-                    <a href="" className="p-1">Registration</a>
+                    <a href="/admin/user-list" className="p-1">Users</a>
+                    <a href="/admin/user-registration" className="p-1">Registration</a>
                     <a href="/admin/daily-attendance" className="p-1">Attendance</a>
                 </div>
             </AdminNavbar>
@@ -22,7 +22,7 @@ export default function AdminProfile() {
                             <h2 className="text-[#FF5454] text-xl">Administrator PKL</h2>
                         </div>
                         <div className="flex w-full justify-end mr-10">
-                            <span className="flex items-center gap-2 bg-[#F3E8FF] p-2 rounded-xl text-[#7C3AED]">Edit <img src={EditIcon} alt="EditIcon" width={"20px"} /></span>
+                            <a href="" className="flex items-center gap-2 bg-[#F3E8FF] p-2 rounded-xl text-[#7C3AED]">Edit <img src={EditIcon} alt="EditIcon" width={20} /></a>
                         </div>
                     </div>
                     <div className="flex flex-col mx-5 mt-20">

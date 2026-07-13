@@ -6,7 +6,7 @@ export default function UserRegistration() {
             <AdminNavbar>
                 <div className="w-full justify-start" />
                 <div className="flex gap-2 items-center w-60 mr-7 text-white">
-                    <a href="" className="p-1">Users</a>
+                    <a href="/admin/user-list" className="p-1">Users</a>
                     <a href="" className="bg-white text-black p-1 rounded-lg">Registration</a>
                     <a href="/admin/daily-attendance" className="p-1">Attendance</a>
                 </div>
