@@ -496,6 +496,8 @@
                     },
                     "admin": {
                         "required": [
+                            "username",
+                            "email",
                             "id",
                             "account_id",
                             "perusahaan",
@@ -508,6 +510,12 @@
                             "periode_akhir"
                         ],
                         "properties": {
+                            "username": {
+                                "type": "string"
+                            },
+                            "email": {
+                                "type": "string"
+                            },
                             "id": {
                                 "type": "integer"
                             },
@@ -559,6 +567,7 @@
                         "required": [
                             "id",
                             "account_id",
+                            "admin_id",
                             "sekolah",
                             "jurusan",
                             "nomor_telepon",
@@ -569,10 +578,19 @@
                             "periode_akhir"
                         ],
                         "properties": {
+                            "username": {
+                                "type": "string"
+                            },
+                            "email": {
+                                "type": "string"
+                            },
                             "id": {
                                 "type": "integer"
                             },
                             "account_id": {
+                                "type": "integer"
+                            },
+                            "admin_id": {
                                 "type": "integer"
                             },
                             "sekolah": {
