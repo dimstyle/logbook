@@ -498,6 +498,7 @@
                         "required": [
                             "username",
                             "email",
+                            "role",
                             "id",
                             "account_id",
                             "perusahaan",
@@ -514,6 +515,9 @@
                                 "type": "string"
                             },
                             "email": {
+                                "type": "string"
+                            },
+                            "role": {
                                 "type": "string"
                             },
                             "id": {
@@ -565,6 +569,9 @@
                     },
                     "user": {
                         "required": [
+                            "username",
+                            "email",
+                            "role",
                             "id",
                             "account_id",
                             "admin_id",
@@ -582,6 +589,9 @@
                                 "type": "string"
                             },
                             "email": {
+                                "type": "string"
+                            },
+                            "role": {
                                 "type": "string"
                             },
                             "id": {

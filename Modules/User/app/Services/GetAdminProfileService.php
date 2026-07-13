@@ -23,6 +23,7 @@ class GetAdminProfileService
         return [
             'username' => $adminAccount->username,
             'email' => $adminAccount->email,
+            'role' => $adminAccount->role,
             ...$user->toArray()
         ];
     }

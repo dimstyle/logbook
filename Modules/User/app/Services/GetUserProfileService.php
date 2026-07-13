@@ -28,6 +28,7 @@ class GetUserProfileService
         return [
             'username'=> $userAccount->username,
             'email' => $userAccount->email,
+            'role' => $userAccount->role,
             ...$user->toArray()
         ];
     }

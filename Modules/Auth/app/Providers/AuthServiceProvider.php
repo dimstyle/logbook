@@ -22,7 +22,10 @@ class AuthServiceProvider extends ModuleServiceProvider
      *
      * @var string[]
      */
-    // protected array $commands = [];
+    protected array $commands = [
+        \Modules\Auth\Console\SeedAdmins::class,
+        \Modules\Auth\Console\ResetSqlite::class,
+    ];
 
     /**
      * Provider classes to register.

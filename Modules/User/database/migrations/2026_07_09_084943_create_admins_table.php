@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->foreignId('account_id')->unique()->constrained();
+            $table->string('nama_lengkap')->default('N/A');
             $table->string('perusahaan')->default('N/A');
             $table->string('divisi')->default('N/A');
             $table->string('nomor_telepon')->default('N/A');

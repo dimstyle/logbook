@@ -3,6 +3,8 @@ export interface getUserProfileResponse{
     user: {
         username: string,
         email: string,
+        role: string
+
         id: number,
         account_id: number,
         admin_id: number,
@@ -25,8 +27,11 @@ export interface getAdminProfileResponse{
     admin: {
         username: string,
         email: string,
+        role: string,
+
         id: number,
         account_id: number,
+        nama_lengkap: string,
         perusahaan: string, 
         divisi: string, 
         nomor_telepon: string,

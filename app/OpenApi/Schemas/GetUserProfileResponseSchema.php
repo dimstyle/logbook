@@ -11,6 +11,8 @@ use OpenApi\Attributes as OA;
             property: "user",
             type: "object",
             required: [
+                //account
+                "username", "email", "role",
                 //id 
                 "id", "account_id", "admin_id",
                 
@@ -23,6 +25,7 @@ use OpenApi\Attributes as OA;
             properties: [
                 new OA\Property(property: "username", type: "string"),
                 new OA\Property(property: "email", type: "string"),
+                new OA\Property(property: "role", type: "string"),
 
                 new OA\Property(property: "id", type: "integer"),
                 new OA\Property(property: "account_id", type: "integer"),

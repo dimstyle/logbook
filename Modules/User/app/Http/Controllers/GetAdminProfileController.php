@@ -66,7 +66,7 @@ class GetAdminProfileController extends Controller
 
         return response()->json([
             'message' => 'Success to get Admin info',
-            'Admin' => $admin
+            'admin' => $admin
         ]);
     }
 }
