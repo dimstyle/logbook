@@ -1,5 +1,6 @@
 <?php
 namespace Modules\User\Repositories;
+use Illuminate\Database\Eloquent\Collection;
 use Modules\User\Models\Admin;
 use Modules\User\Models\User;
 use Throwable;
@@ -50,4 +51,23 @@ class UserRepository{
             throw $e;
         }
     }
+
+    public function getListUsersByAdminID(int $adminId): Collection{
+        try{
+            return User::where('admin_id', $adminId)
+            ->join('accounts', 'users.account_id' , '=', 'accounts.id')
+            ->select(
+                'users.nama_lengkap',
+                'users.sekolah',
+                'users.jurusan',
+                'accounts.email'
+            )->get();
+        }catch(Throwable $e){
+            Log::error("Failed to get list users",[
+                'exception' => $e
+            ]);
+            throw $e;
+        }
+    }
+
 }
