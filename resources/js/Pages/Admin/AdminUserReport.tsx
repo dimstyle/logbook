@@ -16,6 +16,7 @@ export default function AdminReport() {
             </AdminNavbar>
             <div className="flex flex-col items-center">
                 <h1 className="p-4 pt-30 left-4">Detail Laporan</h1>
+                
             </div>
         </div>
     )
