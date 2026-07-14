@@ -1,6 +1,6 @@
 import "@fontsource/freckle-face"
 import "@fontsource/fredoka-one"
-import { createInertiaApp } from "@inertiajs/react";
+import { createInertiaApp, router } from "@inertiajs/react";
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import React from 'react';
 import { createRoot } from "react-dom/client";
@@ -10,6 +10,7 @@ interface InertiaSetupArgs {
   App: React.ComponentType<any>;
   props: Record<string, any>;
 }
+
 
 createInertiaApp({
     strictMode: true,

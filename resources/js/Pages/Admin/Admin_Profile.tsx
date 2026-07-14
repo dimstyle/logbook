@@ -3,6 +3,7 @@ import AdminNavbar from "../../Components/Admin/Navbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
 import EditIcon from "../../../../assets/edit-svgrepo-com.png"
 import { type getAdminProfileResponse } from "../types/user.js";
+import ErrorPage from "../ErrorPage.js";
 
 export default function AdminProfile() {
     const [ user, setUser ] = useState<getAdminProfileResponse>(); 
@@ -23,12 +24,14 @@ export default function AdminProfile() {
                 const resData: getAdminProfileResponse = await response.json();
     
                 if(!response.ok){
+                    console.log('haha')
                     throw new Error(JSON.stringify({
                         message: resData?.message,
                         status: response.status
                     }))
                 }
                 
+                console.log(resData)
                 setUser(resData)
             }catch(err: unknown){
                 if (err instanceof Error){
@@ -41,16 +44,21 @@ export default function AdminProfile() {
 
     })
     
+    if(error){
+        const errorMessage = JSON.parse(error);
+        return <ErrorPage errorMessage={errorMessage} />
+    }
+
     const AdminData = user?.admin;
-    
+
     return (
         <>
             <AdminNavbar>
                 <div className="w-full justify-start" />
                 <div className="flex gap-2 items-center w-60 mr-7 text-white">
-                    <a href="/admin/user-list" className="p-1">Users</a>
-                    <a href="/admin/user-registration" className="p-1">Registration</a>
-                    <a href="/admin/daily-attendance" className="p-1">Attendance</a>
+                    <a href="/admin/user_list" className="p-1">Users</a>
+                    <a href="/admin/user_registration" className="p-1">Registration</a>
+                    <a href="/admin/daily_attendance" className="p-1">Attendance</a>
                 </div>
             </AdminNavbar>
             <div className="p-4 pl-40 pr-40 pt-30">

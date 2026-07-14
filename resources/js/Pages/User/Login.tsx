@@ -1,8 +1,9 @@
 import React, { useRef, useState } from "react"
 import { type loginRequestBody } from "../types/auth.js"
 import { type DefaultResponse } from "../types/default.js"
-import ErrorPage, {type ErrorMessage} from "../ErrorPage.js";
+import ErrorPage from "../ErrorPage.js";
 import { router } from "@inertiajs/react";
+import api from "../../lib/axios.js";
 
 export default function Login(){
     const emailRef: React.RefObject<HTMLInputElement|null> = useRef(null);
@@ -20,31 +21,18 @@ export default function Login(){
         }
 
         try{
-            const response = await fetch('/api/auth/login',{
-                method: 'POST',
-                headers : {
-                    'Content-Type' : 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
+            const response = await api.post<DefaultResponse>('/api/auth/login', payload);
+            const resdata = response.data;
 
-            const resdata: DefaultResponse = await response.json();
-            
-            if(!response.ok){
-                throw new Error(JSON.stringify({
-                   message:  resdata?.message,
-                   status: response.status
-            }));
-            }
-    
-    
             alert(resdata.message);
 
             router.get('/report')
         }catch(err: unknown){
-            if (err instanceof Error){
-                setError(err.message);
-            }
+            const axiosError = err as { response?: { data?: DefaultResponse; status?: number }; message?: string };
+            const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
+            const status = axiosError?.response?.status ?? 500;
+
+            setError(JSON.stringify({ message, status }));
         }
     }
 
