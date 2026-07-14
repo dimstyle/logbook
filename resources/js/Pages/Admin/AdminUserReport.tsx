@@ -14,7 +14,7 @@ export default function AdminReport({studentName} : AdminReport) {
             <AdminNavbar>
                 <div className="flex gap-2 items-center w-60 mr-7 text-white">
                     <a href="" className="p-1">Users</a>
-                    <a href="/admin/user-registration" className="p-1">Registration</a>
+                    <a href="/admin/user_registration" className="p-1">Registration</a>
                     <a href="" className="bg-white text-black p-1 rounded-lg">Attendance</a>
                 </div>
             </AdminNavbar>
@@ -37,7 +37,20 @@ export default function AdminReport({studentName} : AdminReport) {
                         </div>
                     </div>
                     <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                        
+                        <h2 className="text-green-500 text-[25px]">Absensi Masuk</h2>
+                        <div className="flex flex-col gap-3">
+                            <div className="flex justify-between items-center border-b border-gray-100 pb-3">
+                                <span className="text-gray-500 text-base mt-3">Status</span>
+                                <span className="text-gray-800 text-base">Hadir • WFH</span>
+                            </div>
+                            <div className="flex justify-between border-b border-gray-50 pb-2">
+                                <span className="text-gray-500 text-base">Jam Masuk</span>
+                                <span className="text-gray-800 text-base">7.15 AM</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
