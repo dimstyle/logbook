@@ -31,7 +31,6 @@ export default function AdminProfile() {
                     }))
                 }
                 
-                console.log(resData)
                 setUser(resData)
             }catch(err: unknown){
                 if (err instanceof Error){
