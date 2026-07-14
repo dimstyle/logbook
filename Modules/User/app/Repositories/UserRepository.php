@@ -19,7 +19,7 @@ class UserRepository{
 
     public function getUserByAccountId(int $accountId): User{
         try{
-            return User::select('account_id', $accountId)->firstOrFail();
+            return User::where('account_id', $accountId)->firstOrFail();
         }catch(Throwable $e){
             Log::error('Failed to get data',[
                 'exception' => $e
@@ -42,7 +42,7 @@ class UserRepository{
 
     public function getAdminByAccountId(int $accountId): Admin{
         try{
-            return Admin::select('account_id', $accountId)->firstOrFail();
+            return Admin::where('account_id', $accountId)->firstOrFail();
         }catch(Throwable $e){
             Log::error('Failed to get data',[
                 'exception' => $e

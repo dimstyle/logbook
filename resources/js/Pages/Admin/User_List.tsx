@@ -62,7 +62,7 @@ export default function UserList() {
                                     </div>
                                 </div>
                                 <div className="flex flex-col w-full items-end">
-                                    <a href="" className="flex items-center bg-[#DBEAFE] p-2 rounded-xl text-[#1D4ED8]"><img src={ViewIcon} alt="ViewIcon" width={20} />View</a>
+                                    <a href="/admin/user-profile" className="flex items-center bg-[#DBEAFE] p-2 rounded-xl text-[#1D4ED8]"><img src={ViewIcon} alt="ViewIcon" width={20} />View</a>
                                 </div>
                             </div>
                         )

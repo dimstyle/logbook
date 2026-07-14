@@ -11,8 +11,10 @@ use OpenApi\Attributes as OA;
             property: "user",
             type: "object",
             required: [
+                //account
+                "username", "email", "role",
                 //id 
-                "id", "account_id",
+                "id", "account_id", "admin_id",
                 
                 // user data
                 "sekolah" , "jurusan", "nomor_telepon", "hadir", "tidak_masuk", "laporan",
@@ -21,8 +23,13 @@ use OpenApi\Attributes as OA;
                 "periode_awal", "periode_akhir"
             ],
             properties: [
+                new OA\Property(property: "username", type: "string"),
+                new OA\Property(property: "email", type: "string"),
+                new OA\Property(property: "role", type: "string"),
+
                 new OA\Property(property: "id", type: "integer"),
                 new OA\Property(property: "account_id", type: "integer"),
+                new OA\Property(property: "admin_id", type: "integer"),
 
                 new OA\Property(property: "sekolah", type: "string"),
                 new OA\Property(property: "jurusan", type: "string"),

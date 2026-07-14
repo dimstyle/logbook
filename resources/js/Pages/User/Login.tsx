@@ -1,31 +1,56 @@
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 import { type loginRequestBody } from "../types/auth.js"
 import { type DefaultResponse } from "../types/default.js"
+import ErrorPage, {type ErrorMessage} from "../ErrorPage.js";
+import { router } from "@inertiajs/react";
 
 export default function Login(){
     const emailRef: React.RefObject<HTMLInputElement|null> = useRef(null);
     const passwordRef: React.RefObject<HTMLInputElement|null> = useRef(null);
+    const [error, setError] = useState("");
 
     const loginEvent = async ()=>{
         if ( !emailRef.current || !passwordRef.current) return;
         if ( !emailRef.current.value || !passwordRef.current.value) return;
+    
 
         const payload: loginRequestBody = {
             email : emailRef.current.value,
             password: passwordRef.current.value
         }
 
-        const response = await fetch('/api/auth/login',{
-            method: 'POST',
-            headers : {
-                'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
+        try{
+            const response = await fetch('/api/auth/login',{
+                method: 'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
 
-        const resdata: DefaultResponse = await response.json();
+            const resdata: DefaultResponse = await response.json();
+            
+            if(!response.ok){
+                throw new Error(JSON.stringify({
+                   message:  resdata?.message,
+                   status: response.status
+            }));
+            }
+    
+    
+            alert(resdata.message);
 
-        alert(resdata.message);
+            router.get('/report')
+        }catch(err: unknown){
+            if (err instanceof Error){
+                setError(err.message);
+            }
+        }
+    }
+
+    if (error){
+        const errorMessage = JSON.parse(error)
+        return <ErrorPage errorMessage={errorMessage}  backPath="/admin/login"/>
     }
 
     return(
@@ -36,8 +61,6 @@ export default function Login(){
                     <h1 className="text-[#560000] text-2xl">User</h1>
                 </span>
                 <span className="flex bg-[#C0BDBD] flex-col p-5 rounded-bl-lg rounded-br-lg gap-3">
-                    {/* <h2>Username</h2>
-                    <input type="text" className="w-full p-1.5 bg-white rounded-lg" /> */}
                     <h2>Email</h2>
                     <input ref={emailRef} type="text" className="w-full p-1.5 bg-white rounded-lg" />
                     <h2>Password</h2>

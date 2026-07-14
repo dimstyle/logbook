@@ -1,8 +1,48 @@
+import { useEffect, useState, useRef, useEffectEvent } from "react";
 import AdminNavbar from "../../Components/Admin/Navbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
 import EditIcon from "../../../../assets/edit-svgrepo-com.png"
+import { type getAdminProfileResponse } from "../types/user.js";
 
 export default function AdminProfile() {
+    const [ user, setUser ] = useState<getAdminProfileResponse>(); 
+    const [ error, setError ] = useState("");
+    const isFetched = useRef(false);
+
+    useEffect(()=>{
+        if (isFetched.current) return;
+        isFetched.current = true;
+
+        ;(async ()=>{
+            try{
+                const response = await fetch('/api/user/getadminprofile',{
+                    method: 'GET',
+                    credentials: 'include'
+                });
+    
+                const resData: getAdminProfileResponse = await response.json();
+    
+                if(!response.ok){
+                    throw new Error(JSON.stringify({
+                        message: resData?.message,
+                        status: response.status
+                    }))
+                }
+                
+                setUser(resData)
+            }catch(err: unknown){
+                if (err instanceof Error){
+                    setError(err.message)
+                    return;
+                }
+                setError(String(error));
+            }
+        })();
+
+    })
+    
+    const AdminData = user?.admin;
+    
     return (
         <>
             <AdminNavbar>
@@ -18,8 +58,8 @@ export default function AdminProfile() {
                     <div className="flex items-center">
                         <img src={ProfileIcon} alt="UserIcon" />
                         <div className="flex flex-col w-full gap-8 ml-5">
-                            <h1 className="text-3xl">Rafi</h1>
-                            <h2 className="text-[#FF5454] text-xl">Administrator PKL</h2>
+                            <h1 className="text-3xl">{AdminData?.nama_lengkap}</h1>
+                            <h2 className="text-[#FF5454] text-xl">{AdminData?.role}</h2>
                         </div>
                         <div className="flex w-full justify-end mr-10">
                             <a href="" className="flex items-center gap-2 bg-[#F3E8FF] p-2 rounded-xl text-[#7C3AED]">Edit <img src={EditIcon} alt="EditIcon" width={20} /></a>
@@ -30,44 +70,44 @@ export default function AdminProfile() {
                         <div className="flex gap-20 mt-10">
                             <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
                                 <h1 className="text-xl text-[#666]">Perusahaan</h1>
-                                <h1>Di sono</h1>
+                                <h1>{AdminData?.perusahaan}</h1>
                             </div>
                             <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
                                 <h1 className="text-xl text-[#666]">Divisi</h1>
-                                <h1>HRD (Human Resource Development)</h1>
+                                <h1>{AdminData?.divisi}</h1>
                             </div>
                         </div>
                         <div className="flex gap-20 mt-10">
                             <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
                                 <h1 className="text-xl text-[#666]">Email</h1>
-                                <h1>Rafi1945@gmail.com</h1>
+                                <h1>{AdminData?.email}</h1>
                             </div>
                             <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
                                 <h1 className="text-xl text-[#666]">Nomor HP</h1>
-                                <h1>666</h1>
+                                <h1>{AdminData?.nomor_telepon}</h1>
                             </div>
                         </div>
                         <div className="flex gap-20 mt-10">
                             <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
                                 <h1 className="text-xl text-[#666]">Username</h1>
-                                <h1>rafi_ganteng</h1>
+                                <h1>{AdminData?.username}</h1>
                             </div>
                             <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
-                                <h1 className="text-xl text-[#666]">Password</h1>
-                                <h1>Yang itu</h1>
+                                <h1 className="text-xl text-[#666]">User ID</h1>
+                                <h1>{AdminData?.account_id}</h1>
                             </div>
                         </div>
                         <div className="flex gap-30 mt-20 mb-10">
                             <div className="flex flex-col items-center bg-[#FFC7C7] w-full rounded-lg p-4 py-10">
-                                <h1 className="text-xl text-[#FF5454]">0</h1>
+                                <h1 className="text-xl text-[#FF5454]">{AdminData?.siswa_pkl}</h1>
                                 <h1>Siswa PKL</h1>
                             </div>
                             <div className="flex flex-col items-center bg-[#FFC7C7] w-full rounded-lg p-4 py-10">
-                                <h1 className="text-xl text-[#FF5454]">-1</h1>
+                                <h1 className="text-xl text-[#FF5454]">{AdminData?.sekolah_mitra}</h1>
                                 <h1>Sekolah</h1>
                             </div>
                             <div className="flex flex-col items-center bg-[#FFC7C7] w-full rounded-lg p-4 py-10">
-                                <h1 className="text-xl text-[#FF5454]">-10</h1>
+                                <h1 className="text-xl text-[#FF5454]">{AdminData?.laporan_hari_ini}</h1>
                                 <h1>Laporan Hari Ini</h1>
                             </div>
                         </div>
