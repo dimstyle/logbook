@@ -4,6 +4,7 @@ import ProfileIcon from "../../../../assets/download-removebg-preview.png";
 import EditIcon from "../../../../assets/edit-svgrepo-com.png"
 import { type getUserProfileResponse } from "../types/user.js";
 import ErrorPage from "../ErrorPage.js";
+import api from "../../lib/axios.js";
 
 export default function Profile() {
     const isFetched = useRef(false);
@@ -16,26 +17,17 @@ export default function Profile() {
 
         ;(async ()=>{
             try{
-                const response = await fetch('/api/user/getuserprofile',{
-                    method: 'GET',
-                    credentials: 'include'
-                });
+                const response = await api.get<getUserProfileResponse>('/api/user/getuserprofile');
+                const resData = response.data;
 
-                const resData: getUserProfileResponse = await response.json(); 
-
-                if(!response.ok){
-                    throw new Error(JSON.stringify({
-                        message: resData.message,
-                        status: response.status
-                    }));
-                }
-                console.log(resData)
                 setUser(resData);
 
             }catch(err: unknown){
-                if(err instanceof Error){
-                    setError(err.message)
-                }
+                const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
+                const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
+                const status = axiosError?.response?.status ?? 500;
+
+                setError(JSON.stringify({ message, status }));
             }
 
 
@@ -44,7 +36,7 @@ export default function Profile() {
 
     if (error){
         const errMessage = JSON.parse(error);
-        return <ErrorPage errorMessage={errMessage} backPath="/user_profile"/>
+        return <ErrorPage errorMessage={errMessage} backPath="/login"/>
     }
 
     const UserData = user?.user;

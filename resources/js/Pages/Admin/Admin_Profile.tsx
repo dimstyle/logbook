@@ -3,6 +3,7 @@ import AdminNavbar from "../../Components/Admin/Navbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
 import EditIcon from "../../../../assets/edit-svgrepo-com.png"
 import { type getAdminProfileResponse } from "../types/user.js";
+import ErrorPage from "../ErrorPage.js";
 
 export default function AdminProfile() {
     const [ user, setUser ] = useState<getAdminProfileResponse>(); 
@@ -23,12 +24,14 @@ export default function AdminProfile() {
                 const resData: getAdminProfileResponse = await response.json();
     
                 if(!response.ok){
+                    console.log('haha')
                     throw new Error(JSON.stringify({
                         message: resData?.message,
                         status: response.status
                     }))
                 }
                 
+                console.log(resData)
                 setUser(resData)
             }catch(err: unknown){
                 if (err instanceof Error){
@@ -41,8 +44,13 @@ export default function AdminProfile() {
 
     })
     
+    if(error){
+        const errorMessage = JSON.parse(error);
+        return <ErrorPage errorMessage={errorMessage} />
+    }
+
     const AdminData = user?.admin;
-    
+
     return (
         <>
             <AdminNavbar>
