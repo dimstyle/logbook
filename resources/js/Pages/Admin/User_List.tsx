@@ -1,9 +1,11 @@
 import AdminNavbar from "../../Components/Admin/Navbar.js";
 import React, { useState, type ChangeEvent } from "react";
+import { Link } from "@inertiajs/react";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
 import ViewIcon from "../../../../assets/view-eye-svgrepo-com.png"
 
 interface User {
+    id: number,
     name: string,
     email: string,
     school: string,
@@ -11,11 +13,11 @@ interface User {
 }
 
 const MOCK_USERS: User[] = [
-    { name: "Udin", email: "udin1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
-    { name: "Tono", email: "tono1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
-    { name: "Tony", email: "tony1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
-    { name: "Ucup", email: "ucup1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
-    { name: "Ucok", email: "ucok1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
+    { id: 1 , name: "Udin", email: "udin1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
+    { id: 2 , name: "Tono", email: "tono1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
+    { id: 3 , name: "Tony", email: "tony1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
+    { id: 4 , name: "Ucup", email: "ucup1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
+    { id: 5 , name: "Ucok", email: "ucok1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
 ]
 
 export default function UserList() {
@@ -43,8 +45,8 @@ export default function UserList() {
                 </div>
                 <div className="flex gap-2 items-center w-60 mr-7 text-white">
                     <a href="" className="bg-white text-black p-1 rounded-lg">Users</a>
-                    <a href="/admin/user-registration" className="p-1">Registration</a>
-                    <a href="/admin/daily-attendance" className="p-1">Attendance</a>
+                    <a href="/admin/user_registration" className="p-1">Registration</a>
+                    <a href="/admin/daily_attendance" className="p-1">Attendance</a>
                 </div>
             </AdminNavbar>
             <div className="flex flex-col p-4 pt-30 gap-10">
@@ -62,7 +64,7 @@ export default function UserList() {
                                     </div>
                                 </div>
                                 <div className="flex flex-col w-full items-end">
-                                    <a href="/admin/user-profile" className="flex items-center bg-[#DBEAFE] p-2 rounded-xl text-[#1D4ED8]"><img src={ViewIcon} alt="ViewIcon" width={20} />View</a>
+                                    <Link href={`/admin/user_profile/${user.id}`} className="flex items-center bg-[#DBEAFE] p-2 rounded-xl text-[#1D4ED8]"><img src={ViewIcon} alt="ViewIcon" width={20} />View</Link>
                                 </div>
                             </div>
                         )

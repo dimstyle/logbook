@@ -3,6 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+$mockuser = [
+    [ 'id' => 1 , 'name' => "Udin", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "udin1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => 20, 'notPresent' => 80, 'report' => 0 ],
+    [ 'id' => 2 , 'name' => "Tono", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "tono1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => 0, 'notPresent' => 100, 'report' => 9 ],
+    [ 'id' => 3 , 'name' => "Tony", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "tony1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => 10, 'notPresent' => 90, 'report' => 1 ],
+    [ 'id' => 4 , 'name' => "Ucup", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "ucup1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => -20, 'notPresent' => 100, 'report' => -10 ],
+    [ 'id' => 5 , 'name' => "Ucok", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "ucok1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => 90, 'notPresent' => 10, 'report' => 1000 ],
+];
+
 // User
 
 Route::get('/', fn() => Inertia::render('User/Home'));
@@ -19,6 +27,16 @@ Route::get('/view_report', fn() => Inertia::render('User/ViewReport'));
 Route::get('/admin/login', fn() => Inertia::render('Admin/Login'));
 Route::get('/admin/daily_attendance', fn() => Inertia::render('Admin/Daily_Attendance'));
 Route::get('/admin/profile', fn() => Inertia::render('Admin/Admin_Profile'));
-Route::get('/admin/user-registration', fn() => Inertia::render('Admin/User_Registration'));
-Route::get('/admin/user-list', fn() => Inertia::render('Admin/User_List'));
-Route::get('/admin/user-profile', fn() => Inertia::render('Admin/User_Profile'));
+Route::get('/admin/user_registration', fn() => Inertia::render('Admin/User_Registration'));
+Route::get('/admin/user_list', fn() => Inertia::render('Admin/User_List'));
+Route::get('/admin/user_profile/{id}', function ($id) use ($mockuser) {
+    $selectedUser = collect($mockuser)->firstWhere('id', (int)$id);
+
+    if (!$selectedUser) {
+        abort(404, 'User Not Found.');
+    }
+
+    return Inertia::render('Admin/User_Profile', [
+        'user' => $selectedUser
+    ]);
+});
