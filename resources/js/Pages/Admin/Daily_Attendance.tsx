@@ -1,6 +1,7 @@
 import AdminNavbar from "../../Components/Admin/Navbar.js";
 import React, { useState, type ChangeEvent } from "react";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
+import { Link } from "@inertiajs/react";
 
 interface User {
     name: string,
@@ -120,7 +121,7 @@ export default function DailyAttendance() {
                         }
 
                         return (
-                            <div className="flex w-full p-5 bg-[#FFFFFF] rounded-lg">
+                            <Link key={user.name} href={`/admin/user-report/${encodeURIComponent(user.name)}`} className="flex w-full p-5 bg-[#FFFFFF] rounded-lg">
                                 <img src={ProfileIcon} alt="UserIcon" width={130} />
                                 <div className="flex flex-col w-full justify-center gap-3 ml-2">
                                     <h1 className="text-2xl">{user.name}</h1>
@@ -140,7 +141,7 @@ export default function DailyAttendance() {
                                     <p className="text-[#6B7280]">{user.time}</p>
                                     <p className="text-[#6B7280]">{user.date}</p>
                                 </div>
-                            </div>
+                            </Link>
                         )
                     })
                 ) : (
