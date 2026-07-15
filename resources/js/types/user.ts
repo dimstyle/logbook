@@ -42,3 +42,14 @@ export interface getAdminProfileResponse{
         updated_at: string
     }
 }
+
+export interface getListUsersInfoResponse{
+    message: string,
+    users: {
+        id: number,
+        nama_lengkap: string,
+        sekolah: string,
+        jurusan: string,
+        email: string 
+    }[]
+}
