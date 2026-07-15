@@ -16,15 +16,6 @@ interface User {
     major: string
 }
 
-// const MOCK_USERS: User[] = [
-//     { id: 1 , name: "Udin", email: "udin1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
-//     { id: 2 , name: "Tono", email: "tono1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
-//     { id: 3 , name: "Tony", email: "tony1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
-//     { id: 4 , name: "Ucup", email: "ucup1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
-//     { id: 5 , name: "Ucok", email: "ucok1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
-// ]
-
-
 
 export default function UserList() {
     const [searchQuery, setSearchQuery] = useState<string>("");
