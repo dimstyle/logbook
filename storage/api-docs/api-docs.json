@@ -254,77 +254,6 @@
                 }
             }
         },
-        "/api/user/createuserinfo": {
-            "post": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "create user info",
-                "operationId": "c8440ff65e5ee2c4d8338a11152a6870",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CreateUserInfoRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Success Create User Data",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/DefaultResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/DefaultResponse"
-                                }
-                            }
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict admin account",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/DefaultResponse"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Content",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/DefaultResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/user/getadminprofile": {
             "get": {
                 "tags": [
@@ -386,13 +315,13 @@
                 }
             }
         },
-        "/api/user/getlistusers": {
+        "/api/user/getlistusersinfo": {
             "get": {
                 "tags": [
                     "User"
                 ],
                 "summary": "get admin profile data",
-                "operationId": "2372f79c8b3f86fb59958bf39ea1d3e2",
+                "operationId": "fd92c75b934b7e94d241e1ac421f3be2",
                 "responses": {
                     "200": {
                         "description": "Success to get user profile",
@@ -520,41 +449,6 @@
                 },
                 "type": "object"
             },
-            "CreateUserInfoRequest": {
-                "required": [
-                    "sekolah",
-                    "jurusan",
-                    "nomor_telepon",
-                    "periode_awal",
-                    "periode_akhir"
-                ],
-                "properties": {
-                    "account_id": {
-                        "type": "integer"
-                    },
-                    "nama_lengkap": {
-                        "type": "string"
-                    },
-                    "sekolah": {
-                        "type": "string"
-                    },
-                    "jurusan": {
-                        "type": "string"
-                    },
-                    "nomor_telepon": {
-                        "type": "string"
-                    },
-                    "periode_awal": {
-                        "type": "string",
-                        "format": "date"
-                    },
-                    "periode_akhir": {
-                        "type": "string",
-                        "format": "date"
-                    }
-                },
-                "type": "object"
-            },
             "DefaultResponse": {
                 "required": [
                     "message"
@@ -652,6 +546,9 @@
                         "type": "array",
                         "items": {
                             "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
                                 "nama_lengkap": {
                                     "type": "string"
                                 },
@@ -816,7 +713,13 @@
                 "required": [
                     "username",
                     "email",
-                    "password"
+                    "password",
+                    "nama_lengkap",
+                    "sekolah",
+                    "jurusan",
+                    "nomor_telepon",
+                    "periode_awal",
+                    "periode_akhir"
                 ],
                 "properties": {
                     "username": {
@@ -827,6 +730,26 @@
                     },
                     "password": {
                         "type": "string"
+                    },
+                    "nama_lengkap": {
+                        "type": "string"
+                    },
+                    "sekolah": {
+                        "type": "string"
+                    },
+                    "jurusan": {
+                        "type": "string"
+                    },
+                    "nomor_telepon": {
+                        "type": "string"
+                    },
+                    "periode_awal": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "periode_akhir": {
+                        "type": "string",
+                        "format": "date"
                     }
                 },
                 "type": "object"

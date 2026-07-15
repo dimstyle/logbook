@@ -2,6 +2,7 @@
 namespace Modules\Auth\Repositories;
 use Modules\Auth\Models\Account;
 use Modules\User\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -10,18 +11,41 @@ use Throwable;
 class AuthRepository{
     public function createAccount(array $userData, int $adminId): ?Account{
         try{
-            $account = Account::create($userData);
+            DB::beginTransaction();
+
+            $account = Account::create([
+                'username' => $userData['username'],
+                'email' => $userData['email'],
+                'password' => $userData['password'],
+                'role' => 'user',
+                'is_active' => true,
+            ]);
+
+
             User::create([
                 'account_id' => $account->id,
-                'admin_id' => $adminId
+                'admin_id' => $adminId,
+                'nama_lengkap' => $userData['nama_lengkap'],
+                'sekolah' => $userData['sekolah'],
+                'jurusan' => $userData['jurusan'],
+                'nomor_telepon' => $userData['nomor_telepon'],
+                'periode_awal' => $userData['periode_awal'],
+                'periode_akhir' => $userData['periode_akhir']
             ]);
+
+            DB::commit();
+
             return $account;
         }catch(UniqueConstraintViolationException $e){
+            DB::rollBack();
+
             Log::error('email already exists',[
                 'exception' => $e
             ]);
             throw $e;
         }catch(Throwable $e){
+            DB::rollBack();
+
             Log::error("Failed to create account",[
                 'exception' => $e
             ]);

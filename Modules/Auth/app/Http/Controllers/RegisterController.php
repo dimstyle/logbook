@@ -3,14 +3,13 @@
 namespace Modules\Auth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-
+use Illuminate\Database\QueryException;
 use Modules\Auth\DTO\RegisterDTO;
 use Modules\Auth\Http\Requests\RegisterRequest;
 use Modules\Auth\Services\RegisterService;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
-
-use OpenApi\Attributes as OA;
 
 class RegisterController extends Controller
 {
@@ -53,15 +52,15 @@ class RegisterController extends Controller
     public function handle(RegisterRequest $request){
         $data = RegisterDTO::fromArray($request->validated());
         
-        try{
+        try {
             $account_id = $this->registerService->handle($data);
-        }catch(QueryException){
+        } catch (QueryException) {
             return response()->json([
-                'message' => 'internal server error'
+                'message' => 'Internal server error',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }catch(Throwable $e){
+        } catch (Throwable) {
             return response()->json([
-                'message' => 'Internal server error'
+                'message' => 'Internal server error',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
