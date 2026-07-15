@@ -3,6 +3,7 @@
 namespace Modules\Auth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Modules\Auth\Http\Requests\RefreshTokenRequest;
 use PHPOpenSourceSaver\JWTAuth\JWTGuard;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenBlacklistedException;
@@ -19,11 +20,17 @@ class RefreshTokenController extends Controller
         path: "/api/auth/refresh",
         tags: ["Auth"],
     )]
+    #[OA\RequestBody(
+        required: true,
+        content: new OA\JsonContent(
+            ref : "#/components/schemas/RefreshTokenRequest"
+        )
+    )]
     #[OA\Response(
         response: 200,
         description: "Success re-create token",
         content: new OA\JsonContent(
-            ref: "#/components/schemas/DefaultResponse",
+            ref: "#/components/schemas/RefreshTokenResponse",
         )
     )]
     #[OA\Response(
@@ -40,25 +47,21 @@ class RefreshTokenController extends Controller
             ref: "#/components/schemas/DefaultResponse"
         )
     )]
-    public function refreshToken(){
+    public function handle(RefreshTokenRequest $request){
         try{
+            $data = $request->validated();
+
+            $oldToken = $data['token'];
             /** @var JWTGuard $auth */
             $auth = auth();
             
+            // $auth = setToken($data['token']);
+            $newToken = $auth->setToken($oldToken)->refresh();
+
             return response()->json([
-                'message' => 'success to get token'
-            ],Response::HTTP_OK)
-            ->cookie(
-                'access_token',
-                $auth->refresh(),
-                60,
-                '/',
-                null,
-                false,
-                true,
-                false,
-                'Lax'
-            );
+                'message' => 'success to get token',
+                'access_token' => $newToken,
+            ], Response::HTTP_OK);
         }catch (TokenExpiredException $e) {
             return response()->json([
                 'message' => 'Token expired',

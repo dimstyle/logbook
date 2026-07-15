@@ -87,14 +87,24 @@
                 "tags": [
                     "Auth"
                 ],
-                "operationId": "2f6168e63eaad531f907d2148e774fa1",
+                "operationId": "3dfe244f437c37fc194d08f66b6141ab",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RefreshTokenRequest"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Success re-create token",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/DefaultResponse"
+                                    "$ref": "#/components/schemas/RefreshTokenResponse"
                                 }
                             }
                         }
@@ -740,6 +750,32 @@
                     },
                     "error": {
                         "type": "error_obj"
+                    }
+                },
+                "type": "object"
+            },
+            "RefreshTokenRequest": {
+                "required": [
+                    "token"
+                ],
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "RefreshTokenResponse": {
+                "required": [
+                    "message",
+                    "token"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "token": {
+                        "type": "string"
                     }
                 },
                 "type": "object"
