@@ -3,7 +3,6 @@
 namespace Modules\Auth\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use Modules\Auth\Models\Account;
 use Modules\User\Models\Admin;
 
@@ -44,26 +43,23 @@ class AdminDatabaseSeeder extends Seeder
         foreach ($admins as $data) {
             $account = Account::firstOrCreate(
                 ['email' => $data['email']],
-                [
+                Account::factory()->raw([
                     'username' => $data['username'],
-                    'password' => Hash::make('password'),
-                    'role' => 'admin'
-                ]
+                    'email' => $data['email'],
+                    'role' => 'admin',
+                ])
             );
 
             Admin::firstOrCreate(
                 ['account_id' => $account->id],
-                [
+                Admin::factory()->raw([
+                    'account_id' => $account->id,
                     'nama_lengkap' => $data['nama_lengkap'] ?? 'N/A',
                     'perusahaan' => $data['perusahaan'] ?? 'N/A',
                     'divisi' => $data['divisi'] ?? 'N/A',
                     'nomor_telepon' => $data['nomor_telepon'] ?? 'N/A',
-                    'siswa_pkl' => 0,
-                    'sekolah_mitra' => 0,
-                    'laporan_hari_ini' => 0,
-                ]
+                ])
             );
         }
-
     }
 }

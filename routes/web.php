@@ -25,18 +25,8 @@ Route::prefix('/')
 
     Route::get('/', fn() => Inertia::render('User/Home'));
     Route::get('/clock-in', fn() => Inertia::render('User/Attendance_Clock-In'));
-    Route::get('/user_profile', function () use ($mockuser, $currentUserId) {
-        $updatedName = session('updated_name');
-    
-        $user = collect($mockuser)->firstWhere('id', $currentUserId);
-        if ($updatedName) {
-            $user['name'] = $updatedName;
-        }
-    
-        return Inertia::render('User/User_Profile', [
-            'user' => $user
-        ]);
-    });
+    Route::get('/user_profile',fn() => Inertia::render('User/User_Profile'));
+
     Route::get('/user_profile/edit', function () use ($mockuser, $currentUserId) {
         $updatedName = session('updated_name');
     

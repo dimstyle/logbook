@@ -23,6 +23,7 @@ class AuthServiceProvider extends ModuleServiceProvider
      * @var string[]
      */
     protected array $commands = [
+        \Modules\Auth\Console\SeedUsers::class,
         \Modules\Auth\Console\SeedAdmins::class,
         \Modules\Auth\Console\ResetSqlite::class,
     ];
