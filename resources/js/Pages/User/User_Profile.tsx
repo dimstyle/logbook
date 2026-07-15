@@ -5,7 +5,9 @@ import EditIcon from "../../../../assets/edit-svgrepo-com.png"
 import { type getUserProfileResponse } from "../types/user.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
+import { Link } from "@inertiajs/react";
 import LoadingPage from "../ui/LoadingPage.js";
+
 
 export default function Profile() {
     const isFetched = useRef(false);
@@ -65,7 +67,7 @@ export default function Profile() {
                             <h2 className="text-[#1D4ED8] text-xl">{UserData?.role}</h2>
                         </div>
                         <div className="flex w-full justify-end mr-10">
-                            <a href="/user_profile/edit" className="flex items-center gap-2 bg-[#F3E8FF] p-2 rounded-xl text-[#7C3AED]">Edit <img src={EditIcon} alt="EditIcon" width={"20px"} /></a>
+                            <Link href="/user_profile/edit" className="flex items-center gap-2 bg-[#F3E8FF] p-2 rounded-xl text-[#7C3AED]">Edit <img src={EditIcon} alt="EditIcon" width={"20px"} /></Link>
                         </div>
                     </div>
                     <div className="flex flex-col mx-5 mt-20">
