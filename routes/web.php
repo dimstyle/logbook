@@ -18,7 +18,7 @@ Route::get('/login', fn() => Inertia::render('User/Login'));
 
 
 Route::prefix('/')
-->middleware('jwt.validation.page')
+->middleware('jwt.page.validation')
 ->group(function (){
     global $mockuser, $currentUserId;
 
