@@ -21,7 +21,7 @@ Route::prefix('/')
 ->middleware('jwt.page.validation')
 ->group(function (){
     global $mockuser, $currentUserId;
-
+    
     Route::get('/', fn() => Inertia::render('User/Home'));
     Route::get('/clock-in', fn() => Inertia::render('User/Attendance_Clock-In'));
     Route::get('/user_profile', function () use ($mockuser, $currentUserId) {
