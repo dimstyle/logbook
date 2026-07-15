@@ -2,7 +2,7 @@ import React , { useEffect, useRef, useState } from "react";
 import Navbar from "../../Components/User/Navbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png";
 import EditIcon from "../../../../assets/edit-svgrepo-com.png"
-import { type getUserProfileResponse } from "../types/user.js";
+import { type getUserProfileResponse } from "../../types/user.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
 import LoadingPage from "../ui/LoadingPage.js";

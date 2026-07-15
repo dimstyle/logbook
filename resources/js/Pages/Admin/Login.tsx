@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react"
-import { type loginRequestBody } from "../types/auth.js"
-import { type DefaultResponse } from "../types/default.js"
+import { type loginRequestBody } from "../../types/auth.js"
+import { type DefaultResponse } from "../../types/default.js"
 import ErrorPage from "../ui/ErrorPage.js";
 import { router } from "@inertiajs/react";
 import api from "../../lib/axios.js";
@@ -25,6 +25,8 @@ export default function AdminLogin() {
                 const resdata = response.data;
 
                 alert(resdata.message);
+
+                router.get('/admin/user_list');
             }catch(err: unknown){
                 const axiosError = err as { response?: { data?: DefaultResponse; status?: number }; message?: string };
                 const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
