@@ -1,17 +1,17 @@
-import Navbar from "../../Components/User/Navbar.js";
+import AdminNavbar from "../../Components/Admin/Navbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png";
 
-export default function UserProfileEdit() {
+export default function AdminProfileEdit() {
     return (
         <>
-            <Navbar>
+            <AdminNavbar>
                 <div className="w-full justify-start" />
-                <div className="flex gap-2 items-center w-60 mr-2 text-white">
-                    <a href="/" className="p-1">History</a>
-                    <a href="/clock-in" className="p-1">Attendance</a>
-                    <a href="/login" className="p-1">Logout</a>
+                <div className="flex gap-2 items-center w-60 mr-7 text-white">
+                    <a href="/admin/user_list" className="p-1">Users</a>
+                    <a href="/admin/user_registration" className="p-1">Registration</a>
+                    <a href="/admin/daily_attendance" className="p-1">Attendance</a>
                 </div>
-            </Navbar>
+            </AdminNavbar>
             <div className="p-4 pl-40 pr-40 pt-30">
                 <div className="bg-[#F4F4F4] w-full p-10 rounded-xl">
                     <div className="flex flex-col w-full items-center">
@@ -44,14 +44,14 @@ export default function UserProfileEdit() {
                         </div>
                     </div>
                     <div className="flex flex-col mx-5 mt-20">
-                        <h1 className="text-xl">Informasi Siswa</h1>
+                        <h1 className="text-xl">Informasi Administrator</h1>
                         <div className="flex gap-20 mt-10">
                             <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
-                                <h1 className="text-xl text-[#666]">Sekolah</h1>
+                                <h1 className="text-xl text-[#666]">Perusahaan</h1>
                                 <input type="text" className="w-full p-1.5 bg-[#666] rounded-lg text-white" />
                             </div>
                             <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
-                                <h1 className="text-xl text-[#666]">Jurusan</h1>
+                                <h1 className="text-xl text-[#666]">Divisi</h1>
                                 <input type="text" className="w-full p-1.5 bg-[#666] rounded-lg text-white" />
                             </div>
                         </div>

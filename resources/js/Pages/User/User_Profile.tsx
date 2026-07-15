@@ -60,11 +60,11 @@ export default function Profile() {
                             <h2 className="text-[#1D4ED8] text-xl">{UserData?.role}</h2>
                         </div>
                         <div className="flex w-full justify-end mr-10">
-                            <a href="" className="flex items-center gap-2 bg-[#F3E8FF] p-2 rounded-xl text-[#7C3AED]">Edit <img src={EditIcon} alt="EditIcon" width={"20px"} /></a>
+                            <a href="/user_profile/edit" className="flex items-center gap-2 bg-[#F3E8FF] p-2 rounded-xl text-[#7C3AED]">Edit <img src={EditIcon} alt="EditIcon" width={"20px"} /></a>
                         </div>
                     </div>
                     <div className="flex flex-col mx-5 mt-20">
-                        <h1 className="text-xl">Informasi siswa</h1>
+                        <h1 className="text-xl">Informasi Siswa</h1>
                         <div className="flex gap-20 mt-10">
                             <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
                                 <h1 className="text-xl text-[#666]">Sekolah</h1>
