@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react"
 import { type loginRequestBody } from "../types/auth.js"
 import { type DefaultResponse } from "../types/default.js"
-import ErrorPage from "../ErrorPage.js";
+import ErrorPage from "../ui/ErrorPage.js";
 import { router } from "@inertiajs/react";
 import api from "../../lib/axios.js";
 

@@ -17,12 +17,11 @@ return new class extends Migration
 
             $table->boolean('sudah_hadir');
             $table->time('jam_hadir');
+            $table->boolean('wfh');
                 
             $table->boolean('sudah_pulang');
             $table->time('jam_pulang');
-            
-            $table->boolean('wfh');
-            
+
             $table->boolean('sudah_laporan');
             $table->string('laporan');
             $table->json('images_path');

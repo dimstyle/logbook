@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Attendance\Http\Requests;
+namespace Modules\Auth\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateAttendanceCheckInRequest extends FormRequest
+class RefreshTokenRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -12,8 +12,7 @@ class CreateAttendanceCheckInRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sudah_hadir' => ['required', 'boolean'],
-            'jam_hadir' => ['required', 'date_format:H:i']
+            'token' => ['required' , 'string']
         ];
     }
 

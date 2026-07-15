@@ -3,14 +3,15 @@ import Navbar from "../../Components/User/Navbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png";
 import EditIcon from "../../../../assets/edit-svgrepo-com.png"
 import { type getUserProfileResponse } from "../types/user.js";
-import ErrorPage from "../ErrorPage.js";
+import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
+import LoadingPage from "../ui/LoadingPage.js";
 
 export default function Profile() {
     const isFetched = useRef(false);
     const [user, setUser] = useState<getUserProfileResponse>();
     const [error, setError] = useState("");
-
+    const [loading, setLoading] = useState(false);
     useEffect(()=>{
         if (isFetched.current) return;
         isFetched.current = true;
@@ -28,11 +29,15 @@ export default function Profile() {
                 const status = axiosError?.response?.status ?? 500;
 
                 setError(JSON.stringify({ message, status }));
+            }finally{
+                setLoading(false)
             }
-
-
         })()    
     })
+
+    if(loading){
+        return <LoadingPage />
+    }
 
     if (error){
         const errMessage = JSON.parse(error);
@@ -60,11 +65,11 @@ export default function Profile() {
                             <h2 className="text-[#1D4ED8] text-xl">{UserData?.role}</h2>
                         </div>
                         <div className="flex w-full justify-end mr-10">
-                            <a href="" className="flex items-center gap-2 bg-[#F3E8FF] p-2 rounded-xl text-[#7C3AED]">Edit <img src={EditIcon} alt="EditIcon" width={"20px"} /></a>
+                            <a href="/user_profile/edit" className="flex items-center gap-2 bg-[#F3E8FF] p-2 rounded-xl text-[#7C3AED]">Edit <img src={EditIcon} alt="EditIcon" width={"20px"} /></a>
                         </div>
                     </div>
                     <div className="flex flex-col mx-5 mt-20">
-                        <h1 className="text-xl">Informasi siswa</h1>
+                        <h1 className="text-xl">Informasi Siswa</h1>
                         <div className="flex gap-20 mt-10">
                             <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
                                 <h1 className="text-xl text-[#666]">Sekolah</h1>
