@@ -6,6 +6,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Modules\Auth\Http\Middleware\JwtMiddleware;
 use Modules\Auth\Http\Middleware\RoleMiddleware;
+use Modules\Auth\Http\Middleware\JwtValdiationPageMiddleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -16,7 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'jwt' => JwtMiddleware::class,
-            'role' => RoleMiddleware::class
+            'role' => RoleMiddleware::class,
+            'jwt.page.validation' => JwtValdiationPageMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
