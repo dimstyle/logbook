@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Inertia\Inertia;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenExpiredException;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenInvalidException;
@@ -147,12 +146,6 @@ class JwtValidationPageMiddleware
             ], $status);
         }
 
-        return Inertia::render('ui/ErrorPage', [
-            'errorMessage' => [
-                'status' => $status,
-                'message' => $message,
-            ],
-            'backPath' => $backPath,
-        ])->toResponse($request);
+        return redirect($backPath);
     }
 }

@@ -11,11 +11,12 @@ $mockuser = [
     [ 'id' => 5 , 'name' => "Ucok", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "ucok1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => 90, 'notPresent' => 10, 'report' => 1000 ],
 ];
 
+Route::get('/login', fn() => Inertia::render('User/Login'));
+
 // User
 Route::prefix('/')
 ->middleware('jwt.page.validation')
 ->group(function (){
-    Route::get('/login', fn() => Inertia::render('User/Login'));
     Route::get('/clock-in', fn() => Inertia::render('User/Attendance_Clock-In'));
     Route::get('/user_profile', fn() => Inertia::render('User/User_Profile'));
     Route::get('/user_profile/edit', fn() => Inertia::render('User/User_Profile_Edit'));
