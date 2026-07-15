@@ -2,6 +2,7 @@ import AdminNavbar from "../../Components/Admin/Navbar.js"
 import React from "react"
 import { Head, Link } from "@inertiajs/react"
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
+import Image from "../../../../assets/image-picture-svgrepo-com.png"
 
 interface AdminReport {
     studentName: string;
@@ -26,31 +27,85 @@ export default function AdminReport({studentName} : AdminReport) {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
                             </svg>
                         </Link>
-                        <h1 className="text-xl font-bold text-gray-800">Detail Laporan</h1>
+                        <h1 className="text-xl text-black">Detail Laporan</h1>
                     </div>
                     <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
                         <img src={ProfileIcon} alt="Profile" className="w-16 h-16 rounded-full object-cover bg-gray-100"/>
                         <div>
-                            <h2 className="text-2xl font-bold text-gray-800">{studentName}</h2>
+                            <h2 className="text-2xl font-bold text-black">{studentName}</h2>
                             <p className="text-gray-500 text-sm mt-2">SMK Letris Indonesia 2 • RPL</p>
                             <p className="text-gray-500 text-sm">Senin, 2 Juli 2026</p>
                         </div>
                     </div>
                     <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                        <h2 className="text-green-500 text-[25px]">Absensi Masuk</h2>
+                        <h2 className="text-green-500 text-[23px]">Absensi Masuk</h2>
                         <div className="flex flex-col gap-3">
-                            <div className="flex justify-between items-center border-b border-gray-100 pb-3">
+                            <div className="flex justify-between items-center border-b border-gray-100 pb-2">
                                 <span className="text-gray-500 text-base mt-3">Status</span>
-                                <span className="text-gray-800 text-base">Hadir • WFH</span>
+                                <span className="text-black text-base">Hadir • WFH</span>
                             </div>
                             <div className="flex justify-between border-b border-gray-50 pb-2">
                                 <span className="text-gray-500 text-base">Jam Masuk</span>
-                                <span className="text-gray-800 text-base">7.15 AM</span>
+                                <span className="text-black text-base">7.15 AM</span>
                             </div>
-                            <div className="flex justify-between">
-                                <span></span>
+                            <div className="flex justify-between border-b border-gray-50 pb-2">
+                                <span className="text-gray-500 text-base">Lokasi</span>
+                                <span className="text-black text-base">BRIN - PUSDATIN</span>
                             </div>
                         </div>
+                    </div>
+                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                        <div className="border-b border-gray-100 pb-3 mb-4">
+                            <h2 className="text-black text-[23px]">Laporan Kegiatan</h2>
+                        </div>
+                        <div className="mb-4">
+                            <span className="text-[16px] font-bold tracking-wider">Divisi</span>
+                            <div className="mt-2 p-3 pl-4 bg-gray-200 rounded-lg text-[15px] border border-gray-200">Software Development</div>
+                        </div>
+                        <div className="mb-4">
+                            <span className="text-[16px] font-bold tracking-wider">Kegiatan</span>
+                            <ul className="list-disc leading-relaxed space-y-2 mt-2 p-3 pl-7 bg-gray-200 rounded-lg text-[15px] border border-gray-200">
+                                <li>Membuat halaman Attendance History</li>
+                                <li>Memperbaiki validasi login</li>
+                                <li>Testing fitur laporan kegiatan</li>
+                                <li>Push project ke github</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <span className="text-[16px] font-bold tracking-wider">Dokumentasi</span>
+                            <div className="flex gap-10 mt-2">
+                                <div className="w-50 h-50 bg-gray-200 border border-dashed flex items-center border-gray-200 rounded-xl justify-center cursor-pointer hover:bg-gray-300 transition">
+                                    <img src={Image} alt="" width={100} />
+                                </div>
+                                <div className="w-50 h-50 bg-gray-200 border border-dashed flex items-center border-gray-200 rounded-xl justify-center cursor-pointer hover:bg-gray-300 transition ">
+                                    <img src={Image} alt="" width={100} />
+                                </div>
+                                <div className="w-50 h-50 bg-gray-200 border border-dashed flex items-center border-gray-200 rounded-xl justify-center cursor-pointer hover:bg-gray-300 transition ">
+                                    <img src={Image} alt="" width={100} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                        <h2 className="text-red-500 text-[23px]">Absensi Pulang</h2>
+                        <div className="flex flex-col gap-3">
+                            <div className="flex justify-between items-center border-b border-gray-100 pb-2">
+                                <span className="text-gray-500 text-base mt-3">Status</span>
+                                <span className="text-black text-base">Pulang</span>
+                            </div>
+                            <div className="flex justify-between border-b border-gray-50 pb-2">
+                                <span className="text-gray-500 text-base">Jam Pulang</span>
+                                <span className="text-black text-base">4.17 PM</span>
+                            </div>
+                            <div className="flex justify-between border-b border-gray-50 pb-2">
+                                <span className="text-gray-500 text-base">Lokasi</span>
+                                <span className="text-black text-base">BRIN - PUSDATIN</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                        <span className="text-[16px] font-bold tracking-wider">Divisi</span>
+                        <div className="mt-2 p-3 pl-4 bg-gray-200 rounded-lg text-[15px] border border-gray-200">Software Development</div>
                     </div>
                 </div>
             </div>
