@@ -22,7 +22,7 @@ class JwtValidationPageMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $token = $request->cookie('access_token');
+        $token = $_COOKIE['access_token'] ?? null;
 
         if (! $token) {
             $this->logAuthFailure('JWT token missing.', $request, 'warning', [

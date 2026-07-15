@@ -35,9 +35,9 @@ Route::prefix('admin')
 ->middleware('jwt.page.validation')
 ->group(function (){
     global $mockuser;
-
-    Route::get('/daily_attendance', fn() => Inertia::render('Admin/Daily_Attendance'));
+    
     Route::get('/profile', fn() => Inertia::render('Admin/Admin_Profile'));
+    Route::get('/daily_attendance', fn() => Inertia::render('Admin/Daily_Attendance'));
     Route::get('/profile/edit', fn() => Inertia::render('Admin/Admin_Profile_Edit'));
     Route::get('/user-report/{name}', fn($name) => Inertia::render('Admin/AdminUserReport', ['studentName' => urldecode($name)]));
     Route::get('/user_registration', fn() => Inertia::render('Admin/User_Registration'));
