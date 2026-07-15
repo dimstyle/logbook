@@ -4,7 +4,7 @@ import ProfileIcon from "../../../../assets/download-removebg-preview.png"
 export default function Navbar({ children }: PropsWithChildren) {
     return(
     <>
-        <nav className="bg-[#FF5454] shadow-[0px_0px_10px_black] fixed w-full m-0 p-3 px-6 flex justify-between items-center">
+        <nav className="bg-[#FF5454] shadow-[0px_0px_10px_black] z-1000 fixed w-full m-0 p-3 px-6 flex justify-between items-center">
             <h1 className="font-freckle text-3xl text-white">Logbook</h1>
             <div className='flex items-center w-200 justify-end ml-auto'>{children}</div>
             <a href='/user_profile'>
