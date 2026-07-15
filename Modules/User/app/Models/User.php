@@ -3,9 +3,11 @@
 namespace Modules\User\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Modules\User\Database\Factories\UserFactory;
 
 #[Fillable([
     // account
@@ -20,4 +22,9 @@ use Illuminate\Notifications\Notifiable;
 ])]
 class User extends Model{
     use HasFactory, Notifiable;
+
+    protected static function newFactory(): Factory
+    {
+        return UserFactory::new();
+    }
 }
