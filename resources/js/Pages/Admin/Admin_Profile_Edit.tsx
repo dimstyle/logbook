@@ -38,7 +38,7 @@ export default function AdminProfileEdit() {
                                 </svg>
                             </div>
                         </label>
-                        <div className="flex flex-col w-full gap-4 ml-5 mt-10">
+                        <div className="flex flex-col w-full gap-4 ml-10 mt-10">
                             <h1 className="text-2xl">Nama</h1>
                             <input type="text" className="w-150 p-1.5 bg-[#666] rounded-lg text-white" />
                         </div>
