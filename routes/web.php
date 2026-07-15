@@ -14,75 +14,91 @@ $mockuser = [
 $currentUserId = 1;
 
 // User
-
-Route::get('/', fn() => Inertia::render('User/Home'));
 Route::get('/login', fn() => Inertia::render('User/Login'));
-Route::get('/clock-in', fn() => Inertia::render('User/Attendance_Clock-In'));
-Route::get('/user_profile', function () use ($mockuser, $currentUserId) {
-    $updatedName = session('updated_name');
 
-    $user = collect($mockuser)->firstWhere('id', $currentUserId);
-    if ($updatedName) {
-        $user['name'] = $updatedName;
-    }
 
-    return Inertia::render('User/User_Profile', [
-        'user' => $user
-    ]);
-});
-Route::get('/user_profile/edit', function () use ($mockuser, $currentUserId) {
-    $updatedName = session('updated_name');
+Route::prefix('/')
+->middleware('jwt.validation.page')
+->group(function (){
+    global $mockuser, $currentUserId;
 
-    $user = collect($mockuser)->firstWhere('id', $currentUserId);
-    if ($updatedName) {
-        $user['name'] = $updatedName;
-    }
-
-    return Inertia::render('User/User_Profile_Edit', [
-        'user' => $user
-    ]);
-});
-Route::post('/user/profile', function (Request $request) use ($mockuser, $currentUserId) {
-    $newName = trim($request->input('name'));
-
-    if (empty($newName)) {
-        return back()->withErrors(['name' => 'Nama tidak boleh kosong']);
-    }
-
-    $isDuplicate = collect($mockuser)->contains(function ($user) use($newName, $currentUserId) {
-        return $user['id'] !== $currentUserId && strtolower($user['name']) === strtolower($newName);
+    Route::get('/', fn() => Inertia::render('User/Home'));
+    Route::get('/clock-in', fn() => Inertia::render('User/Attendance_Clock-In'));
+    Route::get('/user_profile', function () use ($mockuser, $currentUserId) {
+        $updatedName = session('updated_name');
+    
+        $user = collect($mockuser)->firstWhere('id', $currentUserId);
+        if ($updatedName) {
+            $user['name'] = $updatedName;
+        }
+    
+        return Inertia::render('User/User_Profile', [
+            'user' => $user
+        ]);
     });
-
-    if ($isDuplicate) {
-        return back()->withErrors(['name' => 'Nama ini sudah digunakan oleh pengguna lain.']);
-    }
-
-    session(['updated_name' => $newName]);
-
-    return redirect('/user_profile');
+    Route::get('/user_profile/edit', function () use ($mockuser, $currentUserId) {
+        $updatedName = session('updated_name');
+    
+        $user = collect($mockuser)->firstWhere('id', $currentUserId);
+        if ($updatedName) {
+            $user['name'] = $updatedName;
+        }
+    
+        return Inertia::render('User/User_Profile_Edit', [
+            'user' => $user
+        ]);
+    });
+    Route::post('/user/profile', function (Request $request) use ($mockuser, $currentUserId) {
+        $newName = trim($request->input('name'));
+    
+        if (empty($newName)) {
+            return back()->withErrors(['name' => 'Nama tidak boleh kosong']);
+        }
+    
+        $isDuplicate = collect($mockuser)->contains(function ($user) use($newName, $currentUserId) {
+            return $user['id'] !== $currentUserId && strtolower($user['name']) === strtolower($newName);
+        });
+    
+        if ($isDuplicate) {
+            return back()->withErrors(['name' => 'Nama ini sudah digunakan oleh pengguna lain.']);
+        }
+    
+        session(['updated_name' => $newName]);
+    
+        return redirect('/user_profile');
+    });
+    Route::get('/report', fn() => Inertia::render('User/Attendance_ActivityReport'));
+    Route::get('/clock-out', fn() => Inertia::render('User/Attendance_Clock-Out'));
+    Route::get('/edit_report', fn() => Inertia::render('User/EditReport'));
+    Route::get('/view_report', fn() => Inertia::render('User/ViewReport'));
 });
-Route::get('/report', fn() => Inertia::render('User/Attendance_ActivityReport'));
-Route::get('/clock-out', fn() => Inertia::render('User/Attendance_Clock-Out'));
-Route::get('/edit_report', fn() => Inertia::render('User/EditReport'));
-Route::get('/view_report', fn() => Inertia::render('User/ViewReport'));
 
 // Admin
+Route::prefix('admin')
+->group(function (){
+    Route::get('/login', fn() => Inertia::render('Admin/Login'));
+});
 
-Route::get('/admin/login', fn() => Inertia::render('Admin/Login'));
-Route::get('/admin/daily_attendance', fn() => Inertia::render('Admin/Daily_Attendance'));
-Route::get('/admin/profile', fn() => Inertia::render('Admin/Admin_Profile'));
-Route::get('/admin/profile/edit', fn() => Inertia::render('Admin/Admin_Profile_Edit'));
-Route::get('/admin/user-report/{name}', fn($name) => Inertia::render('Admin/AdminUserReport', ['studentName' => urldecode($name)]));
-Route::get('/admin/user_registration', fn() => Inertia::render('Admin/User_Registration'));
-Route::get('/admin/user_list', fn() => Inertia::render('Admin/User_List'));
-Route::get('/admin/user_profile/{id}', function ($id) use ($mockuser) {
-    $selectedUser = collect($mockuser)->firstWhere('id', (int)$id);
-
-    if (!$selectedUser) {
-        abort(404, 'User Not Found.');
-    }
-
-    return Inertia::render('Admin/User_Profile', [
-        'user' => $selectedUser
-    ]);
+Route::prefix('admin')
+->middleware('jwt.page.validation')
+->group(function (){
+    global $mockuser;
+    
+    Route::get('/profile', fn() => Inertia::render('Admin/Admin_Profile'));
+    Route::get('/daily_attendance', fn() => Inertia::render('Admin/Daily_Attendance'));
+    Route::get('/profile/edit', fn() => Inertia::render('Admin/Admin_Profile_Edit'));
+    Route::get('/user-report/{name}', fn($name) => Inertia::render('Admin/AdminUserReport', ['studentName' => urldecode($name)]));
+    Route::get('/user_registration', fn() => Inertia::render('Admin/User_Registration'));
+    Route::get('/user_list', fn() => Inertia::render('Admin/User_List'));
+    Route::get('/user_profile/{id}', function ($id) use ($mockuser) {
+        $selectedUser = collect($mockuser)->firstWhere('id', (int)$id);
+    
+        if (!$selectedUser) {
+            abort(404, 'User Not Found.');
+        }
+    
+        return Inertia::render('Admin/User_Profile', [
+            'user' => $selectedUser
+        ]);
+    });
 });

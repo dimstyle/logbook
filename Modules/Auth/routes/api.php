@@ -10,5 +10,5 @@ Route::prefix('auth')
 ->group(function (){
     Route::post('/login', [LoginController::class, 'handle']);
     Route::post('/register', [RegisterController::class, 'handle'])->middleware(['jwt','role:admin']);
-    Route::post('/refresh', [RefreshTokenController::class, 'handle'])->middleware(['jwt']);
+    Route::post('/refresh', [RefreshTokenController::class, 'handle']);
 });

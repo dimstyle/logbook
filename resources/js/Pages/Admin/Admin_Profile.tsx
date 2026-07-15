@@ -3,7 +3,7 @@ import AdminNavbar from "../../Components/Admin/Navbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
 import EditIcon from "../../../../assets/edit-svgrepo-com.png"
 import { type getAdminProfileResponse } from "../types/user.js";
-import ErrorPage from "../ErrorPage.js";
+import ErrorPage from "../ui/ErrorPage.js";
 
 export default function AdminProfile() {
     const [ user, setUser ] = useState<getAdminProfileResponse>(); 
