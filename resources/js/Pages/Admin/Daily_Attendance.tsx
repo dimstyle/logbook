@@ -121,7 +121,21 @@ export default function DailyAttendance() {
                         }
 
                         return (
-                            <Link key={user.name} href={`/admin/user-report/${encodeURIComponent(user.name)}`} className="flex w-full p-5 bg-[#FFFFFF] rounded-lg">
+                            <Link 
+                                key={user.name} 
+                                href={`/admin/user-report/${encodeURIComponent(user.name)}`}
+                                data={{
+                                    school: user.school,
+                                    major: user.major,
+                                    attendance: user.attendance,
+                                    wfo: user.wfo,
+                                    report: user.report,
+                                    clockOut: user.clockOut,
+                                    time: user.time,
+                                    date: user.date
+                                }} 
+                                className="flex w-full p-5 bg-[#FFFFFF] rounded-lg"
+                            >
                                 <img src={ProfileIcon} alt="UserIcon" width={130} />
                                 <div className="flex flex-col w-full justify-center gap-3 ml-2">
                                     <h1 className="text-2xl">{user.name}</h1>

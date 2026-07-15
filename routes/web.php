@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 $mockuser = [
@@ -28,7 +29,12 @@ Route::get('/view_report', fn() => Inertia::render('User/ViewReport'));
 Route::get('/admin/login', fn() => Inertia::render('Admin/Login'));
 Route::get('/admin/daily_attendance', fn() => Inertia::render('Admin/Daily_Attendance'));
 Route::get('/admin/profile', fn() => Inertia::render('Admin/Admin_Profile'));
-Route::get('/admin/user-report/{name}', fn($name) => Inertia::render('Admin/AdminUserReport', ['studentName' => urldecode($name)]));
+Route::get('/admin/user-report/{name}', function ($name) {
+    return Inertia::render('Admin/AdminUserReport', [
+        'studentName' => urldecode($name),
+        'attendanceData' => request()->all()
+    ]);
+});
 Route::get('/admin/user_registration', fn() => Inertia::render('Admin/User_Registration'));
 Route::get('/admin/user_list', fn() => Inertia::render('Admin/User_List'));
 Route::get('/admin/user_profile/{id}', function ($id) use ($mockuser) {
