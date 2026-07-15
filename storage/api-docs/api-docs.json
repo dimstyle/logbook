@@ -399,7 +399,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/GetAdminProfileResponse"
+                                    "$ref": "#/components/schemas/GetListUsersInfoResponse"
                                 }
                             }
                         }
@@ -635,6 +635,38 @@
                             }
                         },
                         "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "GetListUsersInfoResponse": {
+                "required": [
+                    "message",
+                    "users"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "users": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "nama_lengkap": {
+                                    "type": "string"
+                                },
+                                "sekolah": {
+                                    "type": "string"
+                                },
+                                "jurusan": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
                 },
                 "type": "object"

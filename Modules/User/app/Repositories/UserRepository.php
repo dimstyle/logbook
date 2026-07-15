@@ -57,6 +57,7 @@ class UserRepository{
             return User::where('admin_id', $adminId)
             ->join('accounts', 'users.account_id' , '=', 'accounts.id')
             ->select(
+                'accounts.id',
                 'users.nama_lengkap',
                 'users.sekolah',
                 'users.jurusan',

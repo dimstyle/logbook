@@ -16,7 +16,7 @@ class GetListUsersInfoController extends Controller
     ){}
 
     #[OA\Get(
-        path: "/api/user/getlistusers",
+        path: "/api/user/getlistusersinfo",
         summary: "get admin profile data",
         tags: ['User']
     )]
@@ -24,7 +24,7 @@ class GetListUsersInfoController extends Controller
         response: 200,
         description: "Success to get user profile",
         content: new OA\JsonContent(
-            ref: "#/components/schemas/GetAdminProfileResponse"
+            ref: "#/components/schemas/GetListUsersInfoResponse"
         )
     )]
      #[OA\Response(
