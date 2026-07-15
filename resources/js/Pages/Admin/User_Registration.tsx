@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import AdminNavbar from "../../Components/Admin/Navbar.js";
 import api from "../../lib/axios.js";
-import type { ErrorMessage } from "../ErrorPage.js";
-import ErrorPage from "../ErrorPage.js";
+import type { ErrorMessage } from "../ui/ErrorPage.js";
+import ErrorPage from "../ui/ErrorPage.js";
 
 export default function UserRegistration() {
     const [error ,  setError] = useState("");

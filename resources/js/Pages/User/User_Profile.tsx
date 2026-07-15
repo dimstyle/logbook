@@ -3,14 +3,15 @@ import Navbar from "../../Components/User/Navbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png";
 import EditIcon from "../../../../assets/edit-svgrepo-com.png"
 import { type getUserProfileResponse } from "../types/user.js";
-import ErrorPage from "../ErrorPage.js";
+import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
+import LoadingPage from "../ui/LoadingPage.js";
 
 export default function Profile() {
     const isFetched = useRef(false);
     const [user, setUser] = useState<getUserProfileResponse>();
     const [error, setError] = useState("");
-
+    const [loading, setLoading] = useState(false);
     useEffect(()=>{
         if (isFetched.current) return;
         isFetched.current = true;
@@ -28,11 +29,15 @@ export default function Profile() {
                 const status = axiosError?.response?.status ?? 500;
 
                 setError(JSON.stringify({ message, status }));
+            }finally{
+                setLoading(false)
             }
-
-
         })()    
     })
+
+    if(loading){
+        return <LoadingPage />
+    }
 
     if (error){
         const errMessage = JSON.parse(error);
