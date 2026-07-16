@@ -78,7 +78,7 @@ Route::prefix('admin')
     Route::get('/profile', fn() => Inertia::render('Admin/Admin_Profile'));
     Route::get('/daily_attendance', fn() => Inertia::render('Admin/Daily_Attendance'));
     Route::get('/profile/edit', fn() => Inertia::render('Admin/Admin_Profile_Edit'));
-    Route::get('/admin/user-report/{name}', function ($name) {
+    Route::get('/user-report/{name}', function ($name) {
         return Inertia::render('Admin/AdminUserReport', [
             'studentName' => urldecode($name),
             'attendanceData' => request()->all()
