@@ -11,21 +11,30 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attendaces', function (Blueprint $table) {
+        Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('account_id')->constrained();
+            $table->foreignId('account_id')->constrained()->onDelete('cascade');
+            $table->date('date');
 
-            $table->boolean('sudah_hadir');
-            $table->time('jam_hadir');
-            $table->boolean('wfh');
+            $table->boolean('izin')->default(false);
+            $table->string('alasan_izin')->default('');
+
+            $table->boolean('sakit')->default(false);
+
+            $table->boolean('sudah_hadir')->default(false);
+            $table->time('jam_hadir')->nullable();
+            $table->boolean('wfh')->default(false);
                 
-            $table->boolean('sudah_pulang');
-            $table->time('jam_pulang');
+            $table->boolean('sudah_pulang')->default(false);
+            $table->time('jam_pulang')->nullable();
 
-            $table->boolean('sudah_laporan');
-            $table->string('laporan');
-            $table->json('images_path');
+            $table->boolean('sudah_laporan')->default(false);
+            $table->string('laporan')->default('');
+            $table->json('images_path')->default('[]');
+    
             $table->timestamps();
+
+            $table->unique(['account_id', 'date']);
         });
     }
 
@@ -34,6 +43,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendaces');
+        Schema::dropIfExists('attendances');
     }
 };

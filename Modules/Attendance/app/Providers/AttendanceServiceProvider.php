@@ -22,7 +22,9 @@ class AttendanceServiceProvider extends ModuleServiceProvider
      *
      * @var string[]
      */
-    // protected array $commands = [];
+    protected array $commands = [
+        \Modules\Attendance\Console\CreateDailyAttendance::class,
+    ];
 
     /**
      * Provider classes to register.
@@ -37,10 +39,11 @@ class AttendanceServiceProvider extends ModuleServiceProvider
     /**
      * Define module schedules.
      * 
-     * @param $schedule
+     * @param Schedule $schedule
      */
-    // protected function configureSchedules(Schedule $schedule): void
-    // {
-    //     $schedule->command('inspire')->hourly();
-    // }
+    protected function configureSchedules(Schedule $schedule): void
+    {
+        $schedule->command('attendance:daily-attendance')->dailyAt('06:00');
+    }
 }
+

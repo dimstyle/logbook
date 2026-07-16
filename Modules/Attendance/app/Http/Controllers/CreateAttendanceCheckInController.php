@@ -3,23 +3,77 @@
 namespace Modules\Attendance\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Modules\Attendance\DTO\CreateAttendanceCheckInDTO;
 use Modules\Attendance\Http\Requests\CreateAttendanceCheckInRequest;
 use Modules\Attendance\Services\CreateAttendanceCheckInService;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
+use OpenApi\Attributes as OA;
 
 class CreateAttendanceCheckInController extends Controller
 {
     public function __construct(
-        private CreateAttendanceCheckInService $createAttandanceCheckInService
+        private CreateAttendanceCheckInService $createAttendanceCheckInService
     ){}
 
+    
+    #[OA\Post(
+        path: "/api/attendance/createcheckin",
+        summary: "User check in",
+        tags: ["Attendance"]
+    )]
+    #[OA\RequestBody(
+        required: true,
+        content: new OA\JsonContent(
+            ref: "#/components/schemas/CreateAttendanceCheckInRequest"
+        )
+    )]
+    #[OA\Response(
+        response: 200, 
+        description: "Success to check in",
+        content: new OA\JsonContent(
+            ref: "#/components/schemas/DefaultResponse"
+        )
+    )]
+    #[OA\Response(
+        response: 401,
+        description: "Unauthorized",
+        content: new OA\JsonContent(
+            ref: "#/components/schemas/DefaultResponse"
+        )
+    )]
+    #[OA\Response(
+        response: 404,
+        description: "User not found",
+        content: new OA\JsonContent(
+            ref: "#/components/schemas/DefaultResponse"
+        )
+    )]
+    #[OA\Response(
+        response: 422,
+        description: "Unprocessable Content",
+        content: new OA\JsonContent(
+            ref: "#/components/schemas/MessageWithErrorResponse"
+        )
+    )]
+    #[OA\Response(
+        response: 500,
+        description: "Internal server error",
+        content: new OA\JsonContent(
+            ref: "#/components/schemas/DefaultResponse"
+        )
+    )]
     public function handle(CreateAttendanceCheckInRequest $request){
         $data = CreateAttendanceCheckInDTO::fromArray($request->validated());
 
         try{
-            $this->createAttandanceCheckInService->handle($data);
+            $this->createAttendanceCheckInService->handle($data);
+        }catch(ModelNotFoundException $e){
+            return response()->json([
+                'message' => 'User not found'
+            ], Response::HTTP_NOT_FOUND);
+
         }catch(Throwable $e){
             return response()->json([
                 'message' => 'Internal server error'

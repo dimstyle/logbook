@@ -82,5 +82,7 @@ Route::prefix('admin')
     });
     Route::get('/user_registration', fn() => Inertia::render('Admin/User_Registration'));
     Route::get('/user_list', fn() => Inertia::render('Admin/User_List'));
-    Route::get('/user_profile/{id}', fn() => Inertia::render('Admin/User_Profile'));
+    Route::get('/user_profile/{id}', fn($id) => Inertia::render('Admin/User_Profile',[
+        'id' => $id
+    ]));
 });

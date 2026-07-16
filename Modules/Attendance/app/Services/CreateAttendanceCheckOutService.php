@@ -2,28 +2,27 @@
 
 namespace Modules\Attendance\Services;
 
-use Modules\Attendance\DTO\CreateAttendanceCheckInDTO;
-use Modules\Attendance\Repositories\AttendanceRepository;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Modules\Attendance\DTO\CreateAttendanceCheckOutDTO;
+use Modules\Attendance\Repositories\AttendanceRepository;
 
-class CreateAttendanceCheckInService
+class CreateAttendanceCheckOutService
 {
     public function __construct(
         private AttendanceRepository $attendanceRepository
     ){}
 
-    public function handle(CreateAttendanceCheckInDTO $checkIn) {
+    public function handle(CreateAttendanceCheckOutDTO $checkOut) {
         $userAccount = Auth::user();
 
-        $this->attendanceRepository->createCheckInById(
+        $this->attendanceRepository->createCheckOutById(
             $userAccount->id, 
-            $checkIn->toArray()
+            $checkOut->toArray()
         );
 
         Log::info('Success to create Check In',[
             'account_id' => $userAccount
-        ]);
+        ]); 
     }
 }

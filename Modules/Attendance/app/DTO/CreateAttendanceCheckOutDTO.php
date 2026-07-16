@@ -3,11 +3,10 @@
 namespace Modules\Attendance\DTO;
 use Illuminate\Support\Collection;
 
-class CreateAttendanceCheckInDTO {
+class CreateAttendanceCheckOutDTO {
     public function __construct(
-        public bool $sudah_hadir,
-        public string $jam_hadir,
-        public bool $wfh
+        public bool $sudah_pulang,
+        public string $jam_pulang
     ){}
 
     public static function fromArray(array $data): self{
