@@ -4,13 +4,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-$mockuser = [
-    [ 'id' => 1 , 'name' => "Udin", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "udin1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => 20, 'notPresent' => 80, 'report' => 0 ],
-    [ 'id' => 2 , 'name' => "Tono", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "tono1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => 0, 'notPresent' => 100, 'report' => 9 ],
-    [ 'id' => 3 , 'name' => "Tony", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "tony1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => 10, 'notPresent' => 90, 'report' => 1 ],
-    [ 'id' => 4 , 'name' => "Ucup", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "ucup1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => -20, 'notPresent' => 100, 'report' => -10 ],
-    [ 'id' => 5 , 'name' => "Ucok", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "ucok1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => 90, 'notPresent' => 10, 'report' => 1000 ],
-];
 // User
 Route::get('/login', fn() => Inertia::render('User/Login'));
 
@@ -23,6 +16,35 @@ Route::prefix('/')
     Route::get('/clock-in', fn() => Inertia::render('User/Attendance_Clock-In'));
     Route::get('/user_profile',fn() => Inertia::render('User/User_Profile'));
     Route::get('/user_profile/edit', fn() => Inertia::render('User/User_Profile_Edit'));
+
+    Route::post('/user_profile/update', function (Request $request) {
+        $user = auth()->user() ?? \App\Models\User::find($request->input('id'));
+
+        if (!$user) {
+            return back()->withErrors(['message' => 'User Tidak Ditemukan']);
+        }
+
+        $validated = $request->validate([
+            'nama_lengkap'  => 'required|string|max:255',
+            'sekolah'       => 'nullable|string|max:255',
+            'jurusan'       => 'nullable|string|max:255',
+            'nomor_telepon' => 'nullable|string|max:20',
+            'email'         => 'required|string|email|max:255|unique:users,email,'.$user->id,
+            'username'      => 'required|string|max:255|unique:users,username,'.$user->id,
+            'password'      => 'nullable|string|min:8',
+        ]);
+
+        if (!empty($validated['password'])) {
+            $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        $user->update($validated);
+
+        return redirect('/user_profile')->with('message', 'Profil berhasil diperbaharui!');
+    });
+
     Route::get('/report', fn() => Inertia::render('User/Attendance_ActivityReport'));
     Route::get('/clock-out', fn() => Inertia::render('User/Attendance_Clock-Out'));
     Route::get('/edit_report', fn() => Inertia::render('User/EditReport'));
