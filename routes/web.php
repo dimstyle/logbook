@@ -4,16 +4,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-$mockuser = [
-    [ 'id' => 1 , 'name' => "Udin", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "udin1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => 20, 'notPresent' => 80, 'report' => 0 ],
-    [ 'id' => 2 , 'name' => "Tono", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "tono1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => 0, 'notPresent' => 100, 'report' => 9 ],
-    [ 'id' => 3 , 'name' => "Tony", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "tony1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => 10, 'notPresent' => 90, 'report' => 1 ],
-    [ 'id' => 4 , 'name' => "Ucup", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "ucup1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => -20, 'notPresent' => 100, 'report' => -10 ],
-    [ 'id' => 5 , 'name' => "Ucok", 'username' => "testwoy1945", 'role' => "Siswa SMK" , 'email' => "ucok1945@gmail.com", 'school' => "SMK Letris 2 Pamulang", 'major' => "Rekayasa Perangkat Lunak", 'noHP' => "0821", 'password' => "Hytam", 'attendance' => 90, 'notPresent' => 10, 'report' => 1000 ],
-];
-
-$currentUserId = 1;
-
 // User
 Route::get('/login', fn() => Inertia::render('User/Login'));
 
@@ -21,43 +11,40 @@ Route::get('/login', fn() => Inertia::render('User/Login'));
 Route::prefix('/')
 ->middleware('jwt.page.validation:user')
 ->group(function (){
-    global $mockuser, $currentUserId;
     
     Route::get('/', fn() => Inertia::render('User/Home'));
     Route::get('/clock-in', fn() => Inertia::render('User/Attendance_Clock-In'));
     Route::get('/user_profile',fn() => Inertia::render('User/User_Profile'));
+    Route::get('/user_profile/edit', fn() => Inertia::render('User/User_Profile_Edit'));
 
-    Route::get('/user_profile/edit', function () use ($mockuser, $currentUserId) {
-        $updatedName = session('updated_name');
-    
-        $user = collect($mockuser)->firstWhere('id', $currentUserId);
-        if ($updatedName) {
-            $user['name'] = $updatedName;
+    Route::post('/user_profile/update', function (Request $request) {
+        $user = auth()->user() ?? \App\Models\User::find($request->input('id'));
+
+        if (!$user) {
+            return back()->withErrors(['message' => 'User Tidak Ditemukan']);
         }
-    
-        return Inertia::render('User/User_Profile_Edit', [
-            'user' => $user
+
+        $validated = $request->validate([
+            'nama_lengkap'  => 'required|string|max:255',
+            'sekolah'       => 'nullable|string|max:255',
+            'jurusan'       => 'nullable|string|max:255',
+            'nomor_telepon' => 'nullable|string|max:20',
+            'email'         => 'required|string|email|max:255|unique:users,email,'.$user->id,
+            'username'      => 'required|string|max:255|unique:users,username,'.$user->id,
+            'password'      => 'nullable|string|min:8',
         ]);
-    });
-    Route::post('/user/profile', function (Request $request) use ($mockuser, $currentUserId) {
-        $newName = trim($request->input('name'));
-    
-        if (empty($newName)) {
-            return back()->withErrors(['name' => 'Nama tidak boleh kosong']);
+
+        if (!empty($validated['password'])) {
+            $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
         }
-    
-        $isDuplicate = collect($mockuser)->contains(function ($user) use($newName, $currentUserId) {
-            return $user['id'] !== $currentUserId && strtolower($user['name']) === strtolower($newName);
-        });
-    
-        if ($isDuplicate) {
-            return back()->withErrors(['name' => 'Nama ini sudah digunakan oleh pengguna lain.']);
-        }
-    
-        session(['updated_name' => $newName]);
-    
-        return redirect('/user_profile');
+
+        $user->update($validated);
+
+        return redirect('/user_profile')->with('message', 'Profil berhasil diperbaharui!');
     });
+
     Route::get('/report', fn() => Inertia::render('User/Attendance_ActivityReport'));
     Route::get('/clock-out', fn() => Inertia::render('User/Attendance_Clock-Out'));
     Route::get('/edit_report', fn() => Inertia::render('User/EditReport'));
@@ -77,8 +64,8 @@ Route::prefix('admin')
     Route::get('/profile', fn() => Inertia::render('Admin/Admin_Profile'));
     Route::get('/daily_attendance', fn() => Inertia::render('Admin/Daily_Attendance'));
     Route::get('/profile/edit', fn() => Inertia::render('Admin/Admin_Profile_Edit'));
-    Route::get('/user-report/{name}', function ($name) {
-        return Inertia::render('Admin/AdminUserReport', [
+    Route::get('/user_report/{name}', function ($name) {
+        return Inertia::render('Admin/Admin_User_Report', [
             'studentName' => urldecode($name),
             'attendanceData' => request()->all()
         ]);

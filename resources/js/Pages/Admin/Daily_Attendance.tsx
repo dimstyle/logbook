@@ -12,15 +12,16 @@ interface User {
     report: boolean,
     clockOut: boolean,
     time: string,
-    date: string
+    date: string,
+    clockOutTime: string,
 }
 
 const MOCK_USER: User[] = [
-    { name: "Udin", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak", attendance: "Hadir", wfo: true, report: true, clockOut: true, time: "07:00" , date: "Today" },
-    { name: "Tono", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak", attendance: "Sakit", wfo: false, report: false, clockOut: false, time: "08:00" , date: "Today" },
-    { name: "Tony", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak", attendance: "Izin", wfo: false, report: false, clockOut: false, time: "08:20" , date: "Yesterday" },
-    { name: "Ucup", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak", attendance: "Hadir", wfo: false, report: false, clockOut: false, time: "04:00" , date: "July, 10" },
-    { name: "Ucok", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak", attendance: "Belum", wfo: false, report: false, clockOut: false, time: "01:00" , date: "July, 9" },
+    { name: "Udin", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak", attendance: "Hadir", wfo: true, report: true, clockOut: true, time: "07:00" , date: "Today", clockOutTime: "04.15" },
+    { name: "Tono", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak", attendance: "Sakit", wfo: false, report: false, clockOut: false, time: "08:00" , date: "Today", clockOutTime: "-" },
+    { name: "Tony", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak", attendance: "Izin", wfo: false, report: false, clockOut: false, time: "08:20" , date: "Yesterday", clockOutTime: "-" },
+    { name: "Ucup", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak", attendance: "Hadir", wfo: false, report: false, clockOut: false, time: "04:00" , date: "July, 10", clockOutTime: "-" },
+    { name: "Ucok", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak", attendance: "Belum", wfo: false, report: false, clockOut: false, time: "01:00" , date: "July, 9", clockOutTime: "-" },
 ]
 
 export default function DailyAttendance() {
@@ -123,7 +124,7 @@ export default function DailyAttendance() {
                         return (
                             <Link 
                                 key={user.name} 
-                                href={`/admin/user-report/${encodeURIComponent(user.name)}`}
+                                href={`/admin/user_report/${encodeURIComponent(user.name)}`}
                                 data={{
                                     school: user.school,
                                     major: user.major,
@@ -132,7 +133,8 @@ export default function DailyAttendance() {
                                     report: user.report,
                                     clockOut: user.clockOut,
                                     time: user.time,
-                                    date: user.date
+                                    date: user.date,
+                                    clockOutTime: user.clockOutTime,
                                 }} 
                                 className="flex w-full p-5 bg-[#FFFFFF] rounded-lg"
                             >
