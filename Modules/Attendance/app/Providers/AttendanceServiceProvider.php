@@ -39,10 +39,11 @@ class AttendanceServiceProvider extends ModuleServiceProvider
     /**
      * Define module schedules.
      * 
-     * @param $schedule
+     * @param Schedule $schedule
      */
-    // protected function configureSchedules(Schedule $schedule): void
-    // {
-    //     $schedule->command('inspire')->hourly();
-    // }
+    protected function configureSchedules(Schedule $schedule): void
+    {
+        $schedule->command('attendance:daily-attendance')->dailyAt('06:00');
+    }
 }
+

@@ -33,7 +33,10 @@ class CreateDailyAttendance extends Command
             }
 
             $attendance = Attendance::firstOrCreate(
-                ['account_id' => $user->account_id],
+                [
+                    'account_id' => $user->account_id,
+                    'date' => now()->toDateString(),
+                ],
                 [
                     'izin' => false,
                     'alasan_izin' => '',

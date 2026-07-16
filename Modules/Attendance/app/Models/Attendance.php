@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 #[Fillable([
     'account_id',
+    'date',
     'izin',
     'alasan_izin',
     'sakit',
@@ -22,12 +23,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 ])]
 class Attendance extends Model
 {
-    use HasFactory;
-
-    protected $table = 'attendances';
-
     protected $casts = [
         'account_id' => 'integer',
+        'date' => 'date',
         'izin' => 'boolean',
         'sakit' => 'boolean',
         'sudah_hadir' => 'boolean',
@@ -36,4 +34,8 @@ class Attendance extends Model
         'sudah_laporan' => 'boolean',
         'images_path' => 'array',
     ];
+    use HasFactory;
+
+    protected $table = 'attendances';
+
 }
