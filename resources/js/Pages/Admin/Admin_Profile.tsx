@@ -1,13 +1,16 @@
-import { useEffect, useState, useRef, useEffectEvent } from "react";
+import { useEffect, useState, useRef } from "react";
 import AdminNavbar from "../../Components/Admin/Navbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
 import EditIcon from "../../../../assets/edit-svgrepo-com.png"
-import { type getAdminProfileResponse } from "../types/user.js";
+import { type getAdminProfileResponse } from "../../types/user.js";
 import ErrorPage from "../ui/ErrorPage.js";
+import api from "../../lib/axios.js";
+import LoadingPage from "../ui/LoadingPage.js";
 
 export default function AdminProfile() {
     const [ user, setUser ] = useState<getAdminProfileResponse>(); 
     const [ error, setError ] = useState("");
+    const [ loading, setLoading ] = useState(true);
     const isFetched = useRef(false);
 
     useEffect(()=>{
@@ -16,36 +19,27 @@ export default function AdminProfile() {
 
         ;(async ()=>{
             try{
-                const response = await fetch('/api/user/getadminprofile',{
-                    method: 'GET',
-                    credentials: 'include'
-                });
-    
-                const resData: getAdminProfileResponse = await response.json();
-    
-                if(!response.ok){
-                    console.log('haha')
-                    throw new Error(JSON.stringify({
-                        message: resData?.message,
-                        status: response.status
-                    }))
-                }
-                
-                setUser(resData)
+                const response = await api.get<getAdminProfileResponse>('/api/user/getadminprofile');
+                setUser(response.data);
             }catch(err: unknown){
-                if (err instanceof Error){
-                    setError(err.message)
-                    return;
-                }
-                setError(String(error));
+                const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
+                const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
+                const status = axiosError?.response?.status ?? 500;
+
+                setError(JSON.stringify({ message, status }));
+            }finally{
+                setLoading(false);
             }
         })();
+    });
 
-    })
-    
-    if(error){
+    if (loading) {
+        return  <LoadingPage />
+    }
+
+    if (error) {
         const errorMessage = JSON.parse(error);
-        return <ErrorPage errorMessage={errorMessage} />
+        return <ErrorPage errorMessage={errorMessage} backPath="/admin/login" />;
     }
 
     const AdminData = user?.admin;

@@ -16,6 +16,12 @@ class RegisterRequest extends FormRequest
             'username' => ['required','string'],
             'email' => ['required', 'email',Rule::unique('accounts','email')],
             'password' => ['required', 'string', 'min:8'],
+            'nama_lengkap' => ['required', 'string'],
+            'sekolah' => ['required', 'string'],
+            'jurusan' => ['required', 'string'],
+            'nomor_telepon' => ['required', 'string'],
+            'periode_awal' => ['required', 'date'],
+            'periode_akhir' => ['required', 'date']
         ];
     }
 

@@ -18,6 +18,10 @@ class RegisterService{
     public function handle(RegisterDTO $userData): int{
         $admin = Auth::user();
 
+        if (! $admin) {
+            throw new \RuntimeException('Authenticated admin is required to register a user.');
+        }
+
         $this->MakeHashedPassword($userData);
 
         $account = $this->authRepository->createAccount($userData->toArray(), $admin->id);

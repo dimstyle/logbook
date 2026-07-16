@@ -1,13 +1,20 @@
 <?php 
 
 namespace Modules\Auth\DTO;
+
 use Illuminate\Support\Collection;
 
 class RegisterDTO {
     public function __construct(
         public string $username,
         public string $email,
-        public string $password
+        public string $password,
+        public string $nama_lengkap,
+        public string $sekolah,
+        public string $jurusan,
+        public string $nomor_telepon,
+        public string $periode_awal,
+        public string $periode_akhir
     ){}
 
     public static function fromArray(array $data): self{

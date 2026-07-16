@@ -1,8 +1,12 @@
 import AdminNavbar from "../../Components/Admin/Navbar.js";
-import React, { useState, type ChangeEvent } from "react";
+import React, { useState, useEffect, useRef , type ChangeEvent } from "react";
 import { Link } from "@inertiajs/react";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
 import ViewIcon from "../../../../assets/view-eye-svgrepo-com.png"
+import LoadingPage from "../ui/LoadingPage.js";
+import ErrorPage from "../ui/ErrorPage.js";
+import api from "../../lib/axios.js";
+import { type getListUsersInfoResponse } from "../../types/user.js";
 
 interface User {
     id: number,
@@ -12,30 +16,56 @@ interface User {
     major: string
 }
 
-const MOCK_USERS: User[] = [
-    { id: 1 , name: "Udin", email: "udin1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
-    { id: 2 , name: "Tono", email: "tono1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
-    { id: 3 , name: "Tony", email: "tony1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
-    { id: 4 , name: "Ucup", email: "ucup1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
-    { id: 5 , name: "Ucok", email: "ucok1945@gmail.com", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak" },
-]
 
 export default function UserList() {
     const [searchQuery, setSearchQuery] = useState<string>("");
-        
-        const handleSearchChange = (event: ChangeEvent<HTMLInputElement>): void => {
-            setSearchQuery(event.target.value);
-        }
     
-        const filteredUser = MOCK_USERS.filter((user) => {
-            const lowercaseQuery = searchQuery.toLocaleLowerCase();
-            return (
-                user.name.toLocaleLowerCase().includes(lowercaseQuery) ||
-                user.email.toLocaleLowerCase().includes(lowercaseQuery) ||
-                user.school.toLocaleLowerCase().includes(lowercaseQuery) ||
-                user.major.toLocaleLowerCase().includes(lowercaseQuery)
-            )
-        })
+    const [ users, setUsers ] = useState<getListUsersInfoResponse>();
+    const [ error, setError ] = useState("");
+    const [ loading, setLoading ] = useState(true);
+    const isFetched = useRef(false);
+
+    useEffect(()=>{
+        if(isFetched.current) return;
+        isFetched.current = true;
+
+        ;(async()=>{
+            try{
+                const response = await api.get<getListUsersInfoResponse>('/api/user/getlistusersinfo');
+                setUsers(response.data);
+            }catch(err: unknown){
+                const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
+                const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
+                const status = axiosError?.response?.status ?? 500;
+
+                setError(JSON.stringify({ message, status }));
+            }finally{
+                setLoading(false);
+            }
+        })();
+    })
+        
+    const handleSearchChange = (event: ChangeEvent<HTMLInputElement>): void => {
+        setSearchQuery(event.target.value);
+    }
+
+    const filteredUser = (users?.users ?? []).filter((user) => {
+        const lowercaseQuery = searchQuery.toLocaleLowerCase();
+        return (
+            user.nama_lengkap.toLocaleLowerCase().includes(lowercaseQuery) ||
+            user.email.toLocaleLowerCase().includes(lowercaseQuery) ||
+            user.sekolah.toLocaleLowerCase().includes(lowercaseQuery) ||
+            user.jurusan.toLocaleLowerCase().includes(lowercaseQuery)
+        )
+    })
+
+    if (loading){
+        return <LoadingPage />
+    }
+
+    if (error) {
+        return <ErrorPage />
+    }
 
     return (
         <>
@@ -56,11 +86,11 @@ export default function UserList() {
                             <div className="flex w-full items-center p-5 bg-[#FFFFFF] rounded-lg">
                                 <img src={ProfileIcon} alt="UserIcon" width={130} />
                                 <div className="flex flex-col w-full gap-3 ml-2">
-                                    <h1 className="text-2xl">{user.name}</h1>
+                                    <h1 className="text-2xl">{user.nama_lengkap}</h1>
                                     <div className="flex gap-2">
-                                        <h2>{user.school}</h2>
+                                        <h2>{user.sekolah}</h2>
                                         <h1>•</h1>
-                                        <h2>{user.major}</h2>
+                                        <h2>{user.jurusan}</h2>
                                     </div>
                                 </div>
                                 <div className="flex flex-col w-full items-end">

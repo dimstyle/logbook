@@ -7,17 +7,6 @@ use Throwable;
 use Illuminate\Support\Facades\Log;
 
 class UserRepository{
-    public function createUser(array $userData){
-        try{
-            User::where('account_id',$userData['account_id'])->update($userData);
-        }catch(Throwable $e){
-            Log::error("Failed to create data",[
-                'exception' => $e 
-            ]);
-            throw $e;
-        }
-    }
-
     public function getUserByAccountId(int $accountId): User{
         try{
             return User::where('account_id', $accountId)->firstOrFail();
@@ -57,6 +46,7 @@ class UserRepository{
             return User::where('admin_id', $adminId)
             ->join('accounts', 'users.account_id' , '=', 'accounts.id')
             ->select(
+                'accounts.id',
                 'users.nama_lengkap',
                 'users.sekolah',
                 'users.jurusan',
