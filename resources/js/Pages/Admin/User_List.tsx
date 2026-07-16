@@ -8,15 +8,6 @@ import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
 import { type getListUsersInfoResponse } from "../../types/user.js";
 
-interface User {
-    id: number,
-    name: string,
-    email: string,
-    school: string,
-    major: string
-}
-
-
 export default function UserList() {
     const [searchQuery, setSearchQuery] = useState<string>("");
     
@@ -66,7 +57,7 @@ export default function UserList() {
     if (error) {
         return <ErrorPage />
     }
-
+    console.log(filteredUser)
     return (
         <>
             <AdminNavbar>

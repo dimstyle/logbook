@@ -5,12 +5,14 @@ use Illuminate\Support\Facades\Route;
 use Modules\User\Http\Controllers\GetAdminProfileController;
 use Modules\User\Http\Controllers\GetListUsersInfoController;
 use Modules\User\Http\Controllers\GetUserProfileController;
+use Modules\User\Http\Controllers\GetUserProfileOnAdminController;
 
 Route::prefix('user')
 ->middleware(['jwt', 'role:admin'])
 ->group(function (){
     Route::get('/getadminprofile',[GetAdminProfileController::class, 'handle']);
     Route::get('/getlistusersinfo',[GetListUsersInfoController::class, 'handle']);
+    Route::get('/getuserprofileonadmin/{id}', [GetUserProfileOnAdminController::class, 'handle']);
 });
 
 
