@@ -25,9 +25,8 @@ class SeedUsers extends Command
      */
     public function handle(): int
     {
-        $this->info('Seeding user accounts...');
-
-        $class = \Modules\User\Database\Seeders\UserDatabaseSeeder::class;
+        $this->info('Starting user seeder...');
+        $class = \Modules\Auth\Database\Seeders\UserDatabaseSeeder::class;
 
         $params = ['--class' => $class];
         if ($this->option('force')) {

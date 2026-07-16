@@ -22,7 +22,7 @@ Route::prefix('/')
 ->middleware('jwt.page.validation:user')
 ->group(function (){
     global $mockuser, $currentUserId;
-
+    
     Route::get('/', fn() => Inertia::render('User/Home'));
     Route::get('/clock-in', fn() => Inertia::render('User/Attendance_Clock-In'));
     Route::get('/user_profile',fn() => Inertia::render('User/User_Profile'));
@@ -77,7 +77,7 @@ Route::prefix('admin')
     Route::get('/profile', fn() => Inertia::render('Admin/Admin_Profile'));
     Route::get('/daily_attendance', fn() => Inertia::render('Admin/Daily_Attendance'));
     Route::get('/profile/edit', fn() => Inertia::render('Admin/Admin_Profile_Edit'));
-    Route::get('/admin/user-report/{name}', function ($name) {
+    Route::get('/user-report/{name}', function ($name) {
         return Inertia::render('Admin/AdminUserReport', [
             'studentName' => urldecode($name),
             'attendanceData' => request()->all()
