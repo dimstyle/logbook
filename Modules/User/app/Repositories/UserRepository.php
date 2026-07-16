@@ -1,6 +1,8 @@
 <?php
 namespace Modules\User\Repositories;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
+use Modules\Auth\Models\Account;
 use Modules\User\Models\Admin;
 use Modules\User\Models\User;
 use Throwable;
@@ -54,6 +56,23 @@ class UserRepository{
             )->get();
         }catch(Throwable $e){
             Log::error("Failed to get list users",[
+                'exception' => $e
+            ]);
+            throw $e;
+        }
+    }
+
+    public function updateUserByAccountID(array $accountData, array $userData, int $accountId){
+        try{
+            DB::beginTransaction();
+            
+            User::where('account_id',$accountId)->update($userData);
+            Account::where('id', $accountId)->update($accountData);
+
+            DB::commit();
+        }catch(Throwable $e){
+            DB::rollBack();
+            Log::error("Failed to create data",[
                 'exception' => $e
             ]);
             throw $e;

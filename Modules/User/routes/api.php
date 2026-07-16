@@ -6,6 +6,7 @@ use Modules\User\Http\Controllers\GetAdminProfileController;
 use Modules\User\Http\Controllers\GetListUsersInfoController;
 use Modules\User\Http\Controllers\GetUserProfileController;
 use Modules\User\Http\Controllers\GetUserProfileOnAdminController;
+use Modules\User\Http\Controllers\UpdateUserProfileController;
 
 Route::prefix('user')
 ->middleware(['jwt', 'role:admin'])
@@ -17,7 +18,8 @@ Route::prefix('user')
 
 
 Route::prefix('user')
-->middleware('jwt')
+->middleware(['jwt','role:user'])
 ->group(function (){
     Route::get('/getuserprofile', [GetUserProfileController::class, 'handle']);
+    Route::patch('/updateuserprofile', [UpdateUserProfileController::class, 'handle']);
 });

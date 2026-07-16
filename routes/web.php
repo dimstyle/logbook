@@ -16,45 +16,6 @@ Route::prefix('/')
     Route::get('/clock-in', fn() => Inertia::render('User/Attendance_Clock-In'));
     Route::get('/user_profile',fn() => Inertia::render('User/User_Profile'));
     Route::get('/user_profile/edit', fn() => Inertia::render('User/User_Profile_Edit'));
-
-    Route::post('/user_profile/update', function (Request $request) {
-        $userId = $request->input('id');
-
-        if (!$userId) {
-            return back()->withErrors(['message' => 'User Tidak Ditemukan']);
-        }
-
-        $validated = $request->validate([
-            'nama_lengkap'  => 'required|string|max:255',
-            'sekolah'       => 'nullable|string|max:255',
-            'jurusan'       => 'nullable|string|max:255',
-            'nomor_telepon' => 'nullable|string|max:20',
-            'email'         => 'required|string|email|max:255|unique:users,email,'.$userId,
-            'username'      => 'required|string|max:255|unique:users,username,'.$userId,
-            'password'      => 'nullable|string|min:8',
-        ]);
-
-        $updatedData = [
-            'nama_lengkap'  => $validated['nama_lengkap'],
-            'sekolah'       => $validated['sekolah'],
-            'jurusan'       => $validated['jurusan'],
-            'nomor_telepon' => $validated['nomor_telepon'],
-            'email'         => $validated['email'],
-            'username'      => $validated['username'],
-            'updated_at'    => now(),
-        ];
-
-        if (!empty($validated['password'])) {
-            $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
-        }
-
-        DB::table('users')
-            ->where('id', $userId)
-            ->update($updatedData);
-
-        return redirect('/user_profile')->with('message', 'Profil berhasil diperbaharui!');
-    });
-
     Route::get('/report', fn() => Inertia::render('User/Attendance_ActivityReport'));
     Route::get('/clock-out', fn() => Inertia::render('User/Attendance_Clock-Out'));
     Route::get('/edit_report', fn() => Inertia::render('User/EditReport'));

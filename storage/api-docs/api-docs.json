@@ -559,6 +559,77 @@
                     }
                 }
             }
+        },
+        "/api/user/updateuserprofile": {
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create admin information",
+                "operationId": "3271e7fc7ec5e70ee3d920cfe654c6ba",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserProfileRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success to update user profile",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -918,6 +989,32 @@
                     },
                     "account_id": {
                         "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateUserProfileRequest": {
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "nama_lengkap": {
+                        "type": "string"
+                    },
+                    "sekolah": {
+                        "type": "string"
+                    },
+                    "jurusan": {
+                        "type": "string"
+                    },
+                    "nomor_telepon": {
+                        "type": "string"
                     }
                 },
                 "type": "object"

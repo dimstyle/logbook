@@ -54,3 +54,13 @@ export interface getListUsersInfoResponse{
         email: string 
     }[]
 }
+
+export interface UpdateUserProfileRequest {
+    username: string;
+    email: string;
+    password: string;
+    nama_lengkap: string;
+    sekolah: string;
+    jurusan: string;
+    nomor_telepon: string;
+};

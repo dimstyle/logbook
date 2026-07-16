@@ -1,7 +1,7 @@
 import Navbar from "../../Components/User/Navbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png";
 import React, { useEffect, useRef, useState } from "react";
-import { type getUserProfileResponse } from "../../types/user.js";
+import { type getUserProfileResponse, type UpdateUserProfileRequest } from "../../types/user.js";
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
@@ -12,15 +12,14 @@ export default function UserProfileEdit() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const { data, setData, post, processing, errors} = useForm({
-        id: "",
+    const { data, setData, patch, processing, errors, transform} = useForm<UpdateUserProfileRequest>({
+        username: "",
+        email: "",
+        password: "",
         nama_lengkap: "",
         sekolah: "",
         jurusan: "",
-        email: "",
-        nomor_telepon: "",
-        username: "",
-        password: ""
+        nomor_telepon: ""
     })
 
     useEffect(()=>{
@@ -34,7 +33,6 @@ export default function UserProfileEdit() {
 
                 if (currentUser) {
                     setData({
-                        id: currentUser.id || "",
                         nama_lengkap: currentUser.nama_lengkap || "",
                         sekolah: currentUser.sekolah || "",
                         jurusan: currentUser.jurusan || "",
@@ -57,8 +55,16 @@ export default function UserProfileEdit() {
     })
 
     const handleSubmit = async (e:React.FormEvent) => {
-        e.preventDefault()
-        post('/user_profile/update', {
+        e.preventDefault();
+
+        transform((data: UpdateUserProfileRequest) =>
+            Object.fromEntries(
+                Object.entries(data).filter(([_, value]) => {
+                    return value !== "" && value !== null && value !== undefined;
+                })
+            )
+        );
+        patch('/api/user/updateuserprofile', {
             onSucces: () => alert("Profil berhasil diubah!"),
             onError: (err: unknown) => console.log("Gagal: ", err)
         })
