@@ -22,7 +22,9 @@ class AttendanceServiceProvider extends ModuleServiceProvider
      *
      * @var string[]
      */
-    // protected array $commands = [];
+    protected array $commands = [
+        \Modules\Attendance\Console\CreateDailyAttendance::class,
+    ];
 
     /**
      * Provider classes to register.

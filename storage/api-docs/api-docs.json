@@ -11,6 +11,77 @@
         }
     ],
     "paths": {
+        "/api/attendance/createcheckin": {
+            "post": {
+                "tags": [
+                    "Attendance"
+                ],
+                "summary": "User check in",
+                "operationId": "1e98d9c05eea27c7ce9c1e139ca01636",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateAttendanceCheckInRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success to check in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/auth/login": {
             "post": {
                 "tags": [
@@ -511,6 +582,26 @@
                 },
                 "type": "object"
             },
+            "CreateAttendanceCheckInRequest": {
+                "required": [
+                    "sudah_hadir",
+                    "jam_hadir",
+                    "wfh"
+                ],
+                "properties": {
+                    "sudah_hadir": {
+                        "type": "boolean"
+                    },
+                    "jam_hadir": {
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "wfh": {
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
             "DefaultResponse": {
                 "required": [
                     "message"
@@ -841,6 +932,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Attendance",
+            "description": "Attendance"
+        },
         {
             "name": "Auth",
             "description": "Auth"
