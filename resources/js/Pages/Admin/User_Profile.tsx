@@ -2,11 +2,15 @@ import AdminNavbar from "../../Components/Admin/Navbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png";
 import { useEffect, useRef, useState } from "react";
 import type { getUserProfileResponse } from "../../types/user.js";
+import { usePage } from "@inertiajs/react";
 import api from "../../lib/axios.js";
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 
+
 export default function UserProfileOnAdmin() {
+    const { id } = usePage().props;
+
     const isFetched = useRef(false);
     const [user, setUser] = useState<getUserProfileResponse>();
     const [error, setError] = useState("");
@@ -17,7 +21,7 @@ export default function UserProfileOnAdmin() {
 
         ;(async ()=>{
             try{
-                const response = await api.get<getUserProfileResponse>('/api/user/getuserprofile');
+                const response = await api.get<getUserProfileResponse>(`/api/user/getuserprofileonadmin/${id}`);
                 const resData = response.data;
 
                 setUser(resData);
