@@ -63,7 +63,7 @@ export default function AdminProfile() {
                             <h2 className="text-[#FF5454] text-xl">{AdminData?.role}</h2>
                         </div>
                         <div className="flex w-full justify-end mr-10">
-                            <a href="" className="flex items-center gap-2 bg-[#F3E8FF] p-2 rounded-xl text-[#7C3AED]">Edit <img src={EditIcon} alt="EditIcon" width={20} /></a>
+                            <a href="/admin/profile/edit" className="flex items-center gap-2 bg-[#F3E8FF] p-2 rounded-xl text-[#7C3AED]">Edit <img src={EditIcon} alt="EditIcon" width={20} /></a>
                         </div>
                     </div>
                     <div className="flex flex-col mx-5 mt-20">
