@@ -13,7 +13,8 @@ class CreateAttendanceCheckInRequest extends FormRequest
     {
         return [
             'sudah_hadir' => ['required', 'boolean'],
-            'jam_hadir' => ['required', 'date_format:H:i']
+            'jam_hadir' => ['required', 'date_format:H:i'],
+            'wfh' => ['required', 'boolean']
         ];
     }
 
