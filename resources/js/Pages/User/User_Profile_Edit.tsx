@@ -3,26 +3,7 @@ import ProfileIcon from "../../../../assets/download-removebg-preview.png";
 import React from "react";
 import { useForm, Link } from "@inertiajs/react";
 
-interface User {
-    id: number;
-    name: string
-}
-
-interface Props {
-    user: User
-}
-
-export default function UserProfileEdit({ user }: Props) {
-    const { data, setData, post, processing, errors } = useForm({
-        name: user.name
-    })
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-
-        post('/user_profile');
-    }
-
+export default function UserProfileEdit() {
     return (
         <>
             <Navbar>
@@ -61,31 +42,7 @@ export default function UserProfileEdit({ user }: Props) {
                         </label>
                         <div className="flex flex-col w-full gap-4 ml-10 mt-10">
                             <h1 className="text-2xl">Nama</h1>
-                            <form onSubmit={handleSubmit}>
-                                <div>
-                                    <label htmlFor="name" className="block">Nama Baru:</label>
-                                    <input
-                                        id="name"
-                                        type="text"
-                                        value={data.name}
-                                        onChange={(e) => setData('name', e.target.value)}
-                                        className="w-150 p-1.5 bg-[#666] rounded-lg text-white"
-                                    />
-                                    {errors.name && (
-                                        <span style={{ color: 'red', fontSize: '14px', display: 'block', marginTop: '4px' }}>
-                                            {errors.name}
-                                        </span>
-                                    )}
-                                </div>
-                                <div className="flex mt-5">
-                                    <button type="submit" disabled={processing} style={{ padding: '6px 12px' }}>
-                                        {processing ? 'Menyimpan...' : 'Simpan'}
-                                    </button>
-                                    <Link href="/user_profile" style={{ padding: '6px 12px', background: '#ccc', color: 'black', textDecoration: 'none', borderRadius: '3px' }}>
-                                        Batal
-                                    </Link>
-                                </div>
-                            </form>
+                            <input type="text" className="w-150 p-1.5 bg-[#666] rounded-lg text-white" />
                         </div>
                     </div>
                     <div className="flex flex-col mx-5 mt-20">
