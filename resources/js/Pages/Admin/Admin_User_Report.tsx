@@ -13,6 +13,7 @@ interface AttendanceData{
     clockOut: boolean | string;
     time: string;
     date: string;
+    clockOutTime: string;
 }
 
 interface AdminReportProps {
@@ -21,11 +22,13 @@ interface AdminReportProps {
 }
 
 export default function AdminReportProps({studentName, attendanceData} : AdminReportProps) {
-    const {attendance, wfo, report, clockOut, time, date, school, major} = attendanceData
+    const {attendance, wfo, report, clockOut, time, date, school, major, clockOutTime} = attendanceData
     const ifWfoBool = wfo === true || String(wfo) === "true" || String(wfo) === "1";
     const isReportBool = String(report) === "true";
     const isClockOutBool = String(clockOut) === "true";
     const userWFO = ifWfoBool ? "WFO" : "WFH";
+    const wfoBGcolor = ifWfoBool ? "#E0F2FE" : "#F3E8FF";
+    const wfoTxtcolor = ifWfoBool ? "#0369A1" : "#7C3AED";
 
     return (
         <>
@@ -73,7 +76,10 @@ export default function AdminReportProps({studentName, attendanceData} : AdminRe
                                 <div className="flex flex-col gap-3">
                                     <div className="flex justify-between items-center border-b border-gray-100 pb-2">
                                     <span className="text-gray-500 text-base mt-3">Status</span>
-                                    <span className="text-black text-base">Hadir • {userWFO}</span>
+                                    <div className="flex gap-2">
+                                        <span className="text-base text-black">Hadir •</span>
+                                        <span style={{backgroundColor: wfoBGcolor, color: wfoTxtcolor}} className="text-base rounded-md font-medium"> {userWFO}</span>
+                                    </div>
                                 </div>
                                     <div className="flex justify-between border-b border-gray-50 pb-2">
                                         <span className="text-gray-500 text-base">Jam Masuk</span>
@@ -131,7 +137,7 @@ export default function AdminReportProps({studentName, attendanceData} : AdminRe
                                         </div>
                                         <div className="flex justify-between border-b border-gray-50 pb-2">
                                             <span className="text-gray-500 text-base">Jam Pulang</span>
-                                            <span className="text-black text-base">4.17 PM</span>
+                                            <span className="text-black text-base">{clockOutTime} PM</span>
                                         </div>
                                         <div className="flex justify-between border-b border-gray-50 pb-2">
                                             <span className="text-gray-500 text-base">Lokasi</span>
