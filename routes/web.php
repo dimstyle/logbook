@@ -19,7 +19,7 @@ Route::get('/login', fn() => Inertia::render('User/Login'));
 
 
 Route::prefix('/')
-->middleware('jwt.page.validation')
+->middleware('jwt.page.validation:user')
 ->group(function (){
     global $mockuser, $currentUserId;
     
@@ -71,9 +71,8 @@ Route::prefix('admin')
 });
 
 Route::prefix('admin')
-->middleware('jwt.page.validation')
+->middleware('jwt.page.validation:admin')
 ->group(function (){
-    global $mockuser;
     
     Route::get('/profile', fn() => Inertia::render('Admin/Admin_Profile'));
     Route::get('/daily_attendance', fn() => Inertia::render('Admin/Daily_Attendance'));
@@ -86,15 +85,5 @@ Route::prefix('admin')
     });
     Route::get('/user_registration', fn() => Inertia::render('Admin/User_Registration'));
     Route::get('/user_list', fn() => Inertia::render('Admin/User_List'));
-    Route::get('/user_profile/{id}', function ($id) use ($mockuser) {
-        $selectedUser = collect($mockuser)->firstWhere('id', (int)$id);
-    
-        if (!$selectedUser) {
-            abort(404, 'User Not Found.');
-        }
-    
-        return Inertia::render('Admin/User_Profile', [
-            'user' => $selectedUser
-        ]);
-    });
+    Route::get('/user_profile/{id}', fn() => Inertia::render('Admin/User_Profile'));
 });
