@@ -14,7 +14,7 @@ use OpenApi\Attributes as OA;
 class CreateAttendanceCheckInController extends Controller
 {
     public function __construct(
-        private CreateAttendanceCheckInService $createAttandanceCheckInService
+        private CreateAttendanceCheckInService $createAttendanceCheckInService
     ){}
 
     
@@ -68,7 +68,7 @@ class CreateAttendanceCheckInController extends Controller
         $data = CreateAttendanceCheckInDTO::fromArray($request->validated());
 
         try{
-            $this->createAttandanceCheckInService->handle($data);
+            $this->createAttendanceCheckInService->handle($data);
         }catch(ModelNotFoundException $e){
             return response()->json([
                 'message' => 'User not found'
