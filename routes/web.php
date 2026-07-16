@@ -18,9 +18,9 @@ Route::prefix('/')
     Route::get('/user_profile/edit', fn() => Inertia::render('User/User_Profile_Edit'));
 
     Route::post('/user_profile/update', function (Request $request) {
-        $user = auth()->user() ?? \App\Models\User::find($request->input('id'));
+        $userId = $request->input('id');
 
-        if (!$user) {
+        if (!$userId) {
             return back()->withErrors(['message' => 'User Tidak Ditemukan']);
         }
 
@@ -29,18 +29,28 @@ Route::prefix('/')
             'sekolah'       => 'nullable|string|max:255',
             'jurusan'       => 'nullable|string|max:255',
             'nomor_telepon' => 'nullable|string|max:20',
-            'email'         => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'username'      => 'required|string|max:255|unique:users,username,'.$user->id,
+            'email'         => 'required|string|email|max:255|unique:users,email,'.$userId,
+            'username'      => 'required|string|max:255|unique:users,username,'.$userId,
             'password'      => 'nullable|string|min:8',
         ]);
 
+        $updatedData = [
+            'nama_lengkap'  => $validated['nama_lengkap'],
+            'sekolah'       => $validated['sekolah'],
+            'jurusan'       => $validated['jurusan'],
+            'nomor_telepon' => $validated['nomor_telepon'],
+            'email'         => $validated['email'],
+            'username'      => $validated['username'],
+            'updated_at'    => now(),
+        ];
+
         if (!empty($validated['password'])) {
             $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
-        } else {
-            unset($validated['password']);
         }
 
-        $user->update($validated);
+        DB::table('users')
+            ->where('id', $userId)
+            ->update($updatedData);
 
         return redirect('/user_profile')->with('message', 'Profil berhasil diperbaharui!');
     });

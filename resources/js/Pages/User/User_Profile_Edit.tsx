@@ -60,7 +60,7 @@ export default function UserProfileEdit() {
         e.preventDefault()
         post('/user_profile/update', {
             onSucces: () => alert("Profil berhasil diubah!"),
-            onError: (err: unknown) => alert("Gagal memperbarui profil. Periksa data kembali.")
+            onError: (err: unknown) => console.log("Gagal: ", err)
         })
     }
     
