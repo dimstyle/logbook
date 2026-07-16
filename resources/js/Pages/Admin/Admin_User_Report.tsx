@@ -60,7 +60,7 @@ export default function AdminReportProps({studentName, attendanceData} : AdminRe
                     {/*Izin atau TIdak Masuk*/}
                     {(attendance === "Sakit" || attendance === "Izin" || attendance === "Belum")&&(
                         <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-gray-500">
-                            <p className="font-semibold">Activity Report data does not exist</p>
+                            <p className="font-semibold">User data does not exist</p>
                             <p className="text-sm text-gray-400 mt-1">Student Status: <span className="font-bold text-blue-600">{attendance === "Belum" ? "Belum masuk" : attendance}</span></p>
                         </div>
                     )}
