@@ -6,7 +6,6 @@ namespace Modules\User\Services;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Modules\User\DTO\UpdateUserProfileDTO;
 use Modules\User\Repositories\UserRepository;
 
 class UpdateUserProfileService
