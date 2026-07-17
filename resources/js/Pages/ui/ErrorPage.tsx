@@ -17,6 +17,9 @@ export default function ErrorPage({
     },
     backPath = ""
 }: ErrorPageProps) {
+
+    console.error(errorMessage);
+    
     return (
         <div className="flex min-h-screen items-center justify-center bg-[#D9D9D9] px-4">
             <div className="flex flex-col items-center w-full max-w-lg rounded-2xl border border-[#b1a9a9] bg-[#f3f0f0] p-8 shadow-lg">

@@ -37,7 +37,7 @@ export default function AdminReportProps({studentName, attendanceData} : AdminRe
             <AdminNavbar />
 
             <div className="min-h-screen pt-28 p-4">
-                <div className="max-w-[50rem] mx-auto flex flex-col gap-5">
+                <div className="max-w-200 mx-auto flex flex-col gap-5">
                     {/*Back*/}
                     <div className="flex items-center gap-3 py-2">
                         <Link href='/admin/daily_attendance' className='text-gray-700 bg-white hover:bg-gray-200 p-2 rounded-full shadow-sm'>

@@ -1,5 +1,5 @@
 import React , { useEffect, useRef, useState } from "react";
-import Navbar from "../../Components/User/Navbar.js";
+import UserNavbar from "../../Components/User/UserNavbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png";
 import EditIcon from "../../../../assets/edit-svgrepo-com.png"
 import { type getUserProfileResponse } from "../../types/user.js";
@@ -50,14 +50,8 @@ export default function Profile() {
 
     return (
         <>
-            <Navbar>
-                <div className="w-full justify-start" />
-                <div className="flex gap-2 items-center w-60 mr-2 text-white">
-                    <a href="/" className="p-1">History</a>
-                    <a href="/clock-in" className="p-1">Attendance</a>
-                    <a href="/login" className="p-1">Logout</a>
-                </div>
-            </Navbar>
+            <UserNavbar />
+
             <div className="p-4 pl-40 pr-40 pt-30">
                 <div className="bg-[#F4F4F4] w-full p-10 rounded-xl">
                     <div className="flex items-center">

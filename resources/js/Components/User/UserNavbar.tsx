@@ -9,7 +9,7 @@ interface inputHeaderConfig {
     onChangeHandler?: (event: ChangeEvent<HTMLInputElement>)=>void,
 }
 
-export default function AdminNavbar({
+export default function UserNavbar({
     index = 0,
     input = false, 
     inputValue = "" , 
@@ -22,12 +22,10 @@ export default function AdminNavbar({
 
     // array of hyper link
     const menus = [
-        { name: "Users", href: "/admin/user_list" , onClick: ()=>{}},
-        { name: "Registration", href: "/admin/user_registration", onClick: ()=>{} },
-        { name: "Attendance", href: "/admin/daily_attendance", onClick: ()=>{} },
-        { name: "Logout", href:"/admin/login", onClick : LogoutEvent },
+        { name: "History", href: "/" , onClick: ()=>{}},
+        { name: "Attendance", href: "/clock-in", onClick: ()=>{} },
+        { name: "Logout", href:"/login", onClick : LogoutEvent },
     ];
-
 
     return(
         <>
@@ -35,7 +33,6 @@ export default function AdminNavbar({
                 {/* Logo */}
                 <div className="flex flex-1 items-end">
                     <h1 className="font-freckle text-3xl text-white">Logbook</h1>
-                    <h1 className="font-freckle text-xl text-[#560000]">Admin</h1>
                 </div>
 
                 {/* Search */}
@@ -68,7 +65,7 @@ export default function AdminNavbar({
                             {menu.name}
                         </a>
                     ))}
-                    <a href="/admin/profile">
+                    <a href="/user_profile">
                         <img src={ProfileIcon} alt="UserIcon" width="70rem" />
                     </a>
                 </div>

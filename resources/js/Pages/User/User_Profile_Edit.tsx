@@ -1,4 +1,4 @@
-import Navbar from "../../Components/User/Navbar.js";
+import UserNavbar from "../../Components/User/UserNavbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png";
 import React, { useEffect, useRef, useState } from "react";
 import { type getUserProfileResponse, type UpdateUserProfileRequest } from "../../types/user.js";
@@ -6,6 +6,22 @@ import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
 import { Link, useForm } from "@inertiajs/react";
+import { DeleteIcon } from "lucide-react";
+
+function EliminateEmptyString(data: Record<string, string>){
+    return Object.fromEntries(
+        Object.entries(data).filter(([_, value]) => {
+            return value !== "" && value !== null && value !== undefined;
+        })
+    )
+}
+
+function concatObjectValue(data: Record<string, string>, delimiter: string = ", "){
+    return Object.entries(data)
+    .map(val => val[1])
+    .join(delimiter);
+}
+
 
 export default function UserProfileEdit() {
     const isFetched = useRef(false);
@@ -57,16 +73,16 @@ export default function UserProfileEdit() {
     const handleSubmit = async (e:React.FormEvent) => {
         e.preventDefault();
 
-        transform((data: UpdateUserProfileRequest) =>
-            Object.fromEntries(
-                Object.entries(data).filter(([_, value]) => {
-                    return value !== "" && value !== null && value !== undefined;
-                })
-            )
-        );
+        transform((data: Record<string, string>) => EliminateEmptyString(data));
+
         patch('/api/user/updateuserprofile', {
             onSucces: () => alert("Profil berhasil diubah!"),
-            onError: (err: unknown) => console.log("Gagal: ", err)
+            onError: (err: unknown) => {
+                setError(JSON.stringify({
+                    message: concatObjectValue(errors),
+                    status: 500
+                }))
+            }
         })
     }
     
@@ -81,14 +97,8 @@ export default function UserProfileEdit() {
     
     return (
         <>
-            <Navbar>
-                <div className="w-full justify-start" />
-                <div className="flex gap-2 items-center w-60 mr-2 text-white">
-                    <a href="/" className="p-1">History</a>
-                    <a href="/clock-in" className="p-1">Attendance</a>
-                    <a href="/login" className="p-1">Logout</a>
-                </div>
-            </Navbar>
+            <UserNavbar />
+
             <div className="p-4 pl-40 pr-40 pt-30">
                 <form onSubmit={handleSubmit} className="bg-[#F4F4F4] w-full p-10 rounded-xl">
                     <div className="bg-[#F4F4F4] w-full p-10 rounded-xl">
