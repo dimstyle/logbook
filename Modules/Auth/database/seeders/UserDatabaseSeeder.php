@@ -22,7 +22,6 @@ class UserDatabaseSeeder extends Seeder
                 'sekolah' => 'SMK Negeri 1',
                 'jurusan' => 'RPL',
                 'nomor_telepon' => '081234000010',
-                'password' => 'password1',
                 'admin_id' => 1,
             ],
             [
@@ -32,7 +31,6 @@ class UserDatabaseSeeder extends Seeder
                 'sekolah' => 'SMK Negeri 2',
                 'jurusan' => 'TKJ',
                 'nomor_telepon' => '081234000011',
-                'password' => 'password2',
                 'admin_id' => 1,
             ],
             [
@@ -42,7 +40,6 @@ class UserDatabaseSeeder extends Seeder
                 'sekolah' => 'SMK Negeri 3',
                 'jurusan' => 'DKV',
                 'nomor_telepon' => '081234000012',
-                'password' => 'password3',
                 'admin_id' => 1,
             ],
         ];
@@ -52,7 +49,7 @@ class UserDatabaseSeeder extends Seeder
                 ['email' => $data['email']],
                 [
                     'username' => $data['username'],
-                    'password' => $data['password'],
+                    'password' => Hash::make('password'),
                     'role' => 'Siswa',
                 ]
             );
@@ -65,7 +62,6 @@ class UserDatabaseSeeder extends Seeder
                     'sekolah' => $data['sekolah'] ?? 'N/A',
                     'jurusan' => $data['jurusan'] ?? 'N/A',
                     'nomor_telepon' => $data['nomor_telepon'] ?? 'N/A',
-                    'password' => $data['password'] ?? 'N?A',
                     'hadir' => 0,
                     'tidak_masuk' => 0,
                     'laporan' => 0,
