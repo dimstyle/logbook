@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AdminNavbar from "../../Components/Admin/Navbar.js";
+import AdminNavbar from "../../Components/Admin/AdminNavbar.js";
 import api from "../../lib/axios.js";
 import type { ErrorMessage } from "../ui/ErrorPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
@@ -62,14 +62,8 @@ export default function UserRegistration() {
 
     return (
         <>
-            <AdminNavbar>
-                <div className="w-full justify-start" />
-                <div className="flex gap-2 items-center w-60 mr-7 text-white">
-                    <a href="/admin/user_list" className="p-1">Users</a>
-                    <a href="" className="bg-white text-black p-1 rounded-lg">Registration</a>
-                    <a href="/admin/daily_attendance" className="p-1">Attendance</a>
-                </div>
-            </AdminNavbar>
+            <AdminNavbar index={2} />
+            
             <div className="flex flex-col items-center p-4 pt-30 w-full">
                 <h1 className="text-2xl">Halaman Daftar</h1>
                 <div className="flex flex-col w-170 gap-5">

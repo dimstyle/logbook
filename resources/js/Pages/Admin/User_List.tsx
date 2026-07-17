@@ -1,4 +1,4 @@
-import AdminNavbar from "../../Components/Admin/Navbar.js";
+import AdminNavbar from "../../Components/Admin/AdminNavbar.js";
 import React, { useState, useEffect, useRef , type ChangeEvent } from "react";
 import { Link } from "@inertiajs/react";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
@@ -57,19 +57,16 @@ export default function UserList() {
     if (error) {
         return <ErrorPage />
     }
-    console.log(filteredUser)
+
     return (
         <>
-            <AdminNavbar>
-                <div className="w-full justify-start">
-                    <input className="w-70 p-1.5 bg-white rounded-lg" type="text" placeholder="Search Users" value={searchQuery} onChange={handleSearchChange} />
-                </div>
-                <div className="flex gap-2 items-center w-60 mr-7 text-white">
-                    <a href="" className="bg-white text-black p-1 rounded-lg">Users</a>
-                    <a href="/admin/user_registration" className="p-1">Registration</a>
-                    <a href="/admin/daily_attendance" className="p-1">Attendance</a>
-                </div>
-            </AdminNavbar>
+            <AdminNavbar 
+                index={1} 
+                input 
+                inputValue={searchQuery} 
+                onChangeHandler={handleSearchChange}
+            />
+    
             <div className="flex flex-col p-4 pt-30 gap-10">
                 {filteredUser.length > 0 ? (
                     filteredUser.map((user) => {

@@ -1,4 +1,4 @@
-import AdminNavbar from "../../Components/Admin/Navbar.js";
+import AdminNavbar from "../../Components/Admin/AdminNavbar.js";
 import React, { useState, type ChangeEvent } from "react";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
 import { Link } from "@inertiajs/react";
@@ -42,16 +42,13 @@ export default function DailyAttendance() {
 
     return (
         <>
-            <AdminNavbar>
-                <div className="w-full justify-start">
-                    <input className="w-70 p-1.5 bg-white rounded-lg" type="text" placeholder="Search Users" value={searchQuery} onChange={handleSearchChange} />
-                </div>
-                <div className="flex gap-2 items-center w-60 mr-7 text-white">
-                    <a href="/admin/user_list" className="p-1">Users</a>
-                    <a href="/admin/user_registration" className="p-1">Registration</a>
-                    <a href="" className="bg-white text-black p-1 rounded-lg">Attendance</a>
-                </div>
-            </AdminNavbar>
+            <AdminNavbar 
+                index={3} 
+                input 
+                inputValue={searchQuery} 
+                onChangeHandler={handleSearchChange} 
+            />
+
             <div className="flex flex-col p-4 pt-30 gap-10">
                 {filteredUser.length > 0 ? (
                     filteredUser.map((user) => {

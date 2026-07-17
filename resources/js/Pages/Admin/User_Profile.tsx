@@ -1,4 +1,4 @@
-import AdminNavbar from "../../Components/Admin/Navbar.js";
+import AdminNavbar from "../../Components/Admin/AdminNavbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png";
 import { useEffect, useRef, useState } from "react";
 import type { getUserProfileResponse } from "../../types/user.js";
@@ -51,14 +51,8 @@ export default function UserProfileOnAdmin() {
 
     return (
         <>
-            <AdminNavbar>
-                <div className="w-full justify-start" />
-                <div className="flex gap-2 items-center w-60 mr-7 text-white">
-                    <a href="/admin/user_list" className="p-1">Users</a>
-                    <a href="/admin/user_registration" className="p-1">Registration</a>
-                    <a href="/admin/daily_attendance" className="p-1">Attendance</a>
-                </div>
-            </AdminNavbar>
+            <AdminNavbar />
+            
             <div className="p-4 pl-40 pr-40 pt-30">
                 <div className="bg-[#F4F4F4] w-full p-10 rounded-xl">
                     <div className="flex items-center">

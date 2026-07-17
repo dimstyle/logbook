@@ -1,4 +1,4 @@
-import AdminNavbar from "../../Components/Admin/Navbar.js"
+import AdminNavbar from "../../Components/Admin/AdminNavbar.js"
 import React from "react"
 import { Head, Link } from "@inertiajs/react"
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
@@ -33,13 +33,9 @@ export default function AdminReportProps({studentName, attendanceData} : AdminRe
     return (
         <>
             <Head title={`Detail Laporan - ${studentName}`}/>
-            <AdminNavbar>
-                <div className="flex gap-2 items-center w-60 mr-7 text-white">
-                    <a href="" className="p-1">Users</a>
-                    <a href="/admin/user_registration" className="p-1">Registration</a>
-                    <a href="" className="bg-white text-black p-1 rounded-lg">Attendance</a>
-                </div>
-            </AdminNavbar>
+
+            <AdminNavbar />
+
             <div className="min-h-screen pt-28 p-4">
                 <div className="max-w-[50rem] mx-auto flex flex-col gap-5">
                     {/*Back*/}
