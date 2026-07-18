@@ -43,6 +43,7 @@ export default function Home(){
                 index={1}
                 input
                 inputValue={searchQuery}
+                inputplaceholder="Search Report"
                 onChangeHandler={handleSearchChange}
             />
             <div className="p-4 pt-30">

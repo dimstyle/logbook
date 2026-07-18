@@ -63,7 +63,8 @@ export default function UserList() {
             <AdminNavbar 
                 index={1} 
                 input 
-                inputValue={searchQuery} 
+                inputValue={searchQuery}
+                inputplaceholder="Search Users" 
                 onChangeHandler={handleSearchChange}
             />
     

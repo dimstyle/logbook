@@ -45,7 +45,8 @@ export default function DailyAttendance() {
             <AdminNavbar 
                 index={3} 
                 input 
-                inputValue={searchQuery} 
+                inputValue={searchQuery}
+                inputplaceholder="Search Users" 
                 onChangeHandler={handleSearchChange} 
             />
 

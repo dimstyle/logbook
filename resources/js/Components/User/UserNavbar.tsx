@@ -6,13 +6,15 @@ interface inputHeaderConfig {
     index?: number,
     inputValue?: string,
     input?: boolean,
+    inputplaceholder?: string,
     onChangeHandler?: (event: ChangeEvent<HTMLInputElement>)=>void,
 }
 
 export default function UserNavbar({
     index = 0,
     input = false, 
-    inputValue = "" , 
+    inputValue = "" ,
+    inputplaceholder= "" ,
     onChangeHandler = ()=>{}
 
 }:inputHeaderConfig ) {
@@ -41,7 +43,7 @@ export default function UserNavbar({
                         <input
                             className="w-70 p-1.5 bg-white rounded-lg"
                             type="text"
-                            placeholder="Search Users"
+                            placeholder={inputplaceholder}
                             value={inputValue}
                             onChange={onChangeHandler}
                         />

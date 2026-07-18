@@ -6,13 +6,15 @@ interface inputHeaderConfig {
     index?: number,
     inputValue?: string,
     input?: boolean,
+    inputplaceholder?: string,
     onChangeHandler?: (event: ChangeEvent<HTMLInputElement>)=>void,
 }
 
 export default function AdminNavbar({
     index = 0,
     input = false, 
-    inputValue = "" , 
+    inputValue = "" ,
+    inputplaceholder = "", 
     onChangeHandler = ()=>{}
 
 }:inputHeaderConfig ) {
@@ -44,7 +46,7 @@ export default function AdminNavbar({
                         <input
                             className="w-70 p-1.5 bg-white rounded-lg"
                             type="text"
-                            placeholder="Search Users"
+                            placeholder={inputplaceholder}
                             value={inputValue}
                             onChange={onChangeHandler}
                         />
@@ -52,7 +54,7 @@ export default function AdminNavbar({
                 </div>
 
                 {/* Menu + Profile */}
-                <div className="flex flex-1 justify-end items-center gap-5">
+                <div className="flex justify-end items-center gap-4">
                     {/* link render */}
                     {menus.map((menu, i) => (
                         <a
