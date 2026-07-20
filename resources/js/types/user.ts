@@ -63,3 +63,13 @@ export interface UpdateUserProfileRequest {
     jurusan: string;
     nomor_telepon: string;
 };
+
+export interface UpdateAdminProfileRequest {
+    username: string;
+    email: string;
+    password: string;
+    nama_lengkap: string;
+    perusahaan: string;
+    divisi: string;
+    nomor_telepon: string;
+};
