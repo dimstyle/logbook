@@ -49,7 +49,7 @@ class JwtValidationPageMiddleware
             if (! $user) {
                 throw new TokenInvalidException('User not authenticated');
             }
-
+            
             return $next($request);
         } catch (TokenExpiredException $e) {
 

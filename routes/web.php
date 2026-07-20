@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 // User
@@ -13,11 +12,17 @@ Route::prefix('/')
 ->group(function (){
     
     Route::get('/', fn() => Inertia::render('User/Home'));
-    Route::get('/clock-in', fn() => Inertia::render('User/Attendance_Clock-In'));
+
+    //attendance
+    Route::middleware('attendancechecker')
+    ->group(function (){
+        Route::get('/clock-in', fn() => Inertia::render('User/Attendance_Clock-In'));
+        Route::get('/report', fn() => Inertia::render('User/Attendance_ActivityReport'));
+        Route::get('/clock-out', fn() => Inertia::render('User/Attendance_Clock-Out'));
+    });
+
     Route::get('/user_profile',fn() => Inertia::render('User/User_Profile'));
     Route::get('/user_profile/edit', fn() => Inertia::render('User/User_Profile_Edit'));
-    Route::get('/report', fn() => Inertia::render('User/Attendance_ActivityReport'));
-    Route::get('/clock-out', fn() => Inertia::render('User/Attendance_Clock-Out'));
     Route::get('/edit_report', fn() => Inertia::render('User/EditReport'));
     Route::get('/view_report', fn() => Inertia::render('User/ViewReport'));
 });
@@ -43,6 +48,7 @@ Route::prefix('admin')
     });
     Route::get('/user_registration', fn() => Inertia::render('Admin/User_Registration'));
     Route::get('/user_list', fn() => Inertia::render('Admin/User_List'));
+    
     Route::get('/user_profile/{id}', fn($id) => Inertia::render('Admin/User_Profile',[
         'id' => $id
     ]));

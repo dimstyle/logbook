@@ -14,6 +14,8 @@ class AttendanceRepository{
             Log::error('Failed to create Check In data',[
                 'exception' => $e
             ]);
+
+            throw $e;
         }
     }
 
@@ -25,6 +27,8 @@ class AttendanceRepository{
             Log::error('Failed to create Check In data',[
                 'exception' => $e
             ]);
+
+            throw $e;
         }
     }
 
@@ -36,6 +40,25 @@ class AttendanceRepository{
             Log::error('Failed to create Check In data',[
                 'exception' => $e
             ]);
+
+            throw $e;
+        }
+    }
+
+    public function getAttendanceChecker(int $accountId){
+        try{
+            return Attendance::select(
+                'izin','sakit',
+                'sudah_hadir', 'sudah_laporan', 'sudah_pulang'
+            )
+            ->where('account_id', $accountId)
+            ->whereDate('created_at', now())
+            ->firstOrFail();
+        }catch(Throwable $e){
+            Log::error('Failed to create Check In data',[
+                'exception' => $e
+            ]);
+            throw $e;
         }
     }
 }

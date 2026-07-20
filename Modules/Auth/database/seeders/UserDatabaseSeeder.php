@@ -50,7 +50,7 @@ class UserDatabaseSeeder extends Seeder
                 [
                     'username' => $data['username'],
                     'password' => Hash::make('password'),
-                    'role' => 'Siswa',
+                    'role' => 'user',
                 ]
             );
 
