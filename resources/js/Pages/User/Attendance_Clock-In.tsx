@@ -1,42 +1,235 @@
-import { router, usePage } from "@inertiajs/react"
-import UserNavbar from "../../Components/User/UserNavbar.js"
+import { router, usePage } from "@inertiajs/react";
+import UserNavbar from "../../Components/User/UserNavbar.js";
+import { useEffect, useState } from "react";
+import ErrorPage from "../ui/ErrorPage.js";
 
 export default function ClockIn() {
     const { izin, sakit, sudah_hadir } = usePage().props;
 
-    const submitEvent = ()=>{
-        router.get('/report')
-    }
+    if (sudah_hadir) router.get("/report");
 
+    const submitEvent = () => {
+        router.get("/report");
+    };
+    
+    const [error, setError] = useState("");
+    const [now, setNow] = useState(new Date());
+    const [attendance, setAttendance] = useState("");
+    const [reason, setReason] = useState("");
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setNow(new Date());
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, []);
+
+    const currentDate = now.toLocaleDateString("id-ID", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+    });
+
+    const currentTime =
+        now.toLocaleTimeString("id-ID", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+        }) + " WIB";
+
+    const isPermission = attendance === "izin" || attendance === "sakit";
+    
+    if (error) {
+        const errorMessage = JSON.parse(error);
+        <ErrorPage errorMessage={errorMessage} backPath="/clock-in" />
+    }
+    
     return (
         <>
-            <UserNavbar index={2}/>
-            
-            <div className="flex flex-col items-center p-4 pt-30 w-full">
-                <h1 className="text-2xl">Attendance Clock-In</h1>
-                <div className="flex flex-col w-170 gap-5">
-                    <h2 className="mt-10">Nama Lengkap</h2>
-                    <input type="text" className="w-full p-1.5 bg-white rounded-lg" />
-                    <h2>Asal Sekolah</h2>
-                    <input type="text" className="w-full p-1.5 bg-white rounded-lg" />
-                    <h2>Jurusan/Fakultas</h2>
-                    <input type="text" className="w-full p-1.5 bg-white rounded-lg" />
-                    <h2>Tanggal</h2>
-                    <input type="date" className="w-50 p-1.5 bg-white rounded-lg" />
-                    <h2>Jam Masuk</h2>
-                    <input type="time" className="w-50 p-1.5 bg-white rounded-lg" />
-                    <h2>Kehadiran</h2>
-                    <div className="flex align-start gap-5">
-                        <input type="radio" value={"wfh"} name="attendance" className="w-5 accent-[#FF5454]" />
-                        <label htmlFor="wfh">WFH</label><br />
-                        <input type="radio" value={"wfo"} name="attendance" className="w-5 accent-[#FF5454]" />
-                        <label htmlFor="wfo">WFO</label><br />
+            <UserNavbar index={2} />
+
+            <div className="flex justify-center items-center min-h-screen bg-[#ECE9E9] px-4 pt-24 pb-10">
+                <div className="w-full max-w-2xl bg-[#C0BDBD] rounded-2xl shadow-xl p-8">
+                    {/* Header */}
+                    <div className="text-center mb-8">
+                        <h1 className="text-4xl font-semibold text-[#560000]">
+                            Absen Masuk
+                        </h1>
                     </div>
-                    <div className="flex justify-center mt-5 mb-10">
-                        <button onClick={submitEvent} className="flex justify-center items-center bg-[#FF5454] w-30 h-8 rounded-lg p-1.5 cursor-pointer text-white ">Submit</button>
+
+                    {/* Live Date & Time */}
+                    <div className="grid grid-cols-2 gap-5 mb-8">
+                        <div
+                            className={`rounded-xl border p-5 transition ${
+                                isPermission
+                                    ? "bg-[#D6D6D6] border-[#B3B3B3] text-gray-500"
+                                    : "bg-white border-[#A9A6A6]"
+                            }`}
+                        >
+                            <p className="text-sm text-gray-500">Tanggal</p>
+
+                            <h2 className="text-lg font-semibold text-[#560000] mt-2">
+                                {currentDate}
+                            </h2>
+                        </div>
+
+                        <div
+                            className={`rounded-xl border p-5 transition ${
+                                isPermission
+                                    ? "bg-[#D6D6D6] border-[#B3B3B3] text-gray-500"
+                                    : "bg-white border-[#A9A6A6]"
+                            }`}
+                        >
+                            <p className="text-sm text-gray-500">
+                                Jam Sekarang
+                            </p>
+
+                            <h2 className="text-3xl font-bold text-[#FF5454] mt-2">
+                                {currentTime}
+                            </h2>
+                        </div>
+                    </div>
+
+                    {/* Attendance */}
+                    <div className="mb-8">
+                        <h2 className="text-xl font-semibold text-[#560000] mb-4">
+                            Status Kehadiran
+                        </h2>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <label
+                                className={`rounded-xl border p-4 flex items-center gap-3 cursor-pointer transition-all duration-200 ${
+                                    attendance === "wfo"
+                                        ? "bg-[#FFD6D6] border-[#FF5454]"
+                                        : "bg-white border-[#A9A6A6] hover:border-[#FF5454]"
+                                }`}
+                            >
+                                <input
+                                    type="radio"
+                                    name="attendance"
+                                    value="wfo"
+                                    checked={attendance === "wfo"}
+                                    onChange={(e) => {
+                                        setAttendance(e.target.value);
+                                        setReason("");
+                                    }}
+                                    className="accent-[#FF5454]"
+                                />
+
+                                <span className="font-medium">WFO</span>
+                            </label>
+
+                            <label
+                                className={`rounded-xl border p-4 flex items-center gap-3 cursor-pointer transition-all duration-200 ${
+                                    attendance === "wfh"
+                                        ? "bg-[#FFD6D6] border-[#FF5454]"
+                                        : "bg-white border-[#A9A6A6] hover:border-[#FF5454]"
+                                }`}
+                            >
+                                <input
+                                    type="radio"
+                                    name="attendance"
+                                    value="wfh"
+                                    checked={attendance === "wfh"}
+                                    onChange={(e) => {
+                                        setAttendance(e.target.value);
+                                        setReason("");
+                                    }}
+                                    className="accent-[#FF5454]"
+                                />
+
+                                <span className="font-medium">WFH</span>
+                            </label>
+
+                            <label
+                                className={`rounded-xl border p-4 flex items-center gap-3 cursor-pointer transition-all duration-200 ${
+                                    attendance === "izin"
+                                        ? "bg-[#FFD6D6] border-[#FF5454]"
+                                        : "bg-white border-[#A9A6A6] hover:border-[#FF5454]"
+                                }`}
+                            >
+                                <input
+                                    type="radio"
+                                    name="attendance"
+                                    value="izin"
+                                    checked={attendance === "izin"}
+                                    onChange={(e) =>
+                                        setAttendance(e.target.value)
+                                    }
+                                    className="accent-[#FF5454]"
+                                />
+
+                                <span className="font-medium">Izin</span>
+                            </label>
+
+                            <label
+                                className={`rounded-xl border p-4 flex items-center gap-3 cursor-pointer transition-all duration-200 ${
+                                    attendance === "sakit"
+                                        ? "bg-[#FFD6D6] border-[#FF5454]"
+                                        : "bg-white border-[#A9A6A6] hover:border-[#FF5454]"
+                                }`}
+                            >
+                                <input
+                                    type="radio"
+                                    name="attendance"
+                                    value="sakit"
+                                    checked={attendance === "sakit"}
+                                    onChange={(e) =>
+                                        setAttendance(e.target.value)
+                                    }
+                                    className="accent-[#FF5454]"
+                                />
+
+                                <span className="font-medium">Sakit</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    {/* Reason */}
+                    {isPermission && (
+                        <div className="mb-8">
+                            <h2 className="text-xl font-semibold text-[#560000] mb-3">
+                                Alasan {attendance}
+                            </h2>
+
+                            <textarea
+                                rows={5}
+                                value={reason}
+                                onChange={(e) => setReason(e.target.value)}
+                                placeholder={`Masukkan alasan ${attendance}...`}
+                                className="w-full rounded-xl border border-[#A9A6A6] bg-white p-4 resize-none
+                focus:outline-none
+                focus:ring-2
+                focus:ring-[#FF5454]
+                focus:border-[#FF5454]"
+                            />
+                        </div>
+                    )}
+
+                    {/* Submit */}
+                    <div className="flex justify-center">
+                        <button
+                            onClick={submitEvent}
+                            className="bg-[#FF5454]
+              hover:bg-[#E54747]
+              text-white
+              font-semibold
+              px-10
+              py-3
+              rounded-xl
+              shadow-lg
+              transition-all
+              duration-200
+              hover:scale-105
+              cursor-pointer"
+                        >
+                            Submit
+                        </button>
                     </div>
                 </div>
             </div>
         </>
-    )
+    );
 }
