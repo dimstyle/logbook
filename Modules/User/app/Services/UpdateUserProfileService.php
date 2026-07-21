@@ -6,7 +6,10 @@ namespace Modules\User\Services;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Intervention\Image\Laravel\Facades\Image;
 use Modules\User\Repositories\UserRepository;
+use Storage;
+use Str;
 
 class UpdateUserProfileService
 {
@@ -23,6 +26,26 @@ class UpdateUserProfileService
             $updateData['password'] = Hash::make($updateData['password']);
         }
 
+        if(array_key_exists('profile_photo', $updateData)){
+
+            Log::info($updateData['profile_photo']);
+            $image = Image::decode($updateData['profile_photo']);
+
+            $encoded = $image->encodeUsingFileExtension(
+                'webp',
+                quaility: 80
+            );
+
+            $path = 'profile-photos/' . Str::uuid() . '.webp';
+
+            Storage::disk('public')->put(
+                $path,
+                $encoded
+            );
+
+            $updateData['profile_photo'] = $path;
+        }
+
         $accountData = $this->filterData([
             'username' ,
             'email',
@@ -33,7 +56,8 @@ class UpdateUserProfileService
             'nama_lengkap',
             'sekolah',
             'jurusan',
-            'nomor_telepon'
+            'nomor_telepon',
+            'profile_photo'
         ],$updateData);
 
         $this->userRepository->updateUserByAccountID($accountData, $userData, $id);

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('laporan')->default(0);
             $table->date('periode_awal')->default('');
             $table->date('periode_akhir')->default('');
+            $table->string('profile_photo')->nullable();
             $table->timestamps();
         });
     }

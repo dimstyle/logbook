@@ -1,6 +1,9 @@
-import type { ChangeEvent } from 'react';
+import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
 import api from '../../lib/axios.js';
+import LoadingPage from '../../Pages/ui/LoadingPage.js';
+import type { getUserProfilePhoto } from '../../types/user.js';
+import ErrorPage from '../../Pages/ui/ErrorPage.js';
 
 interface inputHeaderConfig {
     index?: number,
@@ -19,6 +22,12 @@ export default function UserNavbar({
 
 }:inputHeaderConfig ) {
     index--;
+
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [url, setUrl] = useState<string | null>(null);
+    const isFetched = useRef(false);
+
     // logout event
     const LogoutEvent = async ()=> await api.post('/api/auth/logout');
 
@@ -28,6 +37,35 @@ export default function UserNavbar({
         { name: "Attendance", href: "/clock-in", onClick: ()=>{} },
         { name: "Logout", href:"/login", onClick : LogoutEvent },
     ];
+
+    useEffect(()=>{
+        if (isFetched.current) return;
+        isFetched.current = true;
+
+        ;(async()=>{
+             try{
+                const response = await api.get<getUserProfilePhoto>('/api/user/getuserprofilephoto');
+                const PhotoUrl = response.data.url;
+
+                setUrl('/storage/'+PhotoUrl)
+            }catch(err: unknown){
+                const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
+                const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
+                const status = axiosError?.response?.status ?? 500;
+
+                setError(JSON.stringify({ message, status }));
+            }finally{
+                setLoading(false)
+            }
+        })()
+    });
+    
+    if(loading) return <LoadingPage />
+
+    if (error){
+        const errMessage = JSON.parse(error);
+        return <ErrorPage errorMessage={errMessage} backPath="/login"/>
+    }
 
     return(
         <>
@@ -68,7 +106,7 @@ export default function UserNavbar({
                         </a>
                     ))}
                     <a href="/user_profile">
-                        <img src={ProfileIcon} alt="UserIcon" width="70rem" />
+                        <img src={url ?? ProfileIcon} alt="UserIcon" width="70rem" />
                     </a>
                 </div>
             </nav>

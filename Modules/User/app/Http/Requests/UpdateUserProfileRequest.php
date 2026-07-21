@@ -19,6 +19,7 @@ class UpdateUserProfileRequest extends FormRequest
             'sekolah' => ['sometimes', 'string'],
             'jurusan' => ['sometimes', 'string'],
             'nomor_telepon' => ['sometimes', 'string'], 
+            'profile_photo' => ['sometimes', 'image']
         ];
     }
 
