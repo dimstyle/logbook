@@ -26,6 +26,7 @@ export default function UserProfileEdit() {
     const isFetched = useRef(false);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
+    const [preview, setPreview] = useState<string | null>(null);
 
     const { data, setData, patch, processing, errors, transform} = useForm<UpdateUserProfileRequest>({
         username: "",
@@ -34,7 +35,8 @@ export default function UserProfileEdit() {
         nama_lengkap: "",
         sekolah: "",
         jurusan: "",
-        nomor_telepon: ""
+        nomor_telepon: "",
+        profile_photo: null as File | null
     })
 
     useEffect(()=>{
@@ -56,6 +58,9 @@ export default function UserProfileEdit() {
                         username: currentUser.username || "",
                         password: ""
                     })
+                    
+                    if(currentUser.profile_photo) setPreview('/storage/'+currentUser.profile_photo);
+                    
                 }    
             }catch(err: unknown){
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
@@ -75,8 +80,9 @@ export default function UserProfileEdit() {
         transform((data: Record<string, string>) => EliminateEmptyString(data));
 
         patch('/api/user/updateuserprofile', {
+            forceFormData : true,
             onSuccess: () => alert("Profil berhasil diubah!"),
-            onError: (err: unknown) => {
+            onError: (_: unknown) => {
                 setError(JSON.stringify({
                     message: concatObjectValue(errors),
                     status: 500
@@ -115,10 +121,18 @@ export default function UserProfileEdit() {
                                     type="file" 
                                     accept="image/*" 
                                     className="hidden" 
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0] ?? null;
+
+                                        if(!file) return
+
+                                        setData('profile_photo', file);
+                                        setPreview(URL.createObjectURL(file));
+                                    }}
                                 />
                                 <img 
                                     className="w-full object-cover aspect-square transition-all duration-300 group-hover:scale-105" 
-                                    src={ProfileIcon} 
+                                    src={preview ?? ProfileIcon} 
                                     alt="UserIcon"
                                 />
                                 <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -127,9 +141,9 @@ export default function UserProfileEdit() {
                                         fill="none" 
                                         viewBox="0 0 24 24" 
                                         stroke="currentColor" 
-                                        stroke-width="2"
+                                        strokeWidth="2"
                                     >
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                     </svg>
                                 </div>
                             </label>

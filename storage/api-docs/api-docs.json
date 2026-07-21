@@ -560,6 +560,77 @@
                 }
             }
         },
+        "/api/user/updateadminprofile": {
+            "patch": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Create admin information",
+                "operationId": "3ca1cea4a5ce6ab20970f6480a62c325",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateAdminProfileRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success to update user profile",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/user/updateuserprofile": {
             "patch": {
                 "tags": [
@@ -815,6 +886,7 @@
                             "hadir",
                             "tidak_masuk",
                             "laporan",
+                            "photo_path",
                             "periode_awal",
                             "periode_akhir"
                         ],
@@ -854,6 +926,9 @@
                             },
                             "laporan": {
                                 "type": "integer"
+                            },
+                            "profile_photo": {
+                                "type": "string"
                             },
                             "periode_awal": {
                                 "type": "string",
@@ -993,6 +1068,32 @@
                 },
                 "type": "object"
             },
+            "UpdateAdminProfileRequest": {
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "nama_lengkap": {
+                        "type": "string"
+                    },
+                    "perusahaan": {
+                        "type": "string"
+                    },
+                    "divisi": {
+                        "type": "string"
+                    },
+                    "nomor_telepon": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "UpdateUserProfileRequest": {
                 "properties": {
                     "username": {
@@ -1040,6 +1141,10 @@
         {
             "name": "User",
             "description": "User"
+        },
+        {
+            "name": "Admin",
+            "description": "Admin"
         }
     ]
 }

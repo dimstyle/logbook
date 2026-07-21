@@ -6,6 +6,7 @@ use Modules\User\Http\Controllers\GetAdminProfileController;
 use Modules\User\Http\Controllers\GetListUsersInfoController;
 use Modules\User\Http\Controllers\GetUserProfileController;
 use Modules\User\Http\Controllers\GetUserProfileOnAdminController;
+use Modules\User\Http\Controllers\GetUserProfilePhotoController;
 use Modules\User\Http\Controllers\UpdateAdminProfileController;
 use Modules\User\Http\Controllers\UpdateUserProfileController;
 
@@ -24,4 +25,5 @@ Route::prefix('user')
 ->group(function (){
     Route::get('/getuserprofile', [GetUserProfileController::class, 'handle']);
     Route::patch('/updateuserprofile', [UpdateUserProfileController::class, 'handle']);
+    Route::get('/getuserprofilephoto', [GetUserProfilePhotoController::class, 'handle']);
 });

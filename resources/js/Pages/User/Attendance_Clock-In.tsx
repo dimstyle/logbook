@@ -49,18 +49,17 @@ export default function ClockIn() {
             alasan: reason,
         }
         
-        if(!isClockIn(attendance)){
-            
+        if(!isClockIn(attendance) && !reason) {
+            return
         }
-
-
+        
         try{
             const response = await api.post('/api/attendance/createcheckin', payload);
             const resdata = response.data;
             
             alert(resdata.message);
             
-            // router.get('/report');
+            router.get('/report');
         }catch(err: unknown){
             const axiosError = err as { response?: { data?: DefaultResponse; status?: number }; message?: string };
             const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
