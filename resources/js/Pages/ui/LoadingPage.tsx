@@ -24,7 +24,7 @@ export default function LoadingPage({
                 <div className="mt-6 flex items-center justify-center gap-2">
                     <span className="h-2.5 w-2.5 rounded-full bg-[#FF5454] animate-bounce [animation-delay:-0.2s]" />
                     <span className="h-2.5 w-2.5 rounded-full bg-[#1D4ED8] animate-bounce [animation-delay:-0.1s]" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#505050] animate-bounce" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#15803D] animate-bounce" />
                 </div>
             </div>
         </div>
