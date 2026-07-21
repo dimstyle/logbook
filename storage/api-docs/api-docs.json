@@ -655,20 +655,20 @@
             },
             "CreateAttendanceCheckInRequest": {
                 "required": [
-                    "sudah_hadir",
+                    "status",
                     "jam_hadir",
-                    "wfh"
+                    "alasan"
                 ],
                 "properties": {
-                    "sudah_hadir": {
-                        "type": "boolean"
+                    "status": {
+                        "type": "string"
                     },
                     "jam_hadir": {
                         "type": "string",
                         "format": "time"
                     },
-                    "wfh": {
-                        "type": "boolean"
+                    "alasan": {
+                        "type": "string"
                     }
                 },
                 "type": "object"

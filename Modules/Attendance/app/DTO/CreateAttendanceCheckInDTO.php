@@ -5,9 +5,9 @@ use Illuminate\Support\Collection;
 
 class CreateAttendanceCheckInDTO {
     public function __construct(
-        public bool $sudah_hadir,
+        public string $status,
         public string $jam_hadir,
-        public bool $wfh
+        public string|null $alasan
     ){}
 
     public static function fromArray(array $data): self{

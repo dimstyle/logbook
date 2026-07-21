@@ -32,14 +32,13 @@ class CreateDailyAttendance extends Command
                 continue;
             }
 
-            $attendance = Attendance::firstOrCreate(
-                [
-                    'account_id' => $user->account_id,
-                    'date' => now()->toDateString(),
-                ],
-                [
+            $attendance = Attendance::where('account_id', $user->account_id)
+            ->whereDate('created_at', now())
+            ->firstOr(function () use ($user) {
+                return Attendance::create([
+                    'account_id' => $user->id,
                     'izin' => false,
-                    'alasan_izin' => '',
+                    'alasan_tidak_masuk' => '',
                     'sakit' => false,
                     'sudah_hadir' => false,
                     'jam_hadir' => null,
@@ -49,8 +48,8 @@ class CreateDailyAttendance extends Command
                     'sudah_laporan' => false,
                     'laporan' => '',
                     'images_path' => [],
-                ]
-            );
+                ]);
+            });
 
             if ($attendance->wasRecentlyCreated) {
                 $created++;

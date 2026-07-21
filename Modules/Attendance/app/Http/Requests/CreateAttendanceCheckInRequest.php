@@ -3,6 +3,7 @@
 namespace Modules\Attendance\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateAttendanceCheckInRequest extends FormRequest
 {
@@ -10,11 +11,13 @@ class CreateAttendanceCheckInRequest extends FormRequest
      * Get the validation rules that apply to the request.
      */
     public function rules(): array
-    {
+    {  
+        $allowedStatus = ["wfo","wfh","izin","sakit"];
+
         return [
-            'sudah_hadir' => ['required', 'boolean'],
+            'status' => ['required', 'string', Rule::in($allowedStatus)],
             'jam_hadir' => ['required', 'date_format:H:i'],
-            'wfh' => ['required', 'boolean']
+            'alasan' => ['nullable','string']
         ];
     }
 

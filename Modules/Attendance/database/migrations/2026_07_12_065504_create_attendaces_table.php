@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('account_id')->constrained()->onDelete('cascade');
-            $table->date('date');
 
             $table->boolean('izin')->default(false);
-            $table->string('alasan_izin')->default('');
-
             $table->boolean('sakit')->default(false);
+            $table->string('alasan_tidak_masuk')->default('');
+
 
             $table->boolean('sudah_hadir')->default(false);
             $table->time('jam_hadir')->nullable();
@@ -31,10 +30,11 @@ return new class extends Migration
             $table->boolean('sudah_laporan')->default(false);
             $table->string('laporan')->default('');
             $table->json('images_path')->default('[]');
-    
+            
+            $table->date('created_date')->storedAs('DATE(created_at)');
             $table->timestamps();
 
-            $table->unique(['account_id', 'date']);
+            $table->unique(['account_id','created_date']);
         });
     }
 

@@ -2,21 +2,23 @@ import { router, usePage } from "@inertiajs/react";
 import UserNavbar from "../../Components/User/UserNavbar.js";
 import { useEffect, useState } from "react";
 import ErrorPage from "../ui/ErrorPage.js";
+import api from "../../lib/axios.js";
+import { Play } from "lucide-react";
+import type { DefaultResponse } from "../../types/default.js";
+
+function isClockIn(status: string): boolean{
+    return status === 'wfh' || status === 'wfo';
+}
 
 export default function ClockIn() {
     const { izin, sakit, sudah_hadir } = usePage().props;
-
-    if (sudah_hadir) router.get("/report");
-
-    const submitEvent = () => {
-        router.get("/report");
-    };
-    
     const [error, setError] = useState("");
     const [now, setNow] = useState(new Date());
     const [attendance, setAttendance] = useState("");
     const [reason, setReason] = useState("");
-
+    
+    
+    
     useEffect(() => {
         const timer = setInterval(() => {
             setNow(new Date());
@@ -33,19 +35,52 @@ export default function ClockIn() {
     });
 
     const currentTime =
-        now.toLocaleTimeString("id-ID", {
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-        }) + " WIB";
+    now.toLocaleTimeString("id-ID", {
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+    
+
+
+    const submitEvent = async () => {
+        const payload = {   
+            status: attendance,
+            jam_hadir : currentTime.replace('.',':'),
+            alasan: reason,
+        }
+        
+        if(!isClockIn(attendance)){
+            
+        }
+
+
+        try{
+            const response = await api.post('/api/attendance/createcheckin', payload);
+            const resdata = response.data;
+            
+            alert(resdata.message);
+            
+            // router.get('/report');
+        }catch(err: unknown){
+            const axiosError = err as { response?: { data?: DefaultResponse; status?: number }; message?: string };
+            const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
+            const status = axiosError?.response?.status ?? 500;
+            setError(JSON.stringify({ message, status }));
+        }
+
+        
+    };
+
 
     const isPermission = attendance === "izin" || attendance === "sakit";
     
+    if (sudah_hadir) router.get("/report");
+    
     if (error) {
         const errorMessage = JSON.parse(error);
-        <ErrorPage errorMessage={errorMessage} backPath="/clock-in" />
+        return <ErrorPage errorMessage={errorMessage} backPath="/clock-in" />
     }
-    
+
     return (
         <>
             <UserNavbar index={2} />
@@ -87,7 +122,7 @@ export default function ClockIn() {
                             </p>
 
                             <h2 className="text-3xl font-bold text-[#FF5454] mt-2">
-                                {currentTime}
+                                {currentTime} WIB
                             </h2>
                         </div>
                     </div>

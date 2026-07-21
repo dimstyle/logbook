@@ -8,12 +8,12 @@ use OpenApi\Attributes as OA;
 #[OA\Schema(
     schema: "CreateAttendanceCheckInRequest",
     required: [
-        "sudah_hadir" , "jam_hadir", "wfh"
+        "status" , "jam_hadir", "alasan"
     ],
     properties: [
-        new OA\Property(property: "sudah_hadir",type: "boolean"),
+        new OA\Property(property: "status",type: "string"),
         new OA\Property(property: "jam_hadir", type: "string", format: "time"),
-        new OA\Property(property: "wfh", type: "boolean")
+        new OA\Property(property: "alasan", type: "string")
     ]
 )]
 class CreateAttendanceCheckInRequestSchema{}
