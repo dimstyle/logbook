@@ -24,15 +24,15 @@ function concatObjectValue(data: Record<string, string>, delimiter: string = ", 
 export default function AdminProfileEdit() {
     const isFetched = useRef(false);
     const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const { data, setData, patch, processing, errors, transform} = useForm<UpdateAdminProfileRequest>({
         username: "",
         email: "",
         password: "",
         nama_lengkap: "",
-        sekolah: "",
-        jurusan: "",
+        perusahaan: "",
+        divisi: "",
         nomor_telepon: ""
     })
 
@@ -172,7 +172,7 @@ export default function AdminProfileEdit() {
                                 </div>
                                 <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
                                     <h1 className="text-xl text-[#666]">Password</h1>
-                                    <input value={data.password} onChange={e => setData('password', e.target.value)} type="text" className="w-full p-1.5 bg-[#666] rounded-lg text-white" />
+                                    <input value={data.password} onChange={e => setData('password', e.target.value)} type="password" className="w-full p-1.5 bg-[#666] rounded-lg text-white" />
                                     {errors.password && <span className="text-red-500">{errors.password}</span>}
                                 </div>
                             </div>

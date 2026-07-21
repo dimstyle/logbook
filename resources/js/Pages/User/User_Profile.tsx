@@ -13,7 +13,7 @@ export default function Profile() {
     const isFetched = useRef(false);
     const [user, setUser] = useState<getUserProfileResponse>();
     const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     useEffect(()=>{
         if (isFetched.current) return;
         isFetched.current = true;

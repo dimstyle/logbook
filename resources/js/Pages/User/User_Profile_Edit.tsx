@@ -6,7 +6,6 @@ import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
 import { Link, useForm } from "@inertiajs/react";
-import { DeleteIcon } from "lucide-react";
 
 function EliminateEmptyString(data: Record<string, string>){
     return Object.fromEntries(
@@ -26,7 +25,7 @@ function concatObjectValue(data: Record<string, string>, delimiter: string = ", 
 export default function UserProfileEdit() {
     const isFetched = useRef(false);
     const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const { data, setData, patch, processing, errors, transform} = useForm<UpdateUserProfileRequest>({
         username: "",
@@ -76,7 +75,7 @@ export default function UserProfileEdit() {
         transform((data: Record<string, string>) => EliminateEmptyString(data));
 
         patch('/api/user/updateuserprofile', {
-            onSucces: () => alert("Profil berhasil diubah!"),
+            onSuccess: () => alert("Profil berhasil diubah!"),
             onError: (err: unknown) => {
                 setError(JSON.stringify({
                     message: concatObjectValue(errors),
@@ -174,7 +173,7 @@ export default function UserProfileEdit() {
                                 </div>
                                 <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
                                     <h1 className="text-xl text-[#666]">Password</h1>
-                                    <input value={data.password} onChange={e => setData('password', e.target.value)} type="text" className="w-full p-1.5 bg-[#666] rounded-lg text-white" />
+                                    <input value={data.password} onChange={e => setData('password', e.target.value)} type="password" className="w-full p-1.5 bg-[#666] rounded-lg text-white" />
                                     {errors.password && <span className="text-red-500">{errors.password}</span>}
                                 </div>
                             </div>

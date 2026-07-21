@@ -12,7 +12,13 @@ class UpdateAdminProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            'username' => ['sometimes','string'],
+            'email' => ['sometimes', 'email'], 
+            'password' => ['sometimes', 'string'],
+            'nama_lengkap' => ['sometimes', 'string'],
+            'perusahaan' => ['sometimes', 'string'],
+            'divisi' => ['sometimes', 'string'],
+            'nomor_telepon' => ['sometimes', 'string'], 
         ];
     }
 
