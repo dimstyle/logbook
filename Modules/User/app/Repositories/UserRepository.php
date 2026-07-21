@@ -79,4 +79,24 @@ class UserRepository{
         }
     }
 
+    public function updateAdminProfileByAccountID(array $accountData, array $adminData, int $accountId){
+        try{
+            DB::beginTransaction();
+
+            Admin::updateOrCreate(
+                ['account_id' => $accountId],
+                $adminData
+            );
+            Account::where('id', $accountId)->update($accountData);
+
+            DB::commit();
+        }catch(Throwable $e){
+            DB::rollBack();
+            Log::error("Failed to update admin profile",[
+                'exception' => $e
+            ]);
+            throw $e;
+        }
+    }
+
 }

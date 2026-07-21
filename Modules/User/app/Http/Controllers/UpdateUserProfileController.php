@@ -3,12 +3,10 @@
 namespace Modules\User\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Modules\User\DTO\UpdateUserProfileDTO;
 use Modules\User\Http\Requests\UpdateUserProfileRequest;
 use Modules\User\Services\UpdateUserProfileService;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Throwable;
 
 use OpenApi\Attributes as OA;
 
