@@ -83,4 +83,17 @@ class AttendanceRepository{
             throw $e;
         }
     }
+
+    public function getAttendanceDailyByAttendanceId(int $attendanceId, int $accountId){
+        try{
+            return Attendance::where('account_id',$accountId)
+            ->find($attendanceId);
+        }catch(Throwable $e){
+            Log::error('Failed to get daily attendance',[
+                'exception' => $e
+            ]);
+
+            throw $e;
+        }
+    }
 }

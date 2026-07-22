@@ -1,21 +1,16 @@
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import UserNavbar from "../../Components/User/UserNavbar.js";
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import Plus from "../../../../assets/plus.png";
 import api from "../../lib/axios.js";
-
-interface AttendanceRecord {
-    id: number;
-    date: string;
-    clockin: string;
-    clockout: string;
-    laporan: string;
-}
+import type { getAttendanceDailyResponse } from "../../types/attendance.js";
 
 export default function EditReport() {
-    const [attendanceId, setAttendanceId] = useState<number | null>(null);
+    const { attendance_id } = usePage().props;
+    
+    // const [attendanceId, setAttendanceId] = useState<number | null>(null);
     const [reportText, setReportText] = useState("");
     const [clockIn, setClockIn] = useState("-");
     const [clockOut, setClockOut] = useState("-");
@@ -23,30 +18,30 @@ export default function EditReport() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const id = Number(params.get("attendance_id"));
+    // useEffect(() => {
+    //     const params = new URLSearchParams(window.location.search);
+    //     const id = Number(params.get("attendance_id"));
 
-        if (!Number.isNaN(id)) {
-            setAttendanceId(id);
-        }
-    }, []);
+    //     if (!Number.isNaN(id)) {
+    //         setAttendanceId(id);
+    //     }
+    // }, []);
 
     useEffect(() => {
-        if (!attendanceId) {
-            return;
-        }
+        // if (!attendanceId) {
+        //     return;
+        // }
 
         const loadRecord = async () => {
             try {
-                const response = await api.get<{ data: AttendanceRecord[] }>('/api/attendance/history');
-                const record = response.data.data?.find((item) => item.id === attendanceId);
+                const response = await api.get<getAttendanceDailyResponse>(`/api/attendance/getattendancedaily?attendance_id=${attendance_id}`);
+                const resData = response.data;
 
-                if (record) {
-                    setReportText(record.laporan ?? "");
-                    setClockIn(record.clockin || "-");
-                    setClockOut(record.clockout || "-");
-                    setDate(record.date || "");
+                if (resData) {
+                    setReportText(resData.laporan ?? "");
+                    setClockIn(resData.jam_hadir || "-");
+                    setClockOut(resData.jam_pulang || "-");
+                    setDate(resData.created_date || "");
                 }
             } catch (err: unknown) {
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
@@ -59,16 +54,16 @@ export default function EditReport() {
         };
 
         void loadRecord();
-    }, [attendanceId]);
+    }, []);
 
     const handleSave = async () => {
-        if (!attendanceId) {
-            return;
-        }
+        // if (!attendanceId) {
+        //     return;
+        // }
 
         try {
             await api.post('/api/attendance/update-report', {
-                attendance_id: attendanceId,
+                attendance_id: attendance_id,
                 laporan: reportText,
             });
 
