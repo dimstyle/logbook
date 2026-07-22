@@ -1,5 +1,6 @@
 <?php
 namespace Modules\User\Repositories;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Modules\Auth\Models\Account;
@@ -52,7 +53,8 @@ class UserRepository{
                 'users.nama_lengkap',
                 'users.sekolah',
                 'users.jurusan',
-                'accounts.email'
+                'accounts.email',
+                'users.profile_photo'
             )->get();
         }catch(Throwable $e){
             Log::error("Failed to get list users",[
@@ -98,5 +100,20 @@ class UserRepository{
             throw $e;
         }
     }
+
+    public function getUserPhoto(int $id){
+        try{
+            return User::select('profile_photo')
+            ->where('account_id', $id)
+            ->firstOrFail();
+        }catch(Throwable $e){
+            Log::error("Failed to get user path",[
+                'exception' => $e
+            ]);
+
+            throw $e;
+        }
+    }
+
 
 }
