@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import UserNavbar from "../../Components/User/UserNavbar.js";
 import Image from "../../../../assets/image-picture-svgrepo-com.png";
 import LoadingPage from "../ui/LoadingPage.js";
@@ -6,22 +6,27 @@ import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
 import type { getAttendanceDailyResponse } from "../../types/attendance.js";
 import { usePage } from "@inertiajs/react";
+import { requestFormReset } from "react-dom";
 
 export default function ViewReport() {
     const { attendance_id } = usePage().props;
 
-    const [record, setRecord] = useState<getAttendanceDailyResponse>();
+    const isFetched = useRef(false);
+
+    const [attendance, setAttendance] = useState<getAttendanceDailyResponse>();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        if(isFetched.current) return;
+        isFetched.current = true;
+
         ;(async () => {
             try {
                 const response = await api.get<getAttendanceDailyResponse>(`/api/attendance/getattendancedaily?attendance_id=${attendance_id}`);
                 const resData = response.data;
 
-                console.log(resData)
-                setRecord(resData);
+                setAttendance(resData);
             } catch (err: unknown) {
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
                 const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
@@ -42,7 +47,7 @@ export default function ViewReport() {
         return <ErrorPage errorMessage={errMessage} backPath="/"/>
     }
     
-
+    const record = attendance?.attendance;
     return (
         <>
             <UserNavbar />

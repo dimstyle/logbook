@@ -1,5 +1,5 @@
 import { router, usePage } from "@inertiajs/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import UserNavbar from "../../Components/User/UserNavbar.js";
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
@@ -10,6 +10,8 @@ import type { getAttendanceDailyResponse } from "../../types/attendance.js";
 export default function EditReport() {
     const { attendance_id } = usePage().props;
 
+    const isFetched = useRef(false);
+    
     const [reportText, setReportText] = useState("");
     const [clockIn, setClockIn] = useState("-");
     const [clockOut, setClockOut] = useState("-");
@@ -22,10 +24,13 @@ export default function EditReport() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-       ;(async () => {
+        if(isFetched.current) return
+        isFetched.current = true;
+
+        ;(async () => {
             try {
                 const response = await api.get<getAttendanceDailyResponse>(`/api/attendance/getattendancedaily?attendance_id=${attendance_id}`);
-                const record = response.data;
+                const record = response?.data?.attendance;
 
                 if (record) {
                     setReportText(record.laporan ?? "");

@@ -4,10 +4,13 @@ export interface getAttendanceHistoryResponse{
 }
 
 export interface getAttendanceDailyResponse{
-    account_id : number,
-    id: number, 
-    jam_hadir: string
-    jam_pulang: string,
-    laporan: string,
-    created_date: string
+    message: string,
+    attendance: {
+        account_id : number,
+        id: number, 
+        jam_hadir: string
+        jam_pulang: string,
+        laporan: string,
+        created_date: string
+    }
 }
