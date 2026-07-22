@@ -12,7 +12,7 @@ Route::prefix('attendance')
 ->group(function (){
     Route::get('/getattendancehistory', [GetAttendanceHistoryController::class, 'handle']);
     Route::get('/getattendancedaily', [GetAttendanceDailyController::class, 'handle']);
-    Route::post('/update-report', [UpdateAttendanceReportController::class, 'handle']);
+    Route::post('/updatereport', [UpdateAttendanceReportController::class, 'handle']);
     Route::post('/createcheckin', [CreateAttendanceCheckInController::class, 'handle']);
     Route::post('/createcheckout', [CreateAttendanceCheckOutController::class, 'handle']);
 });

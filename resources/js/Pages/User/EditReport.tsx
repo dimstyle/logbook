@@ -9,8 +9,7 @@ import type { getAttendanceDailyResponse } from "../../types/attendance.js";
 
 export default function EditReport() {
     const { attendance_id } = usePage().props;
-    
-    // const [attendanceId, setAttendanceId] = useState<number | null>(null);
+
     const [reportText, setReportText] = useState("");
     const [clockIn, setClockIn] = useState("-");
     const [clockOut, setClockOut] = useState("-");
@@ -22,21 +21,8 @@ export default function EditReport() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
 
-    // useEffect(() => {
-    //     const params = new URLSearchParams(window.location.search);
-    //     const id = Number(params.get("attendance_id"));
-
-    //     if (!Number.isNaN(id)) {
-    //         setAttendanceId(id);
-    //     }
-    // }, []);
-
     useEffect(() => {
-        // if (!attendanceId) {
-        //     return;
-        // }
-
-        const loadRecord = async () => {
+       ;(async () => {
             try {
                 const response = await api.get<getAttendanceDailyResponse>(`/api/attendance/getattendancedaily?attendance_id=${attendance_id}`);
                 const record = response.data;
@@ -59,27 +45,28 @@ export default function EditReport() {
             } finally {
                 setLoading(false);
             }
-        };
-
-        void loadRecord();
+        })();
     }, []);
 
     const handleSave = async () => {
-        // if (!attendanceId) {
-        //     return;
-        // }
-
         try {
-            await api.post('/api/attendance/update-report', {
+            await api.post('/api/attendance/updatereport', {
                 attendance_id: attendance_id,
                 laporan: reportText,
             });
 
             router.visit('/');
-        } catch (error) {
-            console.error('Failed to update report', error);
+        } catch (err: unknown) {
+            const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
+            const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
+            const status = axiosError?.response?.status ?? 500;
+            setError(JSON.stringify({ message, status }));
+        } finally {
+            setLoading(false);
         }
     };
+
+    
     
     if(loading){
         return <LoadingPage />
