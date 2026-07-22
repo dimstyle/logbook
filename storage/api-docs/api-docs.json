@@ -82,6 +82,170 @@
                 }
             }
         },
+        "/api/user/getattendancedaily": {
+            "get": {
+                "tags": [
+                    "Attendance"
+                ],
+                "summary": "get attendace by attendance id",
+                "operationId": "33fe667c1bc485f94e0f2ff2e0d39574",
+                "parameters": [
+                    {
+                        "name": "attendance_id",
+                        "in": "query",
+                        "description": "ID attendance data",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success to get attendance",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetAttendanceDailyResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/getattendancehistory": {
+            "get": {
+                "tags": [
+                    "Attendance"
+                ],
+                "summary": "get list of attendace",
+                "operationId": "eff89c418a978d927711f56f59f90870",
+                "responses": {
+                    "200": {
+                        "description": "Success to get attendances",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetAttendanceDailyResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/deleteaccount": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Delete user account",
+                "operationId": "9875e487e37060e176dd32a4afabd8ce",
+                "responses": {
+                    "204": {
+                        "description": "Success to delete account",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RefreshTokenResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/auth/login": {
             "post": {
                 "tags": [
@@ -153,11 +317,33 @@
                 }
             }
         },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout from account",
+                "operationId": "3fda24b200ae76fafe41abe587f128b3",
+                "responses": {
+                    "200": {
+                        "description": "Success logout",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/auth/refresh": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
+                "summary": "Refresh access token",
                 "operationId": "3dfe244f437c37fc194d08f66b6141ab",
                 "requestBody": {
                     "required": true,
@@ -744,6 +930,40 @@
                 },
                 "type": "object"
             },
+            "DailyAttendance": {
+                "required": [
+                    "account_id",
+                    "id",
+                    "jam_hadir",
+                    "jam_pulang",
+                    "laporan",
+                    "created_date"
+                ],
+                "properties": {
+                    "account_id": {
+                        "type": "integer"
+                    },
+                    "id": {
+                        "type": "integer"
+                    },
+                    "jam_hadir": {
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "jam_pulang": {
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "laporan": {
+                        "type": "string"
+                    },
+                    "created_date": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                },
+                "type": "object"
+            },
             "DefaultResponse": {
                 "required": [
                     "message"
@@ -824,6 +1044,39 @@
                             }
                         },
                         "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "GetAttendanceDailyResponse": {
+                "required": [
+                    "message",
+                    "attendance"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "attendance": {
+                        "$ref": "#/components/schemas/DailyAttendance"
+                    }
+                },
+                "type": "object"
+            },
+            "GetAttendanceHistoryResponse": {
+                "required": [
+                    "message",
+                    "attendance"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "attendances": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DailyAttendance"
+                        }
                     }
                 },
                 "type": "object"
