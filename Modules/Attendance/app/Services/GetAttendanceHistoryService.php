@@ -23,7 +23,7 @@ class GetAttendanceHistoryService
                     'id' => $attendance->id,
                     'account_id' => $attendance->account_id,
                     'date' => $recordDate,
-                    'activity' => $attendance->laporan ?: 'Belum ada laporan',
+                    'activity' => $attendance->laporan ?: '',
                     'laporan' => $attendance->laporan ?? '',
                     'clockin' => $attendance->jam_hadir ?? '-',
                     'clockout' => $attendance->jam_pulang ?? '-',

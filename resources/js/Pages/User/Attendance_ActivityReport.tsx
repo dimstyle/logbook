@@ -19,13 +19,10 @@ export default function ActivityReport() {
                     <h2>Kegiatan</h2>
                     <input type="text" className="bg-white rounded-lg p-1.5 w-full"/>
                     <h2>Dokumentasi</h2>
-                    <div className="bg-white w-47.5 h-47.5 rounded-[29px] mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
+                    <label htmlFor="file-upload" className="bg-white w-47.5 h-47.5 rounded-[29px] mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
                         <input type="file" className="hidden" id="file-upload"/>
-                        <label htmlFor="file-upload" className="flex flex-col items-center cursor-pointer">
-                            <img src={Plus} className="w-12 h12" />
-                            <span className="text-sm text-gray-500 mt-2">Upload File</span>
-                        </label>
-                    </div>
+                        <img src={Plus} className="w-12 h12" />
+                    </label>
                 </div>
             </div>
             <div className="p-4 pt-5">
