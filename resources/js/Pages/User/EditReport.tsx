@@ -1,14 +1,19 @@
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import UserNavbar from "../../Components/User/UserNavbar.js";
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import Plus from "../../../../assets/plus.png";
 import api from "../../lib/axios.js";
+<<<<<<< HEAD
 import type { getAttendanceHistoryResponse } from "../../types/attendance.js";
+=======
+import type { getAttendanceDailyResponse } from "../../types/attendance.js";
+>>>>>>> eda882c3b58c66f73b37b0bbd6e2d23b37b49af5
 
 export default function EditReport() {
-    const [attendanceId, setAttendanceId] = useState<number | null>(null);
+    const { attendance_id } = usePage().props;
+
     const [reportText, setReportText] = useState("");
     const [clockIn, setClockIn] = useState("-");
     const [clockOut, setClockOut] = useState("-");
@@ -22,26 +27,21 @@ export default function EditReport() {
     const [records, setRecords] = useState<getAttendanceHistoryResponse>();
 
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const id = Number(params.get("attendance_id"));
-
-        if (!Number.isNaN(id)) {
-            setAttendanceId(id);
-        }
-    }, []);
-
-    useEffect(() => {
-        if (!attendanceId) {
-            return;
-        }
-
-        const loadRecord = async () => {
+       ;(async () => {
             try {
-                const response = await api.get<getAttendanceHistoryResponse>('/api/attendance/getattendancehistory');
-                const resData = response.data;
+                const response = await api.get<getAttendanceDailyResponse>(`/api/attendance/getattendancedaily?attendance_id=${attendance_id}`);
+                const record = response.data;
 
-
-                setRecords(resData);
+                if (record) {
+                    setReportText(record.laporan ?? "");
+                    setClockIn(record.jam_hadir || "-");
+                    setClockOut(record.jam_pulang || "-");
+                    setDate(record.created_date || "");
+                    setCanEditReport(Boolean(record.laporan && record.laporan.trim().length > 0));
+                    setCanEditClockIn(Boolean(record.jam_hadir && record.jam_hadir.trim().length > 0));
+                    setCanEditClockOut(Boolean(record.jam_pulang && record.jam_pulang.trim().length > 0));
+                    setCanEditDate(Boolean(record.created_date && record.created_date.trim().length > 0));
+                }
             } catch (err: unknown) {
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
                 const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
@@ -50,27 +50,28 @@ export default function EditReport() {
             } finally {
                 setLoading(false);
             }
-        };
-
-        void loadRecord();
-    }, [attendanceId]);
+        })();
+    }, []);
 
     const handleSave = async () => {
-        if (!attendanceId) {
-            return;
-        }
-
         try {
-            await api.post('/api/attendance/update-report', {
-                attendance_id: attendanceId,
+            await api.post('/api/attendance/updatereport', {
+                attendance_id: attendance_id,
                 laporan: reportText,
             });
 
             router.visit('/');
-        } catch (error) {
-            console.error('Failed to update report', error);
+        } catch (err: unknown) {
+            const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
+            const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
+            const status = axiosError?.response?.status ?? 500;
+            setError(JSON.stringify({ message, status }));
+        } finally {
+            setLoading(false);
         }
     };
+
+    
     
     if(loading){
         return <LoadingPage />

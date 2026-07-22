@@ -23,8 +23,15 @@ Route::prefix('/')
 
     Route::get('/user_profile',fn() => Inertia::render('User/User_Profile'));
     Route::get('/user_profile/edit', fn() => Inertia::render('User/User_Profile_Edit'));
-    Route::get('/edit_report', fn() => Inertia::render('User/EditReport'));
-    Route::get('/view_report', fn() => Inertia::render('User/ViewReport'));
+    
+    Route::get('/edit_report/{attendanceId}', fn($attendanceId) => Inertia::render('User/EditReport',[
+        'attendance_id' => $attendanceId
+    ]));
+
+    Route::get('/view_report/{attendanceId}', fn($attendanceId) => Inertia::render('User/ViewReport',[
+        'attendance_id' => $attendanceId
+    ]));
+
 });
 
 // Admin

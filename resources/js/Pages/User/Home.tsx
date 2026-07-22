@@ -63,7 +63,7 @@ export default function Home(){
         const lowercaseQuery = searchQuery.toLocaleLowerCase();
         return (
             history.jam_hadir.toLocaleLowerCase().includes(lowercaseQuery) || 
-            history.jam_pulang.toLocaleLowerCase().includes(lowercaseQuery)
+            history.jam_pulang.toLocaleLowerCase().includes(lowercaseQuery) 
         )
     })
 
@@ -124,8 +124,8 @@ export default function Home(){
                                 const linktext = isToday ? "Edit" : "View";
                                 const linkcolor = isToday ? "#FF5454" : "#1D4ED8";
                                 const href = isToday
-                                    ? `/edit_report?attendance_id=${user.id}`
-                                    : `/view_report?attendance_id=${user.id}`;
+                                    ? `/edit_report/${user.id}`
+                                    : `/view_report/${user.id}`;
 
                                 return (
                                     <tr key={user.id} className="divide-x divide-white-100 h-20">
