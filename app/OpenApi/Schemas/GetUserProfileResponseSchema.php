@@ -17,8 +17,9 @@ use OpenApi\Attributes as OA;
                 "id", "account_id", "admin_id",
                 
                 // user data
-                "sekolah" , "jurusan", "nomor_telepon", "hadir", "tidak_masuk", "laporan",
-
+                "sekolah" , "jurusan", "nomor_telepon", "hadir", 
+                "tidak_masuk", "laporan","photo_path",
+                
                 // range date
                 "periode_awal", "periode_akhir"
             ],
@@ -37,6 +38,7 @@ use OpenApi\Attributes as OA;
                 new OA\Property(property: "hadir", type: "integer"),
                 new OA\Property(property: "tidak_masuk", type: "integer"),
                 new OA\Property(property: "laporan", type: "integer"),
+                new OA\Property(property: "profile_photo", type: "string"),
                 
                 new OA\Property(property: "periode_awal", type: "string", format: "date"),
                 new OA\Property(property: "periode_akhir", type: "string", format: "date"),

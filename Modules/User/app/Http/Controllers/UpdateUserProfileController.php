@@ -3,6 +3,7 @@
 namespace Modules\User\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Log;
 use Modules\User\Http\Requests\UpdateUserProfileRequest;
 use Modules\User\Services\UpdateUserProfileService;
 use Symfony\Component\HttpFoundation\Response;

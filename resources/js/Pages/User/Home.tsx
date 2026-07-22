@@ -1,41 +1,75 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import UserNavbar from "../../Components/User/UserNavbar.js";
+import api from "../../lib/axios.js";
+import LoadingPage from "../ui/LoadingPage.js";
+import ErrorPage from "../ui/ErrorPage.js";
 
-interface User {
+interface AttendanceRecord {
+    id: number;
     activity: string;
     clockin: string;
     clockout: string;
     date: string;
-    actions: string;
+    laporan: string;
 }
 
-const MOCK_USERS: User[] = [
-    { activity: "Membuat website", clockin: "08.00", clockout: "16.00", date: "today", actions: "/edit_report"},
-    { activity: "Membuat sabun", clockin: "04.00", clockout: "23.00", date: "9-11-2011", actions: "/view_report"},
-    { activity: "Membuat dimsum", clockin: "02.00", clockout: "22.00", date: "9-11-2021", actions: "/view_report"},
-    { activity: "Membuat roket", clockin: "04.00", clockout: "21.00", date: "9-11-2031", actions: "/view_report"},
-    { activity: "Membuat mobil", clockin: "02.00", clockout: "23.00", date: "9-11-2041", actions: "/view_report"},
-    { activity: "Membuat motor", clockin: "03.00", clockout: "21.00", date: "9-11-2051", actions: "/view_report"},
-    { activity: "Membuat masalah", clockin: "05.00", clockout: "17.00", date: "9-11-2061", actions: "/view_report"},
-    { activity: "Membuat kebakaran", clockin: "06.00", clockout: "18.00", date: "9-11-2071", actions: "/view_report"}
-]
-
 export default function Home(){
-    const [searchQuery, setSearchQuery] = useState<string>("");
+    const [searchQuery, setSearchQuery] = useState("");
+    const [records, setRecords] = useState<AttendanceRecord[]>([]);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadHistory = async () => {
+            try {
+                const response = await api.get<{ data: AttendanceRecord[] }>('/api/attendance/history');
+                const attendanceRecords = (response.data.data ?? []).map((record) => ({
+                    ...record,
+                    activity: record.laporan || 'Belum ada laporan',
+                    clockin: record.clockin || '-',
+                    clockout: record.clockout || '-',
+                    date: record.date || '-',
+                }));
+
+                setRecords(attendanceRecords);
+            } catch (err: unknown) {
+                const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
+                const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
+                const status = axiosError?.response?.status ?? 500;
+                setError(JSON.stringify({ message, status }));
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        void loadHistory();
+    }, []);
 
     const handleSearchChange = (event: ChangeEvent<HTMLInputElement>): void => {
         setSearchQuery(event.target.value);
     }
 
-    const filteredUser = MOCK_USERS.filter((history) => {
+    const filteredUser = records.filter((history) => {
         const lowercaseQuery = searchQuery.toLocaleLowerCase();
         return (
             history.activity.toLocaleLowerCase().includes(lowercaseQuery) ||
             history.clockin.toLocaleLowerCase().includes(lowercaseQuery) ||
             history.clockout.toLocaleLowerCase().includes(lowercaseQuery) ||
-            history.date.toLocaleLowerCase().includes(lowercaseQuery)
+            history.date.toLocaleLowerCase().includes(lowercaseQuery) ||
+            history.laporan.toLocaleLowerCase().includes(lowercaseQuery)
         )
     })
+
+    if(loading){
+        return <LoadingPage />
+    }
+    
+    if (error){
+        const errMessage = JSON.parse(error);
+        return <ErrorPage errorMessage={errMessage} backPath="/"/>
+    }
+
+    const today = new Date().toISOString().slice(0, 10);
 
     return(
         <>
@@ -59,20 +93,27 @@ export default function Home(){
                         </tr>
                     </thead>
                     <tbody className="text-center divide-y divide-white-100">
-                        {filteredUser.length > 0 ? (
+                        {loading ? (
+                            <tr>
+                                <td colSpan={5} className="text-center text-xl items-center h-20">Loading history...</td>
+                            </tr>
+                        ) : filteredUser.length > 0 ? (
                             filteredUser.map((user) => {
-                                const isToday = user.date === "today"
+                                const isToday = user.date === today;
                                 const linktext = isToday ? "Edit" : "View";
                                 const linkcolor = isToday ? "#FF5454" : "#1D4ED8";
+                                const href = isToday
+                                    ? `/edit_report?attendance_id=${user.id}`
+                                    : `/view_report?attendance_id=${user.id}`;
                                 
                                 return (
-                                    <tr className="divide-x divide-white-100 h-20">
+                                    <tr key={user.id} className="divide-x divide-white-100 h-20">
                                         <td>{user.activity}</td>
                                         <td>{user.clockin}</td>
                                         <td>{user.clockout}</td>
                                         <td>{user.date}</td>
                                         <td>
-                                            <a href={user.actions} style={{backgroundColor: linkcolor}} className="rounded-lg p-1.5 cursor-pointer">{linktext}</a>
+                                            <a href={href} style={{backgroundColor: linkcolor}} className="rounded-lg p-1.5 cursor-pointer">{linktext}</a>
                                         </td>
                                     </tr>
                                 );

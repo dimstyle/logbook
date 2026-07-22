@@ -61,4 +61,31 @@ class AttendanceRepository{
             throw $e;
         }
     }
+
+    public function getAttendanceHistory(int $accountId)
+    {
+        try {
+            return Attendance::select(
+                'id',
+                'account_id',
+                'created_date',
+                'laporan',
+                'jam_hadir',
+                'jam_pulang',
+                'sudah_hadir',
+                'sudah_pulang',
+                'sudah_laporan',
+                'images_path'
+            )
+                ->where('account_id', $accountId)
+                ->orderByDesc('created_date')
+                ->get();
+        } catch (Throwable $e) {
+            Log::error('Failed to get attendance history', [
+                'exception' => $e,
+            ]);
+
+            throw $e;
+        }
+    }
 }

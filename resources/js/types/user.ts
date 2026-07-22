@@ -18,7 +18,8 @@ export interface getUserProfileResponse{
         periode_awal: string, 
         periode_akhir: string,
         created_at: string, 
-        updated_at: string
+        updated_at: string,
+        profile_photo: string
     }
 }
 
@@ -40,8 +41,10 @@ export interface getAdminProfileResponse{
         laporan_hari_ini: number, 
         created_at: string,
         updated_at: string
+        profile_photo: string
     }
 }
+
 
 export interface getListUsersInfoResponse{
     message: string,
@@ -73,3 +76,8 @@ export interface UpdateAdminProfileRequest {
     divisi: string;
     nomor_telepon: string;
 };
+
+export interface getUserProfilePhoto{
+    message: string,
+    url: string
+}
