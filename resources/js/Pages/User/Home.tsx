@@ -5,29 +5,6 @@ import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import type { getAttendanceHistoryResponse } from "../../types/attendance.js";
 
-// interface AttendanceRecord {
-//     id: number;
-//     activity: string;
-//     clockin: string;
-//     clockout: string;
-//     date: string;
-//     laporan: string;
-// }
-
-// const attendanceRecords = (response.data.data ?? []).map((record) => ({
-//     ...record,
-//     activity: record.laporan || 'Belum ada laporan',
-//     clockin: record.clockin || '-',
-//     clockout: record.clockout || '-',
-//     date: record.date || '-',
-// }));
-
-// history.activity.toLocaleLowerCase().includes(lowercaseQuery) ||
-// history.clockin.toLocaleLowerCase().includes(lowercaseQuery) ||
-// history.clockout.toLocaleLowerCase().includes(lowercaseQuery) ||
-// history.date.toLocaleLowerCase().includes(lowercaseQuery) ||
-// history.laporan.toLocaleLowerCase().includes(lowercaseQuery)
-
 export default function Home(){
     const [searchQuery, setSearchQuery] = useState("");
     const [records, setRecords] = useState<getAttendanceHistoryResponse>();
@@ -39,6 +16,7 @@ export default function Home(){
             try {
                 const response = await api.get<getAttendanceHistoryResponse>('/api/attendance/getattendancehistory');
                 const resData = response.data;
+                setRecords(resData);
 
             } catch (err: unknown) {
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
@@ -75,8 +53,6 @@ export default function Home(){
         const errMessage = JSON.parse(error);
         return <ErrorPage errorMessage={errMessage} backPath="/"/>
     }
-
-    console.log(filteredUser)
 
     const today = new Date().toISOString().slice(0, 10);
 
