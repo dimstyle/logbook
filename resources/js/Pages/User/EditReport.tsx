@@ -5,14 +5,7 @@ import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import Plus from "../../../../assets/plus.png";
 import api from "../../lib/axios.js";
-
-interface AttendanceRecord {
-    id: number;
-    date: string;
-    clockin: string;
-    clockout: string;
-    laporan: string;
-}
+import type { getAttendanceHistoryResponse } from "../../types/attendance.js";
 
 export default function EditReport() {
     const [attendanceId, setAttendanceId] = useState<number | null>(null);
@@ -26,6 +19,7 @@ export default function EditReport() {
     const [canEditDate, setCanEditDate] = useState(false);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
+    const [records, setRecords] = useState<getAttendanceHistoryResponse>();
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -43,19 +37,11 @@ export default function EditReport() {
 
         const loadRecord = async () => {
             try {
-                const response = await api.get<{ data: AttendanceRecord[] }>('/api/attendance/history');
-                const record = response.data.data?.find((item) => item.id === attendanceId);
+                const response = await api.get<getAttendanceHistoryResponse>('/api/attendance/getattendancehistory');
+                const resData = response.data;
 
-                if (record) {
-                    setReportText(record.laporan ?? "");
-                    setClockIn(record.clockin || "-");
-                    setClockOut(record.clockout || "-");
-                    setDate(record.date || "");
-                    setCanEditReport(Boolean(record.laporan && record.laporan.trim().length > 0));
-                    setCanEditClockIn(Boolean(record.clockin && record.clockin.trim().length > 0));
-                    setCanEditClockOut(Boolean(record.clockout && record.clockout.trim().length > 0));
-                    setCanEditDate(Boolean(record.date && record.date.trim().length > 0));
-                }
+
+                setRecords(resData);
             } catch (err: unknown) {
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
                 const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
