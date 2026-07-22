@@ -3,9 +3,9 @@
 namespace Modules\Attendance\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Modules\Attendance\Services\GetAttendanceHistoryService;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class GetAttendanceHistoryController extends Controller
 {
@@ -15,17 +15,18 @@ class GetAttendanceHistoryController extends Controller
 
     public function handle()
     {
-        $account = Auth::user();
 
-        if (! $account) {
+        try{
+            $attendances = $this->getAttendanceHistoryService->handle();
+        }catch(Throwable $e){
             return response()->json([
-                'message' => 'Unauthorized',
-            ], Response::HTTP_UNAUTHORIZED);
+                'message' => 'Internal server error'
+            ],Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return response()->json([
-            'message' => 'Success',
-            'data' => $this->getAttendanceHistoryService->handle($account->id),
+            'message' => 'Success to get attendance history',
+            'attendances' => $attendances,
         ], Response::HTTP_OK);
     }
 }

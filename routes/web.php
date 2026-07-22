@@ -23,7 +23,10 @@ Route::prefix('/')
 
     Route::get('/user_profile',fn() => Inertia::render('User/User_Profile'));
     Route::get('/user_profile/edit', fn() => Inertia::render('User/User_Profile_Edit'));
-    Route::get('/edit_report', fn() => Inertia::render('User/EditReport'));
+    Route::get('/edit_report/{attendanceId}', fn($attendanceId) => Inertia::render('User/EditReport',[
+        'attendance_id' => $attendanceId
+    ]));
+
     Route::get('/view_report', fn() => Inertia::render('User/ViewReport'));
 });
 
@@ -46,6 +49,7 @@ Route::prefix('admin')
             'attendanceData' => request()->all()
         ]);
     });
+    
     Route::get('/user_registration', fn() => Inertia::render('Admin/User_Registration'));
     Route::get('/user_list', fn() => Inertia::render('Admin/User_List'));
     

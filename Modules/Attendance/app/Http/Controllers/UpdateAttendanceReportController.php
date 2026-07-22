@@ -40,9 +40,12 @@ class UpdateAttendanceReportController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $attendance->laporan = $validated['laporan'] ?? '';
-        $attendance->sudah_laporan = ! empty($validated['laporan']);
-        $attendance->save();
+        $reportData = [
+            'laporan' => $validated['laporan?'] ?? '',
+            'sudah_laporan' => ! empty($validated['laporan']),
+        ];
+
+        $this->attendanceRepository->createReportById($account->id, $reportData);
 
         return response()->json([
             'message' => 'Success',

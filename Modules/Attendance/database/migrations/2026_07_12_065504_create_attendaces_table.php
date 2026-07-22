@@ -17,7 +17,6 @@ return new class extends Migration
 
             $table->boolean('izin')->default(false);
             $table->boolean('sakit')->default(false);
-            $table->string('alasan_tidak_masuk')->default('');
 
 
             $table->boolean('sudah_hadir')->default(false);
