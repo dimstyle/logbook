@@ -5,11 +5,7 @@ import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import Plus from "../../../../assets/plus.png";
 import api from "../../lib/axios.js";
-<<<<<<< HEAD
-import type { getAttendanceHistoryResponse } from "../../types/attendance.js";
-=======
 import type { getAttendanceDailyResponse } from "../../types/attendance.js";
->>>>>>> eda882c3b58c66f73b37b0bbd6e2d23b37b49af5
 
 export default function EditReport() {
     const { attendance_id } = usePage().props;
@@ -24,7 +20,6 @@ export default function EditReport() {
     const [canEditDate, setCanEditDate] = useState(false);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
-    const [records, setRecords] = useState<getAttendanceHistoryResponse>();
 
     useEffect(() => {
        ;(async () => {
