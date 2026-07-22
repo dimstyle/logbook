@@ -53,7 +53,8 @@ export interface getListUsersInfoResponse{
         nama_lengkap: string,
         sekolah: string,
         jurusan: string,
-        email: string 
+        email: string,
+        profile_photo: string
     }[]
 }
 

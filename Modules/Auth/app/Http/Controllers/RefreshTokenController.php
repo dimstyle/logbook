@@ -18,6 +18,7 @@ class RefreshTokenController extends Controller
 {
     #[OA\Post(
         path: "/api/auth/refresh",
+        summary: "Refresh access token",
         tags: ["Auth"],
     )]
     #[OA\RequestBody(

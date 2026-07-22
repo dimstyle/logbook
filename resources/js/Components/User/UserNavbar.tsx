@@ -46,7 +46,7 @@ export default function UserNavbar({
              try{
                 const response = await api.get<getUserProfilePhoto>('/api/user/getuserprofilephoto');
                 const PhotoUrl = response.data.url;
-
+                
                 setUrl('/storage/'+PhotoUrl)
             }catch(err: unknown){
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
@@ -105,8 +105,8 @@ export default function UserNavbar({
                             {menu.name}
                         </a>
                     ))}
-                    <a href="/user_profile">
-                        <img src={url ?? ProfileIcon} alt="UserIcon" width="70rem" />
+                    <a href="/user_profile" >
+                        <img className='rounded-full object-cover h-17.5 w-17.5' src={url || ProfileIcon} alt="UserIcon" width="70rem"  />
                     </a>
                 </div>
             </nav>

@@ -1,5 +1,6 @@
 <?php
 namespace Modules\Auth\Repositories;
+use Modules\Attendance\Models\Attendance;
 use Modules\Auth\Models\Account;
 use Modules\User\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -67,7 +68,24 @@ class AuthRepository{
             ]);
             throw $e;
         }
+    }
 
+    public function deleteAccountById(int $id){
+        try{
+            DB::beginTransaction();
 
+            Account::destroy($id);
+            User::where('account_id',$id)->delete();
+            Attendance::where('account_id',$id)->delete();
+
+            DB::commit();
+        }catch(Throwable $e){
+            DB::rollBack();
+            Log::error("Failed to delete account",[
+                'exception' => $e
+            ]);
+
+            throw $e;
+        }
     }
 }

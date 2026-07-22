@@ -28,15 +28,13 @@ class UpdateUserProfileService
 
         if(array_key_exists('profile_photo', $updateData)){
 
-            Log::info($updateData['profile_photo']);
-            $image = Image::decode($updateData['profile_photo']);
-
-            $encoded = $image->encodeUsingFileExtension(
-                'webp',
-                quaility: 80
-            );
+            $encoded = $this->loadAndCompressPhoto($updateData);
 
             $path = 'profile-photos/' . Str::uuid() . '.webp';
+
+            $old_path = $this->userRepository->getUserPhoto($id);
+            
+            Storage::disk('public')->delete($old_path);
 
             Storage::disk('public')->put(
                 $path,
@@ -78,5 +76,16 @@ class UpdateUserProfileService
         }
 
         return $result;
+    }
+
+    private function loadAndCompressPhoto(array $updateData){
+        $image = Image::decode($updateData['profile_photo']);
+
+        $encoded = $image->encodeUsingFileExtension(
+            'webp',
+            quaility: 80
+        );
+
+        return $encoded;
     }
 }
