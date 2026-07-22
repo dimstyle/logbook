@@ -19,6 +19,8 @@ export default function ViewReport() {
             try {
                 const response = await api.get<getAttendanceDailyResponse>(`/api/attendance/getattendancedaily?attendance_id=${attendance_id}`);
                 const resData = response.data;
+
+                console.log(resData)
                 setRecord(resData);
             } catch (err: unknown) {
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
