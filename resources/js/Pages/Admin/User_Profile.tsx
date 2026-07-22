@@ -2,10 +2,11 @@ import AdminNavbar from "../../Components/Admin/AdminNavbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png";
 import { useEffect, useRef, useState } from "react";
 import type { getUserProfileResponse } from "../../types/user.js";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import api from "../../lib/axios.js";
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
+import type { DefaultResponse } from "../../types/default.js";
 
 
 export default function UserProfileOnAdmin() {
@@ -42,6 +43,25 @@ export default function UserProfileOnAdmin() {
         })()    
     })
 
+    const deleteEvent = async ()=>{
+        try{
+            const response = await api.get<DefaultResponse>(`/api/auth/deleteaccount/${id}`);
+            const resData = response.data;
+
+            alert(resData.message);
+            router.get('/admin/user_list');
+        }catch(err: unknown){
+            const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
+            const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
+            const status = axiosError?.response?.status ?? 500;
+
+            setError(JSON.stringify({ message, status }));
+        }finally{
+            setLoading(false);
+        }
+               
+    }
+
     if(loading){
         return <LoadingPage />
     }
@@ -66,7 +86,7 @@ export default function UserProfileOnAdmin() {
                             <h2 className="text-[#1D4ED8] text-xl">{UserData?.role}</h2>
                         </div>
                         <div className="flex w-full justify-end mr-10">
-                            <a href="" className="flex items-center gap-2 bg-[#FFC7C7] p-2 rounded-xl text-[#FF5454]">Delete Account</a>
+                            <button onClick={deleteEvent} className="flex items-center gap-2 bg-[#FFC7C7] p-2 rounded-xl text-[#FF5454]">Delete Account</button>
                         </div>
                     </div>
                     <div className="flex flex-col mx-5 mt-20">
