@@ -46,6 +46,7 @@ Route::prefix('admin')
             'attendanceData' => request()->all()
         ]);
     });
+    
     Route::get('/user_registration', fn() => Inertia::render('Admin/User_Registration'));
     Route::get('/user_list', fn() => Inertia::render('Admin/User_List'));
     

@@ -3,7 +3,6 @@ import UserNavbar from "../../Components/User/UserNavbar.js";
 import { useEffect, useState } from "react";
 import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
-import { Play } from "lucide-react";
 import type { DefaultResponse } from "../../types/default.js";
 
 function isClockIn(status: string): boolean{

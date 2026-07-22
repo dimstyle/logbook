@@ -6,16 +6,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Modules\User\Models\User;
+use Modules\User\Repositories\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class GetUserProfilePhotoController extends Controller
 {
+    public function __construct(
+        private UserRepository $userRepository
+    ){}
+
     public function handle(){
         $user = Auth::user();
 
         try{
-            $url = $this->getUserPhoto($user->id);
+            $url = $this->userRepository->getUserPhoto($user->id);
         }catch(ModelNotFoundException $e){
             return response()->json([
                 'message' => 'User not found'
@@ -28,13 +33,9 @@ class GetUserProfilePhotoController extends Controller
 
         return response()->json([
             'message' => 'Success to get profile photo',
-            'url' => $url
+            'url' => $url->profile_photo
         ],Response::HTTP_OK);
     }
 
-    private function getUserPhoto(int $id){
-        return User::select('profile_photo')
-        ->where('account_id', $id)
-        ->firstOrFail();
-    }
+
 }

@@ -3,35 +3,44 @@ import UserNavbar from "../../Components/User/UserNavbar.js";
 import api from "../../lib/axios.js";
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
+import type { getAttendanceHistoryResponse } from "../../types/attendance.js";
 
-interface AttendanceRecord {
-    id: number;
-    activity: string;
-    clockin: string;
-    clockout: string;
-    date: string;
-    laporan: string;
-}
+// interface AttendanceRecord {
+//     id: number;
+//     activity: string;
+//     clockin: string;
+//     clockout: string;
+//     date: string;
+//     laporan: string;
+// }
+
+// const attendanceRecords = (response.data.data ?? []).map((record) => ({
+//     ...record,
+//     activity: record.laporan || 'Belum ada laporan',
+//     clockin: record.clockin || '-',
+//     clockout: record.clockout || '-',
+//     date: record.date || '-',
+// }));
+
+// history.activity.toLocaleLowerCase().includes(lowercaseQuery) ||
+// history.clockin.toLocaleLowerCase().includes(lowercaseQuery) ||
+// history.clockout.toLocaleLowerCase().includes(lowercaseQuery) ||
+// history.date.toLocaleLowerCase().includes(lowercaseQuery) ||
+// history.laporan.toLocaleLowerCase().includes(lowercaseQuery)
 
 export default function Home(){
     const [searchQuery, setSearchQuery] = useState("");
-    const [records, setRecords] = useState<AttendanceRecord[]>([]);
+    const [records, setRecords] = useState<getAttendanceHistoryResponse>();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadHistory = async () => {
             try {
-                const response = await api.get<{ data: AttendanceRecord[] }>('/api/attendance/history');
-                const attendanceRecords = (response.data.data ?? []).map((record) => ({
-                    ...record,
-                    activity: record.laporan || 'Belum ada laporan',
-                    clockin: record.clockin || '-',
-                    clockout: record.clockout || '-',
-                    date: record.date || '-',
-                }));
+                const response = await api.get<getAttendanceHistoryResponse>('/api/attendance/getattendancehistory');
+                const resData = response.data;
 
-                setRecords(attendanceRecords);
+                setRecords(resData);
             } catch (err: unknown) {
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
                 const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
@@ -49,14 +58,13 @@ export default function Home(){
         setSearchQuery(event.target.value);
     }
 
-    const filteredUser = records.filter((history) => {
+    const userAttendances = records?.attendances;
+
+    const filteredUser = (userAttendances ?? []).filter((history) => {
         const lowercaseQuery = searchQuery.toLocaleLowerCase();
         return (
-            history.activity.toLocaleLowerCase().includes(lowercaseQuery) ||
-            history.clockin.toLocaleLowerCase().includes(lowercaseQuery) ||
-            history.clockout.toLocaleLowerCase().includes(lowercaseQuery) ||
-            history.date.toLocaleLowerCase().includes(lowercaseQuery) ||
-            history.laporan.toLocaleLowerCase().includes(lowercaseQuery)
+            history.jam_hadir.toLocaleLowerCase().includes(lowercaseQuery) || 
+            history.jam_pulang.toLocaleLowerCase().includes(lowercaseQuery)
         )
     })
 
@@ -68,6 +76,8 @@ export default function Home(){
         const errMessage = JSON.parse(error);
         return <ErrorPage errorMessage={errMessage} backPath="/"/>
     }
+
+    console.log(filteredUser)
 
     const today = new Date().toISOString().slice(0, 10);
 
@@ -99,19 +109,19 @@ export default function Home(){
                             </tr>
                         ) : filteredUser.length > 0 ? (
                             filteredUser.map((user) => {
-                                const isToday = user.date === today;
+                                const isToday = user.created_date === today;
                                 const linktext = isToday ? "Edit" : "View";
                                 const linkcolor = isToday ? "#FF5454" : "#1D4ED8";
                                 const href = isToday
                                     ? `/edit_report?attendance_id=${user.id}`
                                     : `/view_report?attendance_id=${user.id}`;
-                                
+
                                 return (
                                     <tr key={user.id} className="divide-x divide-white-100 h-20">
-                                        <td>{user.activity}</td>
-                                        <td>{user.clockin}</td>
-                                        <td>{user.clockout}</td>
-                                        <td>{user.date}</td>
+                                        <td>{user.laporan || "N/A"}</td>
+                                        <td>{user.jam_hadir || "N/A"}</td>
+                                        <td>{user.jam_pulang || "N/A"}</td>
+                                        <td>{user.created_date || "N/A"}</td>
                                         <td>
                                             <a href={href} style={{backgroundColor: linkcolor}} className="rounded-lg p-1.5 cursor-pointer">{linktext}</a>
                                         </td>
