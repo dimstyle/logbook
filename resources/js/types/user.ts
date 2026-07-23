@@ -58,6 +58,37 @@ export interface getListUsersInfoResponse{
     }[]
 }
 
+export interface getUsersAttendanceInfoResponse{
+    message: string,
+    users: {
+        id: number;
+        name?: string;
+        school?: string;
+        major?: string;
+        attendance?: string;
+        wfo?: boolean;
+        report?: boolean;
+        clockOut?: boolean;
+        time?: string;
+        date?: string;
+        clockOutTime?: string;
+        profile_photo?: string;
+        nama_lengkap?: string;
+        sekolah?: string;
+        jurusan?: string;
+        izin?: boolean;
+        sakit?: boolean;
+        sudah_hadir?: boolean;
+        wfh?: boolean;
+        sudah_pulang?: boolean;
+        sudah_laporan?: boolean;
+        jam_hadir?: string | null;
+        jam_pulang?: string | null;
+        laporan?: string | null;
+        created_date?: string | null;
+    }[]
+}
+
 export interface UpdateUserProfileRequest {
     username: string;
     email: string;

@@ -48,13 +48,27 @@ class UserRepository{
         try{
             return User::where('admin_id', $adminId)
             ->join('accounts', 'users.account_id' , '=', 'accounts.id')
+            ->leftJoin('attendances', function ($join) {
+                $join->on('users.account_id', '=', 'attendances.account_id')
+                    ->whereDate('attendances.created_date', now()->toDateString());
+            })
             ->select(
                 'accounts.id',
                 'users.nama_lengkap',
                 'users.sekolah',
                 'users.jurusan',
                 'accounts.email',
-                'users.profile_photo'
+                'users.profile_photo',
+                DB::raw('COALESCE(attendances.izin, 0) as izin'),
+                DB::raw('COALESCE(attendances.sakit, 0) as sakit'),
+                DB::raw('COALESCE(attendances.sudah_hadir, 0) as sudah_hadir'),
+                DB::raw('COALESCE(attendances.wfh, 0) as wfh'),
+                DB::raw('COALESCE(attendances.sudah_pulang, 0) as sudah_pulang'),
+                DB::raw('COALESCE(attendances.sudah_laporan, 0) as sudah_laporan'),
+                DB::raw('attendances.jam_hadir as jam_hadir'),
+                DB::raw('attendances.jam_pulang as jam_pulang'),
+                DB::raw('COALESCE(attendances.laporan, "") as laporan'),
+                DB::raw('attendances.created_date as created_date')
             )->get();
         }catch(Throwable $e){
             Log::error("Failed to get list users",[
