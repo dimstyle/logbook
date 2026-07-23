@@ -233,10 +233,10 @@ export default function ClockIn() {
                                 onChange={(e) => setReason(e.target.value)}
                                 placeholder={`Masukkan alasan ${attendance}...`}
                                 className="w-full rounded-xl border border-[#A9A6A6] bg-white p-4 resize-none
-                focus:outline-none
-                focus:ring-2
-                focus:ring-[#FF5454]
-                focus:border-[#FF5454]"
+                                focus:outline-none
+                                focus:ring-2
+                                focus:ring-[#FF5454]
+                                focus:border-[#FF5454]"
                             />
                         </div>
                     )}
@@ -245,18 +245,20 @@ export default function ClockIn() {
                     <div className="flex justify-center">
                         <button
                             onClick={submitEvent}
-                            className="bg-[#FF5454]
-              hover:bg-[#E54747]
-              text-white
-              font-semibold
-              px-10
-              py-3
-              rounded-xl
-              shadow-lg
-              transition-all
-              duration-200
-              hover:scale-105
-              cursor-pointer"
+                            className="
+                            bg-[#FF5454]
+                            hover:bg-[#E54747]
+                            text-white
+                            font-semibold
+                            px-10
+                            py-3
+                            rounded-xl
+                            shadow-lg
+                            transition-all
+                            duration-200
+                            hover:scale-105
+                            cursor-pointer
+                            "
                         >
                             Submit
                         </button>
