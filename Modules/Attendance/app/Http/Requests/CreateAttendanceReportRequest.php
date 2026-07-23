@@ -4,15 +4,17 @@ namespace Modules\Attendance\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateAttendanceCheckOutRequest extends FormRequest
+class CreateAttendanceReportRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
      */
     public function rules(): array
     {
-        return [    
-            'jam_pulang' => ['required', 'date_format:H:i']
+        return [
+            'laporan' => ['required', 'string'],
+            'images' => ['required', 'array'],
+            'images.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp']
         ];
     }
 

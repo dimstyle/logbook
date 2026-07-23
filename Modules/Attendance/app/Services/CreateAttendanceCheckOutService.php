@@ -16,9 +16,12 @@ class CreateAttendanceCheckOutService
     public function handle(CreateAttendanceCheckOutDTO $checkOut) {
         $userAccount = Auth::user();
 
-        $this->attendanceRepository->createCheckOutById(
+        $this->attendanceRepository->createAttendanceById(
             $userAccount->id, 
-            $checkOut->toArray()
+            [
+                'sudah_pulang' => true,
+                ...$checkOut->toArray()
+            ]
         );
 
         Log::info('Success to create Check In',[

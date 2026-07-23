@@ -16,7 +16,7 @@ export default function ClockIn() {
     const [attendance, setAttendance] = useState("");
     const [reason, setReason] = useState("");
     
-    
+    if(sudah_hadir) router.get('/report')
     
     useEffect(() => {
         const timer = setInterval(() => {
@@ -71,8 +71,6 @@ export default function ClockIn() {
 
 
     const isPermission = attendance === "izin" || attendance === "sakit";
-    
-    if (sudah_hadir) router.get("/report");
     
     if (error) {
         const errorMessage = JSON.parse(error);

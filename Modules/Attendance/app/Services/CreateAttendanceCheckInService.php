@@ -20,7 +20,7 @@ class CreateAttendanceCheckInService
 
         $accountId = $userAccount->id;
 
-        $this->attendanceRepository->createCheckInById(
+        $this->attendanceRepository->createAttendanceById(
             $accountId,
             $this->makeArrayUpdate($checkIn)
         );

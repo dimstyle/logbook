@@ -6,6 +6,7 @@ namespace Modules\User\Services;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Intervention\Image\Format;
 use Intervention\Image\Laravel\Facades\Image;
 use Modules\User\Repositories\UserRepository;
 use Storage;
@@ -81,8 +82,8 @@ class UpdateUserProfileService
     private function loadAndCompressPhoto(array $updateData){
         $image = Image::decode($updateData['profile_photo']);
 
-        $encoded = $image->encodeUsingFileExtension(
-            'webp',
+        $encoded = $image->encodeUsingFormat(
+            Format::WEBP,
             quaility: 80
         );
 
