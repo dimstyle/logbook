@@ -36,7 +36,7 @@ class CreateDailyAttendance extends Command
             ->whereDate('created_at', now())
             ->firstOr(function () use ($user) {
                 return Attendance::create([
-                    'account_id' => $user->id,
+                    'account_id' => $user->account_id,
                     'izin' => false,
                     'alasan_tidak_masuk' => '',
                     'sakit' => false,

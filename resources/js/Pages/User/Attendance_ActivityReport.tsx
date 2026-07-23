@@ -34,7 +34,7 @@ export default function ActivityReport() {
         })
 
         try{
-            const response = await api.post('/api/attendance/createcheckin', formData,{
+            const response = await api.post('/api/attendance/createreport', formData,{
                 headers: {
                     "Content-Type" : "multipart/form-data"
                 }
@@ -75,12 +75,16 @@ export default function ActivityReport() {
                     <label htmlFor="file-upload" className="bg-white w-47.5 h-47.5 rounded-[29px] mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
                         <input type="file" className="hidden" id="file-upload"/>
                         <img src={Plus} className="w-12 h12" />
+                    </label>                    
+                    <label htmlFor="file-upload" className="bg-white w-47.5 h-47.5 rounded-[29px] mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
+                        <input type="file" className="hidden" id="file-upload"/>
+                        <img src={Plus} className="w-12 h12" />
                     </label>
                 </div>
             </div>
             <div className="p-4 pt-5">
                 <div className="justify-center flex mt-5 mb-10">
-                    <a href="/clock-out" className="flex justify-center items-center bg-[#FF5454] w-30 h-8 rounded-lg p-1.5 cursor-pointer text-white ">Submit</a>
+                    <button onClick={submitHandler} className="flex justify-center items-center bg-[#FF5454] w-30 h-8 rounded-lg p-1.5 cursor-pointer text-white ">Submit</button>
                 </div>
             </div>
         </div>

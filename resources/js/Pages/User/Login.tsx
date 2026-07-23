@@ -38,7 +38,7 @@ export default function Login(){
 
     if (error){
         const errorMessage = JSON.parse(error)
-        return <ErrorPage errorMessage={errorMessage}  backPath="/admin/login"/>
+        return <ErrorPage errorMessage={errorMessage}  backPath="/login"/>
     }
 
     return(

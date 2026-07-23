@@ -26,31 +26,6 @@ class LoginService
             throw new UnauthorizedException('Invalid password or email');
         }
 
-        $account = Auth::user();
-
-        if ($account instanceof Account) {
-            $today = now()->toDateString();
-
-            Attendance::updateOrCreate(
-                [
-                    'account_id' => $account->id,
-                ],
-                [
-                    'izin' => false,
-                    'sudah_hadir' => true,
-                    'jam_hadir' => '08:00',
-                    'wfh' => false,
-                    'sudah_pulang' => false,
-                    'jam_pulang' => null,
-                    'sudah_laporan' => false,
-                    'laporan' => '',
-                    'images_path' => [],
-                    'created_at' => $today . '08:00',
-                    'updated_at' => $today . '08:00',
-                ]
-            );
-        }
-
         Log::info('User authorized');
 
         return $access_token;
