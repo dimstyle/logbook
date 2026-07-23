@@ -101,8 +101,14 @@ class UserRepository{
         }
     }
 
-    public function getUserPhoto(int $id){
+    public function getUserPhoto(int $id, string $role){
         try{
+            if($role === "admin"){
+                return Admin::select('profile_photo')
+                ->where('account_id', $id)
+                ->firstOrFail();
+            }
+
             return User::select('profile_photo')
             ->where('account_id', $id)
             ->firstOrFail();

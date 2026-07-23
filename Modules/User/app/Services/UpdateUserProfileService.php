@@ -22,6 +22,7 @@ class UpdateUserProfileService
     public function handle(array $updateData) {
         $account = Auth::user();
         $id = $account ->id;
+        $role = $account->role;
 
         if(array_key_exists('password', $updateData)){
             $updateData['password'] = Hash::make($updateData['password']);
@@ -33,7 +34,7 @@ class UpdateUserProfileService
 
             $path = 'profile-photos/' . Str::uuid() . '.webp';
 
-            $old_path = $this->userRepository->getUserPhoto($id);
+            $old_path = $this->userRepository->getUserPhoto($id, $role);
             
             Storage::disk('public')->delete($old_path);
 

@@ -1,7 +1,7 @@
 import UserNavbar from "../../Components/User/UserNavbar.js";
 import Plus from "../../../../assets/plus.png"
 import { router, usePage } from "@inertiajs/react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import api from "../../lib/axios.js";
 import type { DefaultResponse } from "../../types/default.js";
 import ErrorPage from "../ui/ErrorPage.js";
@@ -56,6 +56,12 @@ export default function ActivityReport() {
 
     if (sudah_laporan) router.get('/clock-out');
 
+    useEffect(()=>{
+        ;(async ()=> {
+            
+        })();
+    })
+
     if (error) {
         const errorMessage = JSON.parse(error);
         return <ErrorPage errorMessage={errorMessage} backPath="/clock-in" />
@@ -72,14 +78,16 @@ export default function ActivityReport() {
                     <h2>Kegiatan</h2>
                     <input type="text" className="bg-white rounded-lg p-1.5 w-full"/>
                     <h2>Dokumentasi</h2>
-                    <label htmlFor="file-upload" className="bg-white w-47.5 h-47.5 rounded-[29px] mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
-                        <input type="file" className="hidden" id="file-upload"/>
-                        <img src={Plus} className="w-12 h12" />
-                    </label>                    
-                    <label htmlFor="file-upload" className="bg-white w-47.5 h-47.5 rounded-[29px] mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
-                        <input type="file" className="hidden" id="file-upload"/>
-                        <img src={Plus} className="w-12 h12" />
-                    </label>
+                    <div className="flex gap-3">
+                        <label htmlFor="file-upload" className="bg-white w-47.5 h-47.5 rounded-[29px] mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
+                            <input type="file" className="hidden" id="file-upload"/>
+                            <img src={Plus} className="w-12 h12" />
+                        </label>                    
+                        <label htmlFor="file-upload" className="bg-white w-47.5 h-47.5 rounded-[29px] mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
+                            <input type="file" className="hidden" id="file-upload"/>
+                            <img src={Plus} className="w-12 h12" />
+                        </label>
+                    </div>
                 </div>
             </div>
             <div className="p-4 pt-5">

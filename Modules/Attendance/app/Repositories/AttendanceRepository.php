@@ -78,4 +78,19 @@ class AttendanceRepository{
             throw $e;
         }
     }
+
+    public function getPhotosByAccountId(int $accountId){
+        try{
+            return Attendance::select('images')
+            ->where('account_id', $accountId)
+            ->whereDate('created_at', now())
+            ->get();
+        }catch(Throwable $e){
+            Log::error('Failed to get report photos',[
+                'exception' => $e
+            ]);
+
+            throw $e;
+        }
+    }
 }
