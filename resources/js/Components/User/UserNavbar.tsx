@@ -45,9 +45,9 @@ export default function UserNavbar({
         ;(async()=>{
              try{
                 const response = await api.get<getUserProfilePhoto>('/api/user/getuserprofilephoto');
-                const PhotoUrl = response.data.url;
+                const photoUrl = response.data.url;
                 
-                setUrl('/storage/'+PhotoUrl)
+                setUrl(photoUrl ? `http://localhost:8000/storage/${photoUrl}` : null);
             }catch(err: unknown){
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
                 const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
@@ -66,7 +66,7 @@ export default function UserNavbar({
         const errMessage = JSON.parse(error);
         return <ErrorPage errorMessage={errMessage} backPath="/login"/>
     }
-
+    
     return(
         <>
             <nav className="bg-[#FF5454] shadow-[0px_0px_10px_black] fixed z-1000 w-full p-3 px-6 flex items-center">
@@ -106,7 +106,7 @@ export default function UserNavbar({
                         </a>
                     ))}
                     <a href="/user_profile" >
-                        <img className='rounded-full object-cover h-17.5 w-17.5' src={url || ProfileIcon} alt="UserIcon" width="70rem"  />
+                        <img className='rounded-full object-cover h-17.5 w-17.5' src={url || ProfileIcon} onError={(e) => {e.currentTarget.src = ProfileIcon}} alt="UserIcon" width="70rem"  />
                     </a>
                 </div>
             </nav>

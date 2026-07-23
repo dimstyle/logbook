@@ -1,9 +1,14 @@
 export interface getAttendanceHistoryResponse{
     message: string,
-    attendances: getAttendanceDailyResponse[]
+    attendances: DailyAttendance[]
 }
 
 export interface getAttendanceDailyResponse{
+    message: string,
+    attendance: DailyAttendance
+}
+
+export interface DailyAttendance{
     account_id : number,
     id: number, 
     jam_hadir: string
