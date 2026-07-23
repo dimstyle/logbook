@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('siswa_pkl')->default(0);
             $table->integer('sekolah_mitra')->default(0);
             $table->integer('laporan_hari_ini')->default(0);
+            $table->string('profile_photo')->nullable();
             $table->timestamps();
         });
     }

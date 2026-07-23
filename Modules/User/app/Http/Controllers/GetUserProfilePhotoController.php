@@ -20,7 +20,7 @@ class GetUserProfilePhotoController extends Controller
         $user = Auth::user();
 
         try{
-            $url = $this->userRepository->getUserPhoto($user->id);
+            $url = $this->userRepository->getUserPhoto($user->id, $user->role);
         }catch(ModelNotFoundException $e){
             return response()->json([
                 'message' => 'User not found'
