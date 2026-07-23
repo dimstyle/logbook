@@ -28,7 +28,6 @@ export default function UserList() {
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
                 const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
                 const status = axiosError?.response?.status ?? 500;
-
                 setError(JSON.stringify({ message, status }));
             }finally{
                 setLoading(false);
@@ -74,7 +73,7 @@ export default function UserList() {
                         user.profile_photo = user.profile_photo ? '/storage/'+user.profile_photo : "" ;
                         return (
                             <div key={user.id} className="flex w-full items-center p-5 bg-[#FFFFFF] rounded-lg">
-                                <img className="w-27.5 h-27.5 rounded-full object-cover" src={user.profile_photo || ProfileIcon} alt="UserIcon" width={130} />
+                                <img className="w-27.5 h-27.5 rounded-full object-cover aspect-square" src={user.profile_photo || ProfileIcon} alt="UserIcon" width={130} />
                                 <div className="flex flex-col w-full gap-3 ml-2">
                                     <h1 className="text-2xl">{user.nama_lengkap}</h1>
                                     <div className="flex gap-2">
