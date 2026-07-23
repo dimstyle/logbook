@@ -1,44 +1,107 @@
 import AdminNavbar from "../../Components/Admin/AdminNavbar.js";
-import React, { useState, type ChangeEvent } from "react";
+import React, { useEffect, useRef, useState, type ChangeEvent } from "react";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
 import { Link } from "@inertiajs/react";
+import LoadingPage from "../ui/LoadingPage.js";
+import ErrorPage from "../ui/ErrorPage.js";
+import api from "../../lib/axios.js";
+import { type getUsersAttendanceInfoResponse } from "../../types/user.js";
 
-interface User {
-    name: string,
-    school: string,
-    major: string,
-    attendance: string,
-    wfo: boolean,
-    report: boolean,
-    clockOut: boolean,
-    time: string,
-    date: string,
-    clockOutTime: string,
-}
+const getAttendanceStatus = (user: getUsersAttendanceInfoResponse['users'][number]) => {
+    if (user.sakit) {
+        return 'Sakit';
+    }
 
-const MOCK_USER: User[] = [
-    { name: "Udin", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak", attendance: "Hadir", wfo: true, report: true, clockOut: true, time: "07:00" , date: "Today", clockOutTime: "04.15" },
-    { name: "Tono", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak", attendance: "Sakit", wfo: false, report: false, clockOut: false, time: "08:00" , date: "Today", clockOutTime: "-" },
-    { name: "Tony", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak", attendance: "Izin", wfo: false, report: false, clockOut: false, time: "08:20" , date: "Yesterday", clockOutTime: "-" },
-    { name: "Ucup", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak", attendance: "Hadir", wfo: false, report: false, clockOut: false, time: "04:00" , date: "July, 10", clockOutTime: "-" },
-    { name: "Ucok", school: "SMK Letris 2 Pamulang", major: "Rekayasa Perangkat Lunak", attendance: "Belum", wfo: false, report: false, clockOut: false, time: "01:00" , date: "July, 9", clockOutTime: "-" },
-]
+    if (user.izin) {
+        return 'Izin';
+    }
+
+    if (user.sudah_hadir) {
+        return 'Hadir';
+    }
+
+    return 'Belum';
+};
+
+const getAttendanceLabel = (attendance: string) => {
+    switch (attendance) {
+        case 'Hadir':
+            return 'Hadir';
+        case 'Sakit':
+            return 'Sakit';
+        case 'Izin':
+            return 'Izin';
+        default:
+            return 'Belum Masuk';
+    }
+};
 
 export default function DailyAttendance() {
     const [searchQuery, setSearchQuery] = useState<string>("");
-    
+    const [users, setUsers] = useState<getUsersAttendanceInfoResponse>();
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(true);
+    const isFetched = useRef(false);
+
+    useEffect(() => {
+        if (isFetched.current) return;
+        isFetched.current = true;
+
+        (async () => {
+            try {
+                const response = await api.get<getUsersAttendanceInfoResponse>('/api/user/getlistusersinfo');
+                const mappedUsers = (response.data.users ?? []).map((user) => ({
+                    ...user,
+                    name: user.name ?? user.nama_lengkap ?? 'Unknown',
+                    school: user.school ?? user.sekolah ?? '-',
+                    major: user.major ?? user.jurusan ?? '-',
+                    attendance: getAttendanceStatus(user),
+                    wfo: Boolean(user.wfh ?? false),
+                    report: Boolean(user.sudah_laporan ?? false),
+                    clockOut: Boolean(user.sudah_pulang ?? false),
+                    time: user.jam_hadir ?? '-',
+                    date: user.created_date ?? '-',
+                    clockOutTime: user.jam_pulang ?? '-',
+                    profile_photo: user.profile_photo ?? '',
+                }));
+
+                setUsers({
+                    message: response.data.message,
+                    users: mappedUsers,
+                });
+
+            } catch (err: unknown) {
+                const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
+                const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
+                const status = axiosError?.response?.status ?? 500;
+
+                setError(JSON.stringify({ message, status }));
+            } finally {
+                setLoading(false);
+            }
+        })();
+    }, []);
+
     const handleSearchChange = (event: ChangeEvent<HTMLInputElement>): void => {
         setSearchQuery(event.target.value);
     }
 
-    const filteredUser = MOCK_USER.filter((user) => {
+    const filteredUser = (users?.users ?? []).filter((user) => {
         const lowercaseQuery = searchQuery.toLocaleLowerCase();
         return (
-            user.name.toLocaleLowerCase().includes(lowercaseQuery) ||
-            user.school.toLocaleLowerCase().includes(lowercaseQuery) ||
-            user.major.toLocaleLowerCase().includes(lowercaseQuery)
+            user.name?.toLocaleLowerCase().includes(lowercaseQuery) ||
+            user.school?.toLocaleLowerCase().includes(lowercaseQuery) ||
+            user.major?.toLocaleLowerCase().includes(lowercaseQuery)
         )
     })
+
+    if (loading) {
+        return <LoadingPage />;
+    }
+
+    if (error) {
+        return <ErrorPage />;
+    }
 
     return (
         <>
@@ -53,10 +116,10 @@ export default function DailyAttendance() {
             <div className="flex flex-col p-4 pt-30 gap-10">
                 {filteredUser.length > 0 ? (
                     filteredUser.map((user) => {
-                        const theAttendance = user.attendance
-                        const isWFO = user.wfo
-                        const isReport = user.report
-                        const isClockOut = user.clockOut
+                        const theAttendance = user.attendance ?? 'Belum'
+                        const isWFO = user.wfo ?? false
+                        const isReport = user.report ?? false
+                        const isClockOut = user.clockOut ?? false
                         
                         let userAttendance = ""
                         let attendanceBGcolor = ""
@@ -72,7 +135,7 @@ export default function DailyAttendance() {
                         let clockOutTxtcolor = isClockOut ? "#15803D" : "#6B7280"
 
                         if (theAttendance === "Hadir") {
-                            userAttendance = "Hadir"
+                            userAttendance = getAttendanceLabel(theAttendance)
                             attendanceBGcolor = "#B7FCCF"
                             attendanceTxtcolor = "#15803D"
                         }
@@ -91,7 +154,7 @@ export default function DailyAttendance() {
                             clockOutTxtcolor = "#6B7280"
                         }
                         else if (theAttendance === "Izin") {
-                            userAttendance = "Izin"
+                            userAttendance = getAttendanceLabel(theAttendance)
                             userWFO = "N/A"
                             userReport = "N/A"
                             userClockOut = "N/A"
@@ -105,7 +168,7 @@ export default function DailyAttendance() {
                             clockOutTxtcolor = "#6B7280"
                         }
                         else if (theAttendance === "Belum") {
-                            userAttendance = "Belum Masuk"
+                            userAttendance = getAttendanceLabel(theAttendance)
                             userWFO = "N/A"
                             userReport = "N/A"
                             userClockOut = "N/A"
@@ -121,8 +184,8 @@ export default function DailyAttendance() {
 
                         return (
                             <Link 
-                                key={user.name} 
-                                href={`/admin/user_report/${encodeURIComponent(user.name)}`}
+                                key={user.id} 
+                                href={`/admin/user_report/${encodeURIComponent(user.name ?? "unknown")}`}
                                 data={{
                                     school: user.school,
                                     major: user.major,
@@ -136,7 +199,7 @@ export default function DailyAttendance() {
                                 }} 
                                 className="flex w-full p-5 bg-[#FFFFFF] rounded-lg"
                             >
-                                <img src={ProfileIcon} alt="UserIcon" width={130} />
+                                <img src={user.profile_photo || ProfileIcon} alt="UserIcon" width={130} className="rounded-full object-cover" />
                                 <div className="flex flex-col w-full justify-center gap-3 ml-2">
                                     <h1 className="text-2xl">{user.name}</h1>
                                     <div className="flex gap-2">
