@@ -19,7 +19,7 @@ class UpdateAdminProfileController extends Controller
     #[OA\Patch(
         path: "/api/user/updateadminprofile",
         summary: 'Create admin information',
-        tags: ['Admin']
+        tags: ['User']
 
     )]
     #[OA\RequestBody(

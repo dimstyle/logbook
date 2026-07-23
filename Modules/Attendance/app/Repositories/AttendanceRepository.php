@@ -6,36 +6,11 @@ use Modules\Attendance\Models\Attendance;
 use Throwable;
 
 class AttendanceRepository{
-    public function createCheckInById(int $accountId, array $checkIn){
+    public function createAttendanceById(int $accountId, array $attendanceData){
         try{
             return Attendance::where('account_id', $accountId)
-            ->update($checkIn);
-        }catch(Throwable $e){
-            Log::error('Failed to create Check In data',[
-                'exception' => $e
-            ]);
-
-            throw $e;
-        }
-    }
-
-    public function createCheckOutById(int $accountId, array $checkOut){
-         try{
-            return Attendance::where('account_id', $accountId)
-            ->update($checkOut);
-        }catch(Throwable $e){
-            Log::error('Failed to create Check In data',[
-                'exception' => $e
-            ]);
-
-            throw $e;
-        }
-    }
-
-    public function createReportById(int $accountId, array $report){
-         try{
-            return Attendance::where('account_id', $accountId)
-            ->update($report);
+            ->whereDate('created_at', now())
+            ->update($attendanceData);
         }catch(Throwable $e){
             Log::error('Failed to create Check In data',[
                 'exception' => $e

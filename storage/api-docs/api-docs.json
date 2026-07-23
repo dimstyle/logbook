@@ -82,6 +82,148 @@
                 }
             }
         },
+        "/api/attendance/createcheckout": {
+            "post": {
+                "tags": [
+                    "Attendance"
+                ],
+                "summary": "User check out",
+                "operationId": "443c04dd421222d0824430ccb39a76bc",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateAttendanceCheckOutRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success to check out",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/attendance/createreport": {
+            "post": {
+                "tags": [
+                    "Attendance"
+                ],
+                "summary": "User report",
+                "operationId": "9608cb955ba50804ef6f5459a6ccec43",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateAttendanceReportRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success to report",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/user/getattendancedaily": {
             "get": {
                 "tags": [
@@ -749,7 +891,7 @@
         "/api/user/updateadminprofile": {
             "patch": {
                 "tags": [
-                    "Admin"
+                    "User"
                 ],
                 "summary": "Create admin information",
                 "operationId": "3ca1cea4a5ce6ab20970f6480a62c325",
@@ -926,6 +1068,37 @@
                     },
                     "alasan": {
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CreateAttendanceCheckOutRequest": {
+                "required": [
+                    "jam_pulang"
+                ],
+                "properties": {
+                    "jam_pulang": {
+                        "type": "string",
+                        "format": "time"
+                    }
+                },
+                "type": "object"
+            },
+            "CreateAttendanceReportRequest": {
+                "required": [
+                    "laporan",
+                    "images"
+                ],
+                "properties": {
+                    "laporan": {
+                        "type": "string"
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "binary"
+                        }
                     }
                 },
                 "type": "object"
@@ -1394,10 +1567,6 @@
         {
             "name": "User",
             "description": "User"
-        },
-        {
-            "name": "Admin",
-            "description": "Admin"
         }
     ]
 }
