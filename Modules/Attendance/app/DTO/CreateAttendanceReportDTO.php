@@ -1,11 +1,12 @@
-<?php 
-
+<?php
 namespace Modules\Attendance\DTO;
+
 use Illuminate\Support\Collection;
 
-class CreateAttendanceCheckOutDTO {
+class CreateAttendanceReportDTO {
     public function __construct(
-        public string $jam_pulang
+        public string $laporan,
+        public  array $images
     ){}
 
     public static function fromArray(array $data): self{

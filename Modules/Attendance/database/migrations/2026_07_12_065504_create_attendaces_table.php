@@ -28,7 +28,7 @@ return new class extends Migration
 
             $table->boolean('sudah_laporan')->default(false);
             $table->string('laporan')->default('');
-            $table->json('images_path')->default('[]');
+            $table->json('images')->default('[]');
             
             $table->date('created_date')->storedAs('DATE(created_at)');
             $table->timestamps();

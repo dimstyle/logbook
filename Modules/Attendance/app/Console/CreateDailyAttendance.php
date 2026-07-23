@@ -47,7 +47,7 @@ class CreateDailyAttendance extends Command
                     'jam_pulang' => null,
                     'sudah_laporan' => false,
                     'laporan' => '',
-                    'images_path' => [],
+                    'images' => [],
                 ]);
             });
 
