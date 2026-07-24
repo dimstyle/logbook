@@ -8,6 +8,28 @@ export interface getAttendanceDailyResponse{
     attendance: DailyAttendance
 }
 
+export interface getAttendanceListResponse{
+    message: string,
+    attendances: {
+        account_id: number ,
+        attendance_id: number,
+
+        nama_lengkap: string,
+        sekolah: string,
+        jurusan: string,
+        profile_photo: string,
+
+        sudah_hadir: boolean,
+        sudah_laporan: boolean,
+        sudah_pulang: boolean,
+        izin: boolean,
+        sakit: boolean,
+        wfh: boolean,
+        created_date: string,
+        updated_at: string
+    }[]
+}
+
 export interface DailyAttendance{
     account_id : number,
     id: number, 

@@ -48,7 +48,7 @@ export default function ClockIn() {
         const payload = {   
             status: attendance,
             jam_hadir : currentTime.replace('.',':'),
-            alasan: reason,
+            keterangan: reason,
         }
         
         if(!isClockIn(attendance) && !reason) {

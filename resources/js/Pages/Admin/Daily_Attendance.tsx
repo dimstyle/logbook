@@ -5,40 +5,73 @@ import { Link } from "@inertiajs/react";
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
-import { type getUsersAttendanceInfoResponse } from "../../types/user.js";
+import type { getAttendanceListResponse } from "../../types/attendance.js";
 
-const getAttendanceStatus = (user: getUsersAttendanceInfoResponse['users'][number]) => {
-    if (user.sakit) {
+const getAttendanceStatus = (attendance: getAttendanceListResponse['attendances'][number]) => {
+    if (attendance.sakit) {
         return 'Sakit';
     }
 
-    if (user.izin) {
+    if (attendance.izin) {
         return 'Izin';
     }
 
-    if (user.sudah_hadir) {
+    if (attendance.sudah_hadir) {
         return 'Hadir';
     }
 
-    return 'Belum';
+    return 'Belum Hadir';
 };
 
-const getAttendanceLabel = (attendance: string) => {
-    switch (attendance) {
-        case 'Hadir':
-            return 'Hadir';
-        case 'Sakit':
-            return 'Sakit';
-        case 'Izin':
-            return 'Izin';
-        default:
-            return 'Belum Masuk';
+// const getAttendanceLabel = (attendance: string) => {
+//     const listStatus = ['Hadir', 'Sakit', 'Izin'];
+//     return listStatus.includes(attendance) ? attendance : 'Belum Masuk'
+//     switch (attendance) {
+//         case 'Hadir':
+//             return 'Hadir';
+//         case 'Sakit':
+//             return 'Sakit';
+//         case 'Izin':
+//             return 'Izin';
+//         default:
+//             return 'Belum Masuk';
+//     }
+// };
+
+const dateParser = (dateString: string) =>{
+    const date = new Date(dateString);
+    const today = new Date();
+
+    const isToday =
+        date.getFullYear() === today.getFullYear() &&
+        date.getMonth() === today.getMonth() &&
+        date.getDate() === today.getDate();
+
+    if (isToday) {
+        return 'Hari ini';
     }
-};
+
+    today.setDate(today.getDate() - 1);
+
+    const isYesterday =
+        date.getFullYear() === today.getFullYear() &&
+        date.getMonth() === today.getMonth() &&
+        date.getDate() === today.getDate();
+
+    if (isYesterday) {
+        return 'Kemarin';
+    }
+
+    return date.toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'short',
+    });
+
+}
 
 export default function DailyAttendance() {
     const [searchQuery, setSearchQuery] = useState<string>("");
-    const [users, setUsers] = useState<getUsersAttendanceInfoResponse>();
+    const [attendances, setAttendances] = useState<getAttendanceListResponse>();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
     const isFetched = useRef(false);
@@ -49,26 +82,24 @@ export default function DailyAttendance() {
 
         (async () => {
             try {
-                const response = await api.get<getUsersAttendanceInfoResponse>('/api/user/getlistusersinfo');
-                const mappedUsers = (response.data.users ?? []).map((user) => ({
-                    ...user,
-                    name: user.name ?? user.nama_lengkap ?? 'Unknown',
-                    school: user.school ?? user.sekolah ?? '-',
-                    major: user.major ?? user.jurusan ?? '-',
-                    attendance: getAttendanceStatus(user),
-                    wfo: Boolean(user.wfh ?? false),
-                    report: Boolean(user.sudah_laporan ?? false),
-                    clockOut: Boolean(user.sudah_pulang ?? false),
-                    time: user.jam_hadir ?? '-',
-                    date: user.created_date ?? '-',
-                    clockOutTime: user.jam_pulang ?? '-',
-                    profile_photo: user.profile_photo ?? '',
-                }));
+                const response = await api.get<getAttendanceListResponse>('/api/attendance/getattendancelist');
+                // const mappedUsers = (response.data.attendances ?? []).map((attendance) => ({
+                //     ...attendance,
+                //     name: attendance.name ?? attendance.nama_lengkap ?? 'Unknown',
+                //     school: attendance.school ?? attendance.sekolah ?? '-',
+                //     major: attendance.major ?? attendance.jurusan ?? '-',
+                //     attendance: getAttendanceStatus(attendance),
+                //     wfo: Boolean(attendance.wfh ?? false),
+                //     report: Boolean(attendance.sudah_laporan ?? false),
+                //     clockOut: Boolean(attendance.sudah_pulang ?? false),
+                //     time: attendance.jam_hadir ?? '-',
+                //     date: attendance.created_date ?? '-',
+                //     clockOutTime: attendance.jam_pulang ?? '-',
+                //     profile_photo: attendance.profile_photo ?? '',
+                // }));
+                const resData = response.data;
 
-                setUsers({
-                    message: response.data.message,
-                    users: mappedUsers,
-                });
+                setAttendances(resData);
 
             } catch (err: unknown) {
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
@@ -86,12 +117,10 @@ export default function DailyAttendance() {
         setSearchQuery(event.target.value);
     }
 
-    const filteredUser = (users?.users ?? []).filter((user) => {
+    const filteredUser = (attendances?.attendances ?? []).filter((attendance) => {
         const lowercaseQuery = searchQuery.toLocaleLowerCase();
         return (
-            user.name?.toLocaleLowerCase().includes(lowercaseQuery) ||
-            user.school?.toLocaleLowerCase().includes(lowercaseQuery) ||
-            user.major?.toLocaleLowerCase().includes(lowercaseQuery)
+            attendance.nama_lengkap?.toLocaleLowerCase().includes(lowercaseQuery)
         )
     })
 
@@ -99,8 +128,9 @@ export default function DailyAttendance() {
         return <LoadingPage />;
     }
 
-    if (error) {
-        return <ErrorPage />;
+    if (error){
+        const errorMessage = JSON.parse(error)
+        return <ErrorPage errorMessage={errorMessage}  backPath="/admin/daily_attendance"/>
     }
 
     return (
@@ -115,11 +145,18 @@ export default function DailyAttendance() {
 
             <div className="flex flex-col p-4 pt-30 gap-10">
                 {filteredUser.length > 0 ? (
-                    filteredUser.map((user) => {
-                        const theAttendance = user.attendance ?? 'Belum'
-                        const isWFO = user.wfo ?? false
-                        const isReport = user.report ?? false
-                        const isClockOut = user.clockOut ?? false
+                    filteredUser.map((attendance) => {
+                        const theAttendance = getAttendanceStatus(attendance);
+                        const isWFO = !attendance.wfh
+                        const isReport = attendance.sudah_laporan 
+                        const isClockOut = attendance.sudah_pulang;
+
+                        const lastUpdate = new Date(attendance.updated_at).toLocaleTimeString("id-ID", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true
+                        }).replace(':','.');
+                        const date = dateParser(attendance.created_date);
                         
                         let userAttendance = ""
                         let attendanceBGcolor = ""
@@ -135,7 +172,7 @@ export default function DailyAttendance() {
                         let clockOutTxtcolor = isClockOut ? "#15803D" : "#6B7280"
 
                         if (theAttendance === "Hadir") {
-                            userAttendance = getAttendanceLabel(theAttendance)
+                            userAttendance = theAttendance
                             attendanceBGcolor = "#B7FCCF"
                             attendanceTxtcolor = "#15803D"
                         }
@@ -154,7 +191,7 @@ export default function DailyAttendance() {
                             clockOutTxtcolor = "#6B7280"
                         }
                         else if (theAttendance === "Izin") {
-                            userAttendance = getAttendanceLabel(theAttendance)
+                            userAttendance = 'Izin'
                             userWFO = "N/A"
                             userReport = "N/A"
                             userClockOut = "N/A"
@@ -167,8 +204,8 @@ export default function DailyAttendance() {
                             clockOutBGcolor = "#EEEEEE"
                             clockOutTxtcolor = "#6B7280"
                         }
-                        else if (theAttendance === "Belum") {
-                            userAttendance = getAttendanceLabel(theAttendance)
+                        else if (theAttendance === "Belum Hadir") {
+                            userAttendance = theAttendance
                             userWFO = "N/A"
                             userReport = "N/A"
                             userClockOut = "N/A"
@@ -184,28 +221,28 @@ export default function DailyAttendance() {
 
                         return (
                             <Link 
-                                key={user.id} 
-                                href={`/admin/user_report/${encodeURIComponent(user.name ?? "unknown")}`}
+                                key={attendance.attendance_id} 
+                                href={`/admin/user_report/${encodeURIComponent(attendance.nama_lengkap ?? "unknown")}`}
                                 data={{
-                                    school: user.school,
-                                    major: user.major,
-                                    attendance: user.attendance,
-                                    wfo: user.wfo,
-                                    report: user.report,
-                                    clockOut: user.clockOut,
-                                    time: user.time,
-                                    date: user.date,
-                                    clockOutTime: user.clockOutTime,
+                                    school: attendance.sekolah,
+                                    major: attendance.jurusan,
+                                    attendance: theAttendance,
+                                    wfo: isWFO,
+                                    report: isReport,
+                                    clockOut: isClockOut,
+                                    time: lastUpdate,
+                                    date: date,
+                                    clockOutTime: lastUpdate,
                                 }} 
                                 className="flex w-full p-5 bg-[#FFFFFF] rounded-lg"
                             >
-                                <img src={user.profile_photo || ProfileIcon} alt="UserIcon" width={130} className="rounded-full object-cover" />
+                                <img src={attendance.profile_photo || ProfileIcon} alt="UserIcon" width={130} className="rounded-full object-cover" />
                                 <div className="flex flex-col w-full justify-center gap-3 ml-2">
-                                    <h1 className="text-2xl">{user.name}</h1>
+                                    <h1 className="text-2xl">{attendance.nama_lengkap}</h1>
                                     <div className="flex gap-2">
-                                        <h2>{user.school}</h2>
+                                        <h2>{attendance.sekolah}</h2>
                                         <h1>•</h1>
-                                        <h2>{user.major}</h2>
+                                        <h2>{attendance.jurusan}</h2>
                                     </div>
                                     <div className="flex gap-3">
                                         <span style={{backgroundColor: attendanceBGcolor, color: attendanceTxtcolor}} className="flex justify-center items-center p-1 rounded-lg">{userAttendance}</span>
@@ -215,8 +252,8 @@ export default function DailyAttendance() {
                                     </div>
                                 </div>
                                 <div className="flex flex-col w-full items-end">
-                                    <p className="text-[#6B7280]">{user.time}</p>
-                                    <p className="text-[#6B7280]">{user.date}</p>
+                                    <p className="text-[#6B7280]">{lastUpdate}</p>
+                                    <p className="text-[#6B7280]">{date}</p>
                                 </div>
                             </Link>
                         )

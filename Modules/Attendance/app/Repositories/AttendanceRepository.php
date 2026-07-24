@@ -3,6 +3,7 @@ namespace Modules\Attendance\Repositories;
 
 use Illuminate\Support\Facades\Log;
 use Modules\Attendance\Models\Attendance;
+use Modules\User\Models\User;
 use Throwable;
 
 class AttendanceRepository{
@@ -93,4 +94,38 @@ class AttendanceRepository{
             throw $e;
         }
     }
+
+    public function getAttendanceListByAdminId(int $adminId){
+        try{
+            return User::where('admin_id', $adminId)
+            ->join('attendances','users.account_id','=','attendances.account_id')
+            ->join('accounts', 'users.account_id', '=', 'accounts.id')
+            ->select(
+                'accounts.id as account_id',
+                'attendances.id as attendance_id',
+
+                'users.nama_lengkap',
+                'users.sekolah',
+                'users.jurusan',
+                'users.profile_photo',
+
+                'attendances.sudah_hadir',
+                'attendances.sudah_laporan',
+                'attendances.sudah_pulang',
+                'attendances.izin',
+                'attendances.sakit',
+                'attendances.wfh',
+                'attendances.created_date',
+                'attendances.updated_at'
+            )
+            ->get();
+        }catch(Throwable $e){
+            Log::error('Failed to get attendances list',[
+                'exception' => $e
+            ]);
+
+            throw $e;
+        }
+    }
+
 }

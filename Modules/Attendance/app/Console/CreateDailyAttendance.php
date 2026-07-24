@@ -38,7 +38,7 @@ class CreateDailyAttendance extends Command
                 return Attendance::create([
                     'account_id' => $user->account_id,
                     'izin' => false,
-                    'alasan_tidak_masuk' => '',
+                    'keterangan' => '',
                     'sakit' => false,
                     'sudah_hadir' => false,
                     'jam_hadir' => null,
