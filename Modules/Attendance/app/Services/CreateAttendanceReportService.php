@@ -23,7 +23,10 @@ class CreateAttendanceReportService
 
         $this->attendanceRepository->createAttendanceById(
             $accountId,
-            ...$this->saveImages($report)
+            [   
+                'sudah_laporan' => $report->laporan,
+                'images' => $this->saveImages($report, $accountId)
+            ]
         );
 
         Log::info("Success to create attendance report",[
@@ -31,7 +34,7 @@ class CreateAttendanceReportService
         ]);
     }
 
-    private function saveImages(CreateAttendanceReportDTO $report): array {
+    private function saveImages(CreateAttendanceReportDTO $report, int $accountId): array {
         $result = [];
         $images = $report->images;
         
@@ -45,7 +48,7 @@ class CreateAttendanceReportService
                 quality: 80
             );
 
-            $path = 'attendance-reports/'.$filename;
+            $path = 'attendance-reports/'.$accountId.'/'.$filename;
 
             Storage::disk('local')->put(
                 $path,

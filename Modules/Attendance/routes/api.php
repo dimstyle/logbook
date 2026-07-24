@@ -19,4 +19,6 @@ Route::prefix('attendance')
     Route::post('/createcheckin', [CreateAttendanceCheckInController::class, 'handle']);
     Route::post('/createcheckout', [CreateAttendanceCheckOutController::class, 'handle']);
     Route::post('/createreport', [CreateAttendanceReportController::class, 'handle']);
+
+    Route::get('/attendance-reports/{targetId}/{filename}');
 });

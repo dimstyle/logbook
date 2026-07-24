@@ -31,7 +31,7 @@ class CreateAttendanceCheckOutController extends Controller
         )
     )]
     #[OA\Response(
-        response: 200, 
+        response: 201, 
         description: "Success to check out",
         content: new OA\JsonContent(
             ref: "#/components/schemas/DefaultResponse"
@@ -82,7 +82,7 @@ class CreateAttendanceCheckOutController extends Controller
         }
 
         return response()->json([
-            'message' => 'Success to create check in'
+            'message' => 'Success to create check out'
         ],Response::HTTP_CREATED);
     }
 }

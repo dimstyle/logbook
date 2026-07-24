@@ -30,7 +30,7 @@ class CreateAttendanceCheckInController extends Controller
         )
     )]
     #[OA\Response(
-        response: 200, 
+        response: 201, 
         description: "Success to check in",
         content: new OA\JsonContent(
             ref: "#/components/schemas/DefaultResponse"
