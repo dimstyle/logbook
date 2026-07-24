@@ -16,3 +16,10 @@ export interface DailyAttendance{
     laporan: string,
     created_date: string
 }
+
+export interface getAttendancePhotosResponse{
+    message: string,
+    photos: {
+        images: string[]
+    }
+}

@@ -10,8 +10,15 @@ export default function ClockOut() {
     const [error, setError] = useState("");
     const [now, setNow] = useState(new Date());
 
-    if(sudah_pulang) return
-    if(!sudah_laporan) router.get('/report')
+    if(sudah_pulang) {
+        router.get('/done')
+        return
+    }
+
+    if(!sudah_laporan) {
+        router.get('/report')
+        return
+    }
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -46,19 +53,19 @@ export default function ClockOut() {
             const resdata = response.data;
             
             alert(resdata.message);
+            router.get('/done');
         }catch(err: unknown){
             const axiosError = err as { response?: { data?: DefaultResponse; status?: number }; message?: string };
             const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
             const status = axiosError?.response?.status ?? 500;
             setError(JSON.stringify({ message, status }));
         }
-
         
     };
     
     if (error) {
         const errorMessage = JSON.parse(error);
-        return <ErrorPage errorMessage={errorMessage} backPath="/clock-in" />
+        return <ErrorPage errorMessage={errorMessage} backPath="/clock-out" />
     }
 
     return (
