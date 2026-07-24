@@ -1,12 +1,10 @@
 import UserNavbar from "../../Components/User/UserNavbar.js";
 import Plus from "../../../../assets/plus.png"
 import { router, usePage } from "@inertiajs/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import api from "../../lib/axios.js";
 import type { DefaultResponse } from "../../types/default.js";
 import ErrorPage from "../ui/ErrorPage.js";
-import { type getAttendancePhotosResponse } from "../../types/attendance.js";
-import LoadingPage from "../ui/LoadingPage.js";
 
 export default function ActivityReport() {
     const { izin, sakit, sudah_laporan, sudah_hadir } = usePage().props;
@@ -88,31 +86,19 @@ export default function ActivityReport() {
         }
     }
 
-    if (!sudah_hadir) router.get('/clock-in')
+    if (!sudah_hadir) {
+        router.get('/clock-in')
+        return
+    }
 
-    if (sudah_laporan) router.get('/clock-out');
+    if (sudah_laporan) {
+        router.get('/clock-out');
+        return
+    }
 
-    // useEffect(()=>{
-    //     ;(async ()=> {
-    //         try {
-    //             const response = await api.get<getAttendancePhotosResponse>('/api/attendance/getattendancehistory');
-    //             const resData = response.data;
-    //             setImageUrls(resData?.photos?.images || []);
-
-    //         } catch (err: unknown) {
-    //             const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
-    //             const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
-    //             const status = axiosError?.response?.status ?? 500;
-    //             setError(JSON.stringify({ message, status }));
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     })();
-    // })
- 
     if (error) {
         const errorMessage = JSON.parse(error);
-        return <ErrorPage errorMessage={errorMessage} backPath="/clock-in" />
+        return <ErrorPage errorMessage={errorMessage} backPath="/report" />
     }
 
     return (

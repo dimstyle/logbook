@@ -24,7 +24,8 @@ class CreateAttendanceReportService
         $this->attendanceRepository->createAttendanceById(
             $accountId,
             [   
-                'sudah_laporan' => $report->laporan,
+                'sudah_laporan' => true,
+                'laporan' => $report->laporan,
                 'images' => $this->saveImages($report, $accountId)
             ]
         );
