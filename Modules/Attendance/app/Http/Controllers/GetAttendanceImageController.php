@@ -4,53 +4,32 @@ namespace Modules\Attendance\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Storage;
+use Symfony\Component\HttpFoundation\Response;
 
 class GetAttendanceImageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return view('attendance::index');
+    public function handle($targetId, $filename ){
+        $user = Auth::user();
+        $accountId = $user->id;
+        $role = $user->role;
+
+        $path = 'attendance-reports/'.$targetId.'/'.$filename;
+
+        abort_if(
+            $targetId != $accountId && $role !== 'admin',
+            Response::HTTP_FORBIDDEN
+        );
+        
+        abort_if(
+          !Storage::disk('local')->exists($path),
+          Response::HTTP_NOT_FOUND  
+        );
+
+
+        return response()->file(
+            Storage::disk('local')->path($path)
+        );
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('attendance::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) {}
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('attendance::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('attendance::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id) {}
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
 }

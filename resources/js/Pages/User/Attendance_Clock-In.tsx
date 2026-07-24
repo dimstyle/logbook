@@ -16,7 +16,10 @@ export default function ClockIn() {
     const [attendance, setAttendance] = useState("");
     const [reason, setReason] = useState("");
     
-    if(sudah_hadir) router.get('/report')
+    if(sudah_hadir) {
+        router.get('/report')
+        return;
+    }
     
     useEffect(() => {
         const timer = setInterval(() => {
