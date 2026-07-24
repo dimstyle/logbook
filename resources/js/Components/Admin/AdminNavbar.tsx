@@ -108,7 +108,7 @@ export default function AdminNavbar({
                         </a>
                     ))}
                     <a href="/admin/profile">
-                        <img src={url || ProfileIcon} alt="UserIcon" width="70rem" />
+                        <img className='rounded-full object-cover h-17.5 w-17.5' src={url || ProfileIcon} alt="UserIcon" width="70rem" />
                     </a>
                 </div>
             </nav>

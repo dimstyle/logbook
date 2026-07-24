@@ -132,7 +132,7 @@ export default function UserProfileEdit() {
                                 />
                                 <img 
                                     className="w-full object-cover aspect-square transition-all duration-300 group-hover:scale-105" 
-                                    src={preview ?? ProfileIcon} 
+                                    src={preview || ProfileIcon} 
                                     alt="UserIcon"
                                 />
                                 <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">

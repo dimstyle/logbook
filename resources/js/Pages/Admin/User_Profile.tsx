@@ -80,7 +80,7 @@ export default function UserProfileOnAdmin() {
             <div className="p-4 pl-40 pr-40 pt-30">
                 <div className="bg-[#F4F4F4] w-full p-10 rounded-xl">
                     <div className="flex items-center">
-                        <img src={UserData?.profile_photo || ProfileIcon} alt="UserIcon" />
+                        <img  className="rounded-full h-60 w-60 object-cover aspect-square" src={UserData?.profile_photo || ProfileIcon} alt="UserIcon" />
                         <div className="flex flex-col w-full gap-8 ml-5">
                             <h1 className="text-3xl">{UserData?.nama_lengkap}</h1>
                             <h2 className="text-[#1D4ED8] text-xl">{UserData?.role}</h2>

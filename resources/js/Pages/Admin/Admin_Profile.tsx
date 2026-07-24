@@ -20,7 +20,14 @@ export default function AdminProfile() {
         ;(async ()=>{
             try{
                 const response = await api.get<getAdminProfileResponse>('/api/user/getadminprofile');
-                setUser(response.data);
+                const resData = response.data;
+
+                 if(resData?.admin?.profile_photo){
+                    resData.admin.profile_photo = '/storage/'+resData.admin.profile_photo;
+                }
+
+                setUser(resData);
+
             }catch(err: unknown){
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
                 const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
@@ -51,7 +58,7 @@ export default function AdminProfile() {
             <div className="p-4 pl-40 pr-40 pt-30">
                 <div className="bg-[#F4F4F4] w-full p-10 rounded-xl">
                     <div className="flex items-center">
-                        <img src={ProfileIcon} alt="UserIcon" />
+                        <img className="rounded-full h-60 w-60 object-cover aspect-square" src={AdminData?.profile_photo || ProfileIcon} alt="UserIcon" />
                         <div className="flex flex-col w-full gap-8 ml-5">
                             <h1 className="text-3xl">{AdminData?.nama_lengkap}</h1>
                             <h2 className="text-[#FF5454] text-xl">{AdminData?.role}</h2>

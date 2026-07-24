@@ -5,6 +5,7 @@ namespace Modules\User\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Modules\User\Models\User;
 use Modules\User\Repositories\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +22,7 @@ class GetUserProfilePhotoController extends Controller
 
         try{
             $url = $this->userRepository->getUserPhoto($user->id, $user->role);
+            Log::info($url);
         }catch(ModelNotFoundException $e){
             return response()->json([
                 'message' => 'User not found'

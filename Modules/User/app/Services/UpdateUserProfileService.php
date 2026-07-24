@@ -32,7 +32,7 @@ class UpdateUserProfileService
 
             $encoded = $this->loadAndCompressPhoto($updateData);
 
-            $path = 'profile-photos/' . Str::uuid() . '.webp';
+            $path = 'profile-photos/'.$id.'/' . Str::uuid() . '.webp';
 
             $old_path = $this->userRepository->getUserPhoto($id, $role);
             

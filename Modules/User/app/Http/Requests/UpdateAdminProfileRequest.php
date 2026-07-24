@@ -19,6 +19,7 @@ class UpdateAdminProfileRequest extends FormRequest
             'perusahaan' => ['sometimes', 'string'],
             'divisi' => ['sometimes', 'string'],
             'nomor_telepon' => ['sometimes', 'string'], 
+            'profile_photo' => ['sometimes', 'image']
         ];
     }
 

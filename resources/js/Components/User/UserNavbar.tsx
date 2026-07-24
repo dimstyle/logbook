@@ -106,7 +106,7 @@ export default function UserNavbar({
                         </a>
                     ))}
                     <a href="/user_profile" >
-                        <img src={url || ProfileIcon} onError={(e) => {e.currentTarget.src = ProfileIcon}} alt="UserIcon" width="70rem"  />
+                        <img className='rounded-full object-cover h-17.5 w-17.5' src={url || ProfileIcon} onError={(e) => {e.currentTarget.src = ProfileIcon}} alt="UserIcon" width="70rem"  />
                     </a>
                 </div>
             </nav>

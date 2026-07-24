@@ -99,10 +99,7 @@ class UserRepository{
         try{
             DB::beginTransaction();
 
-            Admin::updateOrCreate(
-                ['account_id' => $accountId],
-                $adminData
-            );
+            Admin::where('account_id', $accountId)->update($adminData);
             Account::where('id', $accountId)->update($accountData);
 
             DB::commit();
