@@ -86,57 +86,47 @@ export default function EditReport() {
         <>
             <UserNavbar />
 
-            <div className="flex flex-col items-center">
-                <span className="p-4 pt-28 mb-0 flex justify-center">
-                    <h1 className="text-2xl mt-0 text-[#414141]">Edit Report</h1>
-                </span>
-                <span className="text-sm w-139.75">
-                    <h2 className="text-[15px] text-[#414141]">Kegiatan</h2>
+            <div className="flex flex-col p-4 pt-30 w-full items-center">
+                <h1 className="text-2xl">Edit Report</h1>
+                <div className="flex w-170 flex-col gap-5">
+                    <h2 className="mt-10">Kegiatan</h2>
                     <textarea
                         value={reportText}
                         onChange={(event) => setReportText(event.target.value)}
-                        className="flex-start bg-white rounded-md w-full h-28 justify-start mt-2 border-gray-300 px-4 py-3 items-start focus:ring-2 focus:border-blue-500 outline-none disabled:cursor-not-allowed"
+                        className="flex-start bg-white rounded-lg w-full h-28 justify-start border-gray-300 p-1.5 items-start focus:ring-2 focus:border-blue-500 outline-none disabled:cursor-not-allowed"
                         placeholder={canEditReport ? "Tuliskan Kegiatan Anda" : "Belum ada laporan untuk diedit"}
                         disabled={loading || !canEditReport}
                     />
-                </span>
-                <span className="text-sm m-4 w-139.75">
-                    <h2 className="text-[15px] mt-4 text-[#414141]">Jam Masuk</h2>
+                    <h2>Jam Masuk</h2>
                     <input
                         type="time"
-                        className="w-full p-2 rounded-md bg-gray-100"
+                        className="w-50 p-1.5 rounded-lg bg-gray-100"
                         value={clockIn}
                         onChange={(event) => setClockIn(event.target.value)}
                         readOnly={!canEditClockIn}
                     />
-                </span>
-                <span className="text-sm m-4 w-139.75">
-                    <h2 className="text-[15px] mt-4 text-[#414141]">Jam Pulang</h2>
+                    <h2>Jam Pulang</h2>
                     <input
                         type="time"
-                        className="w-full p-2 rounded-md bg-gray-100"
+                        className="w-50 p-1.5 rounded-lg bg-gray-100"
                         value={clockOut}
                         onChange={(event) => setClockOut(event.target.value)}
                         readOnly={!canEditClockOut}
                     />
-                </span>
-                <span className="text-sm m-4 w-139.75">
-                    <h2 className="text-[15px] mt-4 text-[#414141]">Tanggal</h2>
+                    <h2>Tanggal</h2>
                     <input
                         type="date"
-                        className="w-full p-2 rounded-md bg-gray-100"
+                        className="w-50 p-1.5 rounded-lg bg-gray-100"
                         value={date}
                         onChange={(event) => setDate(event.target.value)}
                         readOnly={!canEditDate}
                     />
-                </span>
-                <span className="text-sm m-4 w-139.75">
-                    <h2 className="text-[15px] mt-4 text-[#414141]">Dokumentasi</h2>
-                    <label htmlFor="file-upload" className="bg-white w-50 h-50 rounded-lg mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
+                    <h2>Dokumentasi</h2>
+                    <label htmlFor="file-upload" className="bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
                         <input type="file" className="hidden" id="file-upload"/>
                         <img src={Plus} className="w-12 h-12"/>
                     </label>
-                </span>
+                </div>
                 <div className="flex justify-center mt-5 mb-10">
                     <button onClick={handleSave} className="flex justify-center items-center bg-[#FF5454] w-30 h-8 rounded-lg p-1.5 cursor-pointer text-white disabled:cursor-not-allowed disabled:opacity-60">Done</button>
                 </div>

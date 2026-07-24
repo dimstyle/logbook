@@ -78,7 +78,7 @@ export default function AdminNavbar({
                 </div>
 
                 {/* Search */}
-                <div className="flex flex-1 justify-center">
+                <div className="flex flex-1 pl-11 justify-center">
                     {input && (
                         <input
                             className="w-70 p-1.5 bg-white rounded-lg"

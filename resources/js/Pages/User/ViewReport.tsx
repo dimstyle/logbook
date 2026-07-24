@@ -56,11 +56,11 @@ export default function ViewReport() {
                 <h1 className="text-2xl">View Report</h1>
                 <div className="flex flex-col w-170 gap-5">
                     <h2 className="mt-10">Kegiatan</h2>
-                    <input type="text" value={record?.laporan ?? ""} className="w-full h-28 p-1.5 bg-[#838383] rounded-lg cursor-not-allowed" disabled/>
+                    <textarea value={record?.laporan ?? ""} className="flex-start justify-start w-full h-28 p-1.5 items-start bg-[#838383] rounded-lg outline-none cursor-not-allowed" disabled/>
                     <h2>Jam Masuk</h2>
-                    <input type="text" value={record?.jam_hadir ?? "-"} className="w-full p-1.5 bg-[#838383] rounded-lg cursor-not-allowed" disabled/>
+                    <input type="text" value={record?.jam_hadir ?? "-"} className="w-50 p-1.5 bg-[#838383] rounded-lg cursor-not-allowed" disabled/>
                     <h2>Jam Pulang</h2>
-                    <input type="text" value={record?.jam_pulang ?? "-"} className="w-full p-1.5 bg-[#838383] rounded-lg cursor-not-allowed" disabled/>
+                    <input type="text" value={record?.jam_pulang ?? "-"} className="w-50 p-1.5 bg-[#838383] rounded-lg cursor-not-allowed" disabled/>
                     <h2>Tanggal</h2>
                     <input type="text" value={record?.created_date ?? ""} className="w-50 p-1.5 bg-[#838383] rounded-lg cursor-not-allowed" disabled/>
                     <h2>Dokumentasi</h2>

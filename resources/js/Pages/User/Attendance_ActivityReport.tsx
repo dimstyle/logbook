@@ -72,18 +72,14 @@ export default function ActivityReport() {
             
             <UserNavbar index={2} />
 
-            <div className="flex flex-col p-4 pt-30 w-full items-center ">
+            <div className="flex flex-col p-4 pt-30 w-full items-center">
                 <h1 className="text-2xl">Attendance Activity Report</h1>
                 <div className="flex w-170 flex-col gap-5" >
-                    <h2>Kegiatan</h2>
+                    <h2 className="mt-10">Kegiatan</h2>
                     <input type="text" className="bg-white rounded-lg p-1.5 w-full"/>
                     <h2>Dokumentasi</h2>
                     <div className="flex gap-3">
-                        <label htmlFor="file-upload" className="bg-white w-47.5 h-47.5 rounded-[29px] mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
-                            <input type="file" className="hidden" id="file-upload"/>
-                            <img src={Plus} className="w-12 h12" />
-                        </label>                    
-                        <label htmlFor="file-upload" className="bg-white w-47.5 h-47.5 rounded-[29px] mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
+                        <label htmlFor="file-upload" className="bg-white w-47.5 h-47.5 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
                             <input type="file" className="hidden" id="file-upload"/>
                             <img src={Plus} className="w-12 h12" />
                         </label>
