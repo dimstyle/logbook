@@ -6,37 +6,79 @@ import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
 import type { getAttendanceListResponse } from "../../types/attendance.js";
+import StatusLabel from "../../Components/Admin/StatusLabel.js";
 
-const getAttendanceStatus = (attendance: getAttendanceListResponse['attendances'][number]) => {
-    if (attendance.sakit) {
-        return 'Sakit';
+interface  statusLabelType{
+    [key: string] : colorPallateType
+}
+
+interface colorPallateType {
+    fontColor: string, 
+    backGroundColor: string
+}
+
+const sudahStyle = {
+    fontColor: "15803D",
+    backGroundColor: "B7FCCF"
+}
+
+const belumStyle = {
+    fontColor: "6B7280",
+    backGroundColor : "EEEEEE"
+}
+
+const colorPallate: statusLabelType  = {
+    "Hadir" : sudahStyle,
+    "Laporan" : sudahStyle,
+    "Pulang" : sudahStyle,
+
+    "Belum" : belumStyle,
+    "N/A" : belumStyle,
+
+    "Izin" : {
+        fontColor: "1D4ED8",
+        backGroundColor: "DBEAFE"
+    },
+    "Sakit" : {
+        fontColor: "7E22CE",
+        backGroundColor: "F3E8FF"
+    },
+    "WFO" :{
+        fontColor: "0369A1",
+        backGroundColor: "E0F2FE"
+    },
+    "WFH" : {
+        fontColor: "7C3AED",
+        backGroundColor: "F3E8FF"
+    },
+}
+
+const getAttendanceStatus = (attendance: getAttendanceListResponse['attendances'][number])=>{
+    const statusTables = [
+        'N/A' , 'N/A' , 'N/A' , 'N/A'
+    ]
+
+    const hadir_status = attendance.sudah_hadir ? "Hadir" : "Belum Hadir";
+    const laporan_status = attendance.sudah_laporan ? "Laporan" : "Belum Laporan";
+    const pulang_status = attendance.sudah_pulang ? "Pulang" : "Belum Pulang"
+    const wfh_status = attendance.wfh? 'WFH' : 'WFO';
+
+    if(attendance.izin) {
+        statusTables[0] = 'Izin'
+        return statusTables
     }
 
-    if (attendance.izin) {
-        return 'Izin';
+    if(attendance.sakit){
+        statusTables[0] = 'Sakit'
+        return statusTables
     }
 
-    if (attendance.sudah_hadir) {
-        return 'Hadir';
+    if (!attendance.sudah_hadir){
+        return [hadir_status, laporan_status, pulang_status];
     }
 
-    return 'Belum Hadir';
-};
-
-// const getAttendanceLabel = (attendance: string) => {
-//     const listStatus = ['Hadir', 'Sakit', 'Izin'];
-//     return listStatus.includes(attendance) ? attendance : 'Belum Masuk'
-//     switch (attendance) {
-//         case 'Hadir':
-//             return 'Hadir';
-//         case 'Sakit':
-//             return 'Sakit';
-//         case 'Izin':
-//             return 'Izin';
-//         default:
-//             return 'Belum Masuk';
-//     }
-// };
+    return [hadir_status, wfh_status, laporan_status, pulang_status];
+}
 
 const dateParser = (dateString: string) =>{
     const date = new Date(dateString);
@@ -83,20 +125,6 @@ export default function DailyAttendance() {
         (async () => {
             try {
                 const response = await api.get<getAttendanceListResponse>('/api/attendance/getattendancelist');
-                // const mappedUsers = (response.data.attendances ?? []).map((attendance) => ({
-                //     ...attendance,
-                //     name: attendance.name ?? attendance.nama_lengkap ?? 'Unknown',
-                //     school: attendance.school ?? attendance.sekolah ?? '-',
-                //     major: attendance.major ?? attendance.jurusan ?? '-',
-                //     attendance: getAttendanceStatus(attendance),
-                //     wfo: Boolean(attendance.wfh ?? false),
-                //     report: Boolean(attendance.sudah_laporan ?? false),
-                //     clockOut: Boolean(attendance.sudah_pulang ?? false),
-                //     time: attendance.jam_hadir ?? '-',
-                //     date: attendance.created_date ?? '-',
-                //     clockOutTime: attendance.jam_pulang ?? '-',
-                //     profile_photo: attendance.profile_photo ?? '',
-                // }));
                 const resData = response.data;
 
                 setAttendances(resData);
@@ -146,94 +174,19 @@ export default function DailyAttendance() {
             <div className="flex flex-col p-4 pt-30 gap-10">
                 {filteredUser.length > 0 ? (
                     filteredUser.map((attendance) => {
-                        const theAttendance = getAttendanceStatus(attendance);
-                        const isWFO = !attendance.wfh
-                        const isReport = attendance.sudah_laporan 
-                        const isClockOut = attendance.sudah_pulang;
 
                         const lastUpdate = new Date(attendance.updated_at).toLocaleTimeString("id-ID", {
                             hour: "2-digit",
                             minute: "2-digit",
                             hour12: true
                         }).replace(':','.');
-                        const date = dateParser(attendance.created_date);
-                        
-                        let userAttendance = ""
-                        let attendanceBGcolor = ""
-                        let attendanceTxtcolor = ""
-                        let userWFO = isWFO ? "WFO" : "WFH"
-                        let userReport = isReport ? "Sudah Laporan" : "Belum Laporan"
-                        let userClockOut = isClockOut ? "Keluar" : "Belum Keluar"
-                        let wfoBGcolor = isWFO ? "#DBEAFE" : "#F3E8FF"
-                        let reportBGcolor = isReport ? "#B7FCCF" : "#EEEEEE"
-                        let clockOutBGcolor = isClockOut ? "#B7FCCF" : "#EEEEEE"
-                        let wfoTxtcolor = isWFO ? "#1D4ED8" : "#7E22CE"
-                        let reportTxtcolor = isReport ? "#15803D" : "#6B7280"
-                        let clockOutTxtcolor = isClockOut ? "#15803D" : "#6B7280"
 
-                        if (theAttendance === "Hadir") {
-                            userAttendance = theAttendance
-                            attendanceBGcolor = "#B7FCCF"
-                            attendanceTxtcolor = "#15803D"
-                        }
-                        else if (theAttendance === "Sakit") {
-                            userAttendance = "Sakit"
-                            userWFO = "N/A"
-                            userReport = "N/A"
-                            userClockOut = "N/A"
-                            attendanceBGcolor = "#F3E8FF"
-                            attendanceTxtcolor = "#7E22CE"
-                            wfoBGcolor = "#EEEEEE"
-                            wfoTxtcolor = "#6B7280"
-                            reportBGcolor = "#EEEEEE"
-                            reportTxtcolor = "#6B7280"
-                            clockOutBGcolor = "#EEEEEE"
-                            clockOutTxtcolor = "#6B7280"
-                        }
-                        else if (theAttendance === "Izin") {
-                            userAttendance = 'Izin'
-                            userWFO = "N/A"
-                            userReport = "N/A"
-                            userClockOut = "N/A"
-                            attendanceBGcolor = "#DBEAFE"
-                            attendanceTxtcolor = "#1D4ED8"
-                            wfoBGcolor = "#EEEEEE"
-                            wfoTxtcolor = "#6B7280"
-                            reportBGcolor = "#EEEEEE"
-                            reportTxtcolor = "#6B7280"
-                            clockOutBGcolor = "#EEEEEE"
-                            clockOutTxtcolor = "#6B7280"
-                        }
-                        else if (theAttendance === "Belum Hadir") {
-                            userAttendance = theAttendance
-                            userWFO = "N/A"
-                            userReport = "N/A"
-                            userClockOut = "N/A"
-                            attendanceBGcolor = "#EEEEEE"
-                            attendanceTxtcolor = "#6B7280"
-                            wfoBGcolor = "#EEEEEE"
-                            wfoTxtcolor = "#6B7280"
-                            reportBGcolor = "#EEEEEE"
-                            reportTxtcolor = "#6B7280"
-                            clockOutBGcolor = "#EEEEEE"
-                            clockOutTxtcolor = "#6B7280"
-                        }
+                        const date = dateParser(attendance.created_date);
 
                         return (
                             <Link 
                                 key={attendance.attendance_id} 
                                 href={`/admin/user_report/${encodeURIComponent(attendance.nama_lengkap ?? "unknown")}`}
-                                data={{
-                                    school: attendance.sekolah,
-                                    major: attendance.jurusan,
-                                    attendance: theAttendance,
-                                    wfo: isWFO,
-                                    report: isReport,
-                                    clockOut: isClockOut,
-                                    time: lastUpdate,
-                                    date: date,
-                                    clockOutTime: lastUpdate,
-                                }} 
                                 className="flex w-full p-5 bg-[#FFFFFF] rounded-lg"
                             >
                                 <img src={attendance.profile_photo || ProfileIcon} alt="UserIcon" width={130} className="rounded-full object-cover" />
@@ -245,10 +198,14 @@ export default function DailyAttendance() {
                                         <h2>{attendance.jurusan}</h2>
                                     </div>
                                     <div className="flex gap-3">
-                                        <span style={{backgroundColor: attendanceBGcolor, color: attendanceTxtcolor}} className="flex justify-center items-center p-1 rounded-lg">{userAttendance}</span>
-                                        <span style={{backgroundColor: wfoBGcolor, color: wfoTxtcolor}} className="flex justify-center items-center p-1 rounded-lg">{userWFO}</span>
-                                        <span style={{backgroundColor: reportBGcolor, color: reportTxtcolor}} className="flex justify-center items-center p-1 rounded-lg">{userReport}</span>
-                                        <span style={{backgroundColor: clockOutBGcolor, color: clockOutTxtcolor}} className="flex justify-center items-center p-1 rounded-lg">{userClockOut}</span>
+                                        {
+                                            getAttendanceStatus(attendance).map((status: string) =>  
+                                                <StatusLabel 
+                                                    colorPallate={colorPallate[status.split(' ')[0]!]!} 
+                                                    statusLabel={status}
+                                                />
+                                            )
+                                        }
                                     </div>
                                 </div>
                                 <div className="flex flex-col w-full items-end">
