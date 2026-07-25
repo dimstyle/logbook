@@ -72,7 +72,9 @@ export default function AdminProfileEdit() {
         })()    
     },[])
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
         const requestData = EliminateEmptyString(data)
      
         try{
@@ -104,7 +106,7 @@ export default function AdminProfileEdit() {
             <AdminNavbar />
             
             <div className="p-4 pl-40 pr-40 pt-30">
-                <form className="bg-[#F4F4F4] w-full p-10 rounded-xl">
+                <form onSubmit={handleSubmit} className="bg-[#F4F4F4] w-full p-10 rounded-xl">
                     <div className="bg-[#F4F4F4] w-full p-10 rounded-xl">
                         <div className="flex items-center gap-3 py-2">
                             <Link href='/admin/profile' className='flex gap-2 items-center text-gray-700 bg-white hover:bg-gray-200 p-2 rounded-full shadow-sm'>
@@ -191,7 +193,7 @@ export default function AdminProfileEdit() {
                                 </div>
                             </div>
                             <div className="flex justify-center mt-20">
-                                <button onClick={handleSubmit} disabled={processing} className="bg-[#FF5454] text-white px-6 py-2 rounded-lg disabled:bg-gray-400 cursor-pointer">
+                                <button type="submit" disabled={processing} className="bg-[#FF5454] text-white px-6 py-2 rounded-lg disabled:bg-gray-400 cursor-pointer">
                                     {processing ? "Saving..." : "Simpan Perubahan"}
                                 </button>
                             </div>
