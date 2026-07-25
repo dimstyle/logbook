@@ -12,7 +12,6 @@ export default function StatusLabel({
     colorPallate,
     statusLabel
 }:StatusLabelProps){
-    console.log(colorPallate)
     return (
         <span 
             style={{

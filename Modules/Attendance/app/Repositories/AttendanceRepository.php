@@ -128,4 +128,35 @@ class AttendanceRepository{
         }
     }
 
+    public function getAttendanceDetailsByAttendanceId(int $attendanceId, $adminId){
+        try{
+            return User::where('admin_id',$adminId)
+            ->join('accounts', 'users.account_id' ,'=', 'accounts.id')
+            ->join('attendances', 'attendances.account', '=', 'accounts.id')
+            ->where('attendances.id', $attendanceId)
+            ->select(
+                'users.nama_lengkap',
+                'users.sekolah',
+                'users.jurusan',
+                'users.divisi',
+
+                'attendances.sudah_hadir',
+                'attendances.jam_hadir',
+                'attendances.sudah_laporan',
+                'attendances.laporan',
+                'attendances.images',
+                'attendances.sudah_pulang',
+                'attendances.jam_pulang',
+                'attendances.created_date',
+            )
+            ->firstOrFail();
+        }catch(Throwable $e){
+            Log::error('Failed to fetch attendance details',[
+                'exception' => $e
+            ]);
+
+            throw $e;
+        }
+    }
+
 }

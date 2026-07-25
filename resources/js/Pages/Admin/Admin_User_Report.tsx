@@ -1,5 +1,5 @@
 import AdminNavbar from "../../Components/Admin/AdminNavbar.js"
-import React from "react"
+import React, { useEffect } from "react"
 import { Head, Link } from "@inertiajs/react"
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
 import Image from "../../../../assets/image-picture-svgrepo-com.png"
@@ -29,6 +29,11 @@ export default function AdminReportProps({studentName, attendanceData} : AdminRe
     const userWFO = ifWfoBool ? "WFO" : "WFH";
     const wfoBGcolor = ifWfoBool ? "#E0F2FE" : "#F3E8FF";
     const wfoTxtcolor = ifWfoBool ? "#0369A1" : "#7C3AED";
+    useEffect(()=>{
+        ;(async ()=>{
+            
+        })();
+    },[])
 
     return (
         <>

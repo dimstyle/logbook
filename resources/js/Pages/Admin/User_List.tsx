@@ -70,10 +70,10 @@ export default function UserList() {
             <div className="flex flex-col p-4 pt-30 gap-10">
                 {filteredUser.length > 0 ? (
                     filteredUser.map((user) => {
-                        user.profile_photo = user.profile_photo ? '/storage/'+user.profile_photo : "" ;
+                        const profile_photo = user.profile_photo ? '/storage/'+user.profile_photo : "" ;
                         return (
                             <div key={user.id} className="flex w-full items-center p-5 bg-[#FFFFFF] rounded-lg">
-                                <img className="w-27.5 h-27.5 rounded-full object-cover aspect-square" src={user.profile_photo || ProfileIcon} alt="UserIcon" width={130} />
+                                <img className="w-27.5 h-27.5 rounded-full object-cover aspect-square" src={profile_photo || ProfileIcon} alt="UserIcon" width={130} />
                                 <div className="flex flex-col w-full gap-3 ml-2">
                                     <h1 className="text-2xl">{user.nama_lengkap}</h1>
                                     <div className="flex gap-2">

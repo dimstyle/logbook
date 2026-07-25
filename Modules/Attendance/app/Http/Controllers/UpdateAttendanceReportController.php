@@ -5,50 +5,33 @@ namespace Modules\Attendance\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Modules\Attendance\Http\Requests\UpdateAttendanceReportRequest;
 use Modules\Attendance\Models\Attendance;
 use Modules\Attendance\Repositories\AttendanceRepository;
+use Modules\Attendance\Services\UpdateAttendanceReportService;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class UpdateAttendanceReportController extends Controller
 {
     public function __construct(
-        private AttendanceRepository $attendanceRepository
+        private UpdateAttendanceReportService $updateAttendanceReportService
     ) {}
 
-    public function handle(Request $request)
+    public function handle(UpdateAttendanceReportRequest $request)
     {
-        $account = Auth::user();
+        $data = $request->validated();
 
-        if (! $account) {
+        try{
+            $this->updateAttendanceReportService->handle($data);
+        }catch(Throwable $e) {
             return response()->json([
-                'message' => 'Unauthorized',
-            ], Response::HTTP_UNAUTHORIZED);
-        }
-
-        $validated = $request->validate([
-            'attendance_id' => ['required', 'integer', 'exists:attendances,id'],
-            'laporan' => ['nullable', 'string'],
-        ]);
-
-        $attendance = Attendance::where('id', $validated['attendance_id'])
-            ->where('account_id', $account->id)
-            ->first();
-
-        if (! $attendance) {
-            return response()->json([
-                'message' => 'Attendance record not found',
-            ], Response::HTTP_NOT_FOUND);
-        }
-
-        $reportData = [
-            'laporan' => $validated['laporan?'] ?? '',
-            'sudah_laporan' => ! empty($validated['laporan']),
-        ];
-
-        $this->attendanceRepository->createReportById($account->id, $reportData);
+                'message' => 'Internal server error'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        } 
 
         return response()->json([
-            'message' => 'Success',
-        ], Response::HTTP_OK);
+            'message' => 'Success to update user attendance'
+        ],Response::HTTP_OK);
     }
 }
