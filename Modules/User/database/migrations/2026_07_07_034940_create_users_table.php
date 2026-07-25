@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nama_lengkap')->default('N/A');
             $table->string('sekolah')->default('N/A');
             $table->string('jurusan')->default('N/A');
+            $table->string('divisi')->default('N/A');
             $table->string('nomor_telepon')->default('N/A');
             $table->integer('hadir')->default(0);
             $table->integer('tidak_masuk')->default(0);

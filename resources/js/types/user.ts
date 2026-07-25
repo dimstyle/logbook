@@ -11,6 +11,7 @@ export interface getUserProfileResponse{
         nama_lengkap: string,
         sekolah: string,
         jurusan: string,
+        divisi: string,
         nomor_telepon: string,
         hadir: number,
         tidak_masuk: number,

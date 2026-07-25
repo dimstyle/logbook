@@ -6,19 +6,19 @@ import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
 import { Link, useForm } from "@inertiajs/react";
+import type { DefaultResponse } from "../../types/default.js";
 
-function EliminateEmptyString(data: Record<string, string>){
-    return Object.fromEntries(
-        Object.entries(data).filter(([_, value]) => {
-            return value !== "" && value !== null && value !== undefined;
-        })
-    )
-}
+function EliminateEmptyString(data: UpdateAdminProfileRequest){
+    const formData = new FormData();
 
-function concatObjectValue(data: Record<string, string>, delimiter: string = ", "){
-    return Object.entries(data)
-    .map(val => val[1])
-    .join(delimiter);
+    Object.entries(data).forEach(([key, value]) => {
+        if(!value) return;
+        formData.append(
+            key, 
+            value instanceof File ? value : String(value)
+        );
+    })
+    return formData
 }
 
 export default function AdminProfileEdit() {
@@ -27,7 +27,7 @@ export default function AdminProfileEdit() {
     const [loading, setLoading] = useState(true);
     const [preview, setPreview] = useState<string | null>(null);
 
-    const { data, setData, patch, processing, errors, transform} = useForm<UpdateAdminProfileRequest>({
+    const { data, setData, processing, errors}  = useForm<UpdateAdminProfileRequest>({
         username: "",
         email: "",
         password: "",
@@ -70,22 +70,24 @@ export default function AdminProfileEdit() {
                 setLoading(false)
             }
         })()    
-    })
+    },[])
 
-    const handleSubmit = async (e:React.FormEvent) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
+        const requestData = EliminateEmptyString(data)
+     
+        try{
+            const response = await api.patch<DefaultResponse>('/api/user/updateadminprofile', requestData);
+            const resData = response.data;
 
-        transform((data: Record<string, string>) => EliminateEmptyString(data));
+            alert(resData.message);
 
-        patch('/api/user/updateadminprofile', {
-            onSucces: () => alert("Profil berhasil diubah!"),
-            onError: (err: unknown) => {
-                setError(JSON.stringify({
-                    message: concatObjectValue(errors),
-                    status: 500
-                }))
-            }
-        })
+        }catch(err: unknown){
+            const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
+            const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
+            const status = axiosError?.response?.status ?? 500;
+            alert(message)
+            setError(JSON.stringify({ message, status }));
+        }
     }
     
     if(loading){
@@ -102,7 +104,7 @@ export default function AdminProfileEdit() {
             <AdminNavbar />
             
             <div className="p-4 pl-40 pr-40 pt-30">
-                <form onSubmit={handleSubmit} className="bg-[#F4F4F4] w-full p-10 rounded-xl">
+                <form className="bg-[#F4F4F4] w-full p-10 rounded-xl">
                     <div className="bg-[#F4F4F4] w-full p-10 rounded-xl">
                         <div className="flex items-center gap-3 py-2">
                             <Link href='/admin/profile' className='flex gap-2 items-center text-gray-700 bg-white hover:bg-gray-200 p-2 rounded-full shadow-sm'>
@@ -189,7 +191,7 @@ export default function AdminProfileEdit() {
                                 </div>
                             </div>
                             <div className="flex justify-center mt-20">
-                                <button type="submit" disabled={processing} className="bg-[#FF5454] text-white px-6 py-2 rounded-lg disabled:bg-gray-400 cursor-pointer">
+                                <button onClick={handleSubmit} disabled={processing} className="bg-[#FF5454] text-white px-6 py-2 rounded-lg disabled:bg-gray-400 cursor-pointer">
                                     {processing ? "Saving..." : "Simpan Perubahan"}
                                 </button>
                             </div>

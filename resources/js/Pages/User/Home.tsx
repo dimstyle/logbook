@@ -5,6 +5,15 @@ import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import type { getAttendanceHistoryResponse } from "../../types/attendance.js";
 
+function formatTime(time: string) {
+    if(!time) return
+
+    const hour = Number(time.split(":")[0]);  
+    const period = hour < 12 ? "AM" : "PM";
+
+    return `${time} ${period}`;
+}
+
 export default function Home(){
     const [searchQuery, setSearchQuery] = useState("");
     const [records, setRecords] = useState<getAttendanceHistoryResponse>();
@@ -86,6 +95,13 @@ export default function Home(){
                                 const isToday = user.created_date === today;
                                 const linktext = isToday ? "Edit" : "View";
                                 const linkcolor = isToday ? "#FF5454" : "#1D4ED8";
+
+                                const date = (new Date(user.created_date)).toLocaleDateString('id-ID', {
+                                    day: 'numeric',
+                                    month: 'long',
+                                    year: 'numeric'
+                                });
+
                                 const href = isToday
                                     ? `/edit_report/${user.id}`
                                     : `/view_report/${user.id}`;
@@ -93,9 +109,9 @@ export default function Home(){
                                 return (
                                     <tr key={user.id} className="divide-x divide-white-100 h-20">
                                         <td style={{opacity: user.laporan ? 1 : 0.5}}>{user.laporan || "N/A"}</td>
-                                        <td style={{opacity: user.jam_hadir ? 1 : 0.5}}>{user.jam_hadir || "N/A"}</td>
-                                        <td style={{opacity: user.jam_pulang ? 1 : 0.5}}>{user.jam_pulang || "N/A"}</td>
-                                        <td style={{opacity: user.created_date ? 1 : 0.5}}>{user.created_date || "N/A"}</td>
+                                        <td style={{opacity: user.jam_hadir ? 1 : 0.5}}>{formatTime(user.jam_hadir) || "N/A"}</td>
+                                        <td style={{opacity: user.jam_pulang ? 1 : 0.5}}>{formatTime(user.jam_pulang) || "N/A"}</td>
+                                        <td style={{opacity: user.created_date ? 1 : 0.5}}>{date || "N/A"}</td>
                                         <td>
                                             <a href={href} style={{backgroundColor: linkcolor}} className="rounded-lg p-1.5 cursor-pointer">{linktext}</a>
                                         </td>

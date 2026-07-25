@@ -2,33 +2,32 @@ import UserNavbar from "../../Components/User/UserNavbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png";
 import React, { useEffect, useRef, useState } from "react";
 import { type getUserProfileResponse, type UpdateUserProfileRequest } from "../../types/user.js";
-import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
 import { Link, useForm } from "@inertiajs/react";
+import type { DefaultResponse } from "../../types/default.js";
+import LoadingPage from "../ui/LoadingPage.js";
 
-function EliminateEmptyString(data: Record<string, string>){
-    return Object.fromEntries(
-        Object.entries(data).filter(([_, value]) => {
-            return value !== "" && value !== null && value !== undefined;
-        })
-    )
+function EliminateEmptyString(data: UpdateUserProfileRequest){
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+        if(!value) return;
+        formData.append(
+            key, 
+            value instanceof File ? value : String(value)
+        );
+    })
+    return formData
 }
-
-function concatObjectValue(data: Record<string, string>, delimiter: string = ", "){
-    return Object.entries(data)
-    .map(val => val[1])
-    .join(delimiter);
-}
-
 
 export default function UserProfileEdit() {
     const isFetched = useRef(false);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [loading, setLoading] = useState(true);
-    const [preview, setPreview] = useState<string | null>(null);
+    const [preview, setPreview] = useState("");
 
-    const { data, setData, patch, processing, errors, transform} = useForm<UpdateUserProfileRequest>({
+    const { data, setData, processing, errors} = useForm<UpdateUserProfileRequest>({
         username: "",
         email: "",
         password: "",
@@ -37,31 +36,30 @@ export default function UserProfileEdit() {
         jurusan: "",
         nomor_telepon: "",
         profile_photo: null as File | null
-    })
+    });
 
     useEffect(()=>{
-        if (isFetched.current) return;
+        if(isFetched.current) return;
         isFetched.current = true;
-    
-        (async ()=>{
+
+        ;(async ()=>{
             try{
                 const response = await api.get<getUserProfileResponse>('/api/user/getuserprofile');
-                const currentUser = response.data?.user;
+                const user = response.data?.user;
 
-                if (currentUser) {
-                    setData({
-                        nama_lengkap: currentUser.nama_lengkap || "",
-                        sekolah: currentUser.sekolah || "",
-                        jurusan: currentUser.jurusan || "",
-                        email: currentUser.email || "",
-                        nomor_telepon: currentUser.nomor_telepon || "",
-                        username: currentUser.username || "",
-                        password: ""
-                    })
-                    
-                    if(currentUser.profile_photo) setPreview('/storage/'+currentUser.profile_photo);
-                    
-                }    
+                setData({
+                    username: user.username || "",
+                    email: user.email || "",
+                    password: "",
+                    nama_lengkap: user.nama_lengkap || "",
+                    sekolah: user.sekolah || "",
+                    jurusan: user.jurusan || "",
+                    nomor_telepon: user.nomor_telepon || "",
+                    profile_photo: user.profile_photo || null,
+                });
+                                
+                if(user.profile_photo) setPreview('/storage/'+user.profile_photo);
+                      
             }catch(err: unknown){
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
                 const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
@@ -71,33 +69,34 @@ export default function UserProfileEdit() {
             }finally{
                 setLoading(false)
             }
-        })()    
-    })
+        })()
+    },[]);
 
-    const handleSubmit = async (e:React.FormEvent) => {
-        e.preventDefault();
 
-        transform((data: Record<string, string>) => EliminateEmptyString(data));
+    const handleSubmit = async () => {
 
-        patch('/api/user/updateuserprofile', {
-            forceFormData : true,
-            onSuccess: () => alert("Profil berhasil diubah!"),
-            onError: (_: unknown) => {
-                setError(JSON.stringify({
-                    message: concatObjectValue(errors),
-                    status: 500
-                }))
-            }
-        })
+        const requestData = EliminateEmptyString(data)
+     
+        try{
+            const response = await api.patch<DefaultResponse>('/api/user/updateuserprofile', requestData);
+            const resData = response.data;
+
+            alert(resData.message);
+
+        }catch(err: unknown){
+            const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
+            const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
+            const status = axiosError?.response?.status ?? 500;
+            alert(message)
+            setError(JSON.stringify({ message, status }));
+        }
     }
-    
-    if(loading){
-        return <LoadingPage />
-    }
+
+    if(loading) return <LoadingPage />
     
     if (error){
         const errMessage = JSON.parse(error);
-        return <ErrorPage errorMessage={errMessage} backPath="/login"/>
+        return <ErrorPage errorMessage={errMessage} backPath="/user_profile/edit"/>
     }
     
     return (
@@ -105,7 +104,7 @@ export default function UserProfileEdit() {
             <UserNavbar />
 
             <div className="p-4 pl-40 pr-40 pt-30">
-                <form onSubmit={handleSubmit} className="bg-[#F4F4F4] w-full p-10 rounded-xl">
+                <form className="bg-[#F4F4F4] w-full p-10 rounded-xl">
                     <div className="bg-[#F4F4F4] w-full p-10 rounded-xl">
                         <div className="flex items-center gap-3 py-2">
                             <Link href='/user_profile' className='flex gap-2 items-center text-gray-700 bg-white hover:bg-gray-200 p-2 rounded-full shadow-sm'>
@@ -192,7 +191,7 @@ export default function UserProfileEdit() {
                                 </div>
                             </div>
                             <div className="flex justify-center mt-20">
-                                <button type="submit" disabled={processing} className="bg-[#FF5454] text-white px-6 py-2 rounded-lg disabled:bg-gray-400 cursor-pointer">
+                                <button onClick={handleSubmit} disabled={processing} className="bg-[#FF5454] text-white px-6 py-2 rounded-lg disabled:bg-gray-400 cursor-pointer">
                                     {processing ? "Saving..." : "Simpan Perubahan"}
                                 </button>
                             </div>

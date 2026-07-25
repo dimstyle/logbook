@@ -6,7 +6,6 @@ import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
 import type { getAttendanceDailyResponse } from "../../types/attendance.js";
 import { usePage } from "@inertiajs/react";
-import { requestFormReset } from "react-dom";
 
 export default function ViewReport() {
     const { attendance_id } = usePage().props;
