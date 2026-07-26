@@ -9,6 +9,7 @@ function isClockIn(status: string): boolean{
     return status === 'wfh' || status === 'wfo';
 }
 
+
 export default function ClockIn() {
     const { izin, sakit, sudah_hadir } = usePage().props;
     const [error, setError] = useState("");
@@ -40,6 +41,7 @@ export default function ClockIn() {
     now.toLocaleTimeString("id-ID", {
         hour: "2-digit",
         minute: "2-digit",
+        hour12: true
     });
     
 
@@ -47,8 +49,8 @@ export default function ClockIn() {
     const submitEvent = async () => {
         const payload = {   
             status: attendance,
-            jam_hadir : currentTime.replace('.',':'),
-            alasan: reason,
+            jam_hadir : currentTime.replace('.',':').split(' ')[0],
+            keterangan: reason,
         }
         
         if(!isClockIn(attendance) && !reason) {
@@ -121,7 +123,7 @@ export default function ClockIn() {
                             </p>
 
                             <h2 className="text-3xl font-bold text-[#FF5454] mt-2">
-                                {currentTime} WIB
+                                {currentTime}
                             </h2>
                         </div>
                     </div>

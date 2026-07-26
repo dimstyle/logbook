@@ -19,6 +19,7 @@ class RegisterRequest extends FormRequest
             'nama_lengkap' => ['required', 'string'],
             'sekolah' => ['required', 'string'],
             'jurusan' => ['required', 'string'],
+            'divisi' => ['required','string'],
             'nomor_telepon' => ['required', 'string'],
             'periode_awal' => ['required', 'date'],
             'periode_akhir' => ['required', 'date']

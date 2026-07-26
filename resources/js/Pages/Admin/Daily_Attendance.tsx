@@ -5,40 +5,115 @@ import { Link } from "@inertiajs/react";
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
-import { type getUsersAttendanceInfoResponse } from "../../types/user.js";
+import type { getAttendanceListResponse } from "../../types/attendance.js";
+import StatusLabel from "../../Components/Admin/StatusLabel.js";
 
-const getAttendanceStatus = (user: getUsersAttendanceInfoResponse['users'][number]) => {
-    if (user.sakit) {
-        return 'Sakit';
+interface  statusLabelType{
+    [key: string] : colorPallateType
+}
+
+interface colorPallateType {
+    fontColor: string, 
+    backGroundColor: string
+}
+
+const sudahStyle = {
+    fontColor: "15803D",
+    backGroundColor: "B7FCCF"
+}
+
+const belumStyle = {
+    fontColor: "6B7280",
+    backGroundColor : "EEEEEE"
+}
+
+const colorPallate: statusLabelType  = {
+    "Hadir" : sudahStyle,
+    "Laporan" : sudahStyle,
+    "Pulang" : sudahStyle,
+
+    "Belum" : belumStyle,
+    "N/A" : belumStyle,
+
+    "Izin" : {
+        fontColor: "1D4ED8",
+        backGroundColor: "DBEAFE"
+    },
+    "Sakit" : {
+        fontColor: "7E22CE",
+        backGroundColor: "F3E8FF"
+    },
+    "WFO" :{
+        fontColor: "0369A1",
+        backGroundColor: "E0F2FE"
+    },
+    "WFH" : {
+        fontColor: "7C3AED",
+        backGroundColor: "F3E8FF"
+    },
+}
+
+const getAttendanceStatus = (attendance: getAttendanceListResponse['attendances'][number])=>{
+    const statusTables = [
+        'N/A' , 'N/A' , 'N/A' , 'N/A'
+    ]
+
+    const hadir_status = attendance.sudah_hadir ? "Hadir" : "Belum Hadir";
+    const laporan_status = attendance.sudah_laporan ? "Laporan" : "Belum Laporan";
+    const pulang_status = attendance.sudah_pulang ? "Pulang" : "Belum Pulang"
+    const wfh_status = attendance.wfh? 'WFH' : 'WFO';
+
+    if(attendance.izin) {
+        statusTables[0] = 'Izin'
+        return statusTables
     }
 
-    if (user.izin) {
-        return 'Izin';
+    if(attendance.sakit){
+        statusTables[0] = 'Sakit'
+        return statusTables
     }
 
-    if (user.sudah_hadir) {
-        return 'Hadir';
+    if (!attendance.sudah_hadir){
+        return [hadir_status, laporan_status, pulang_status];
     }
 
-    return 'Belum';
-};
+    return [hadir_status, wfh_status, laporan_status, pulang_status];
+}
 
-const getAttendanceLabel = (attendance: string) => {
-    switch (attendance) {
-        case 'Hadir':
-            return 'Hadir';
-        case 'Sakit':
-            return 'Sakit';
-        case 'Izin':
-            return 'Izin';
-        default:
-            return 'Belum Masuk';
+const dateParser = (dateString: string) =>{
+    const date = new Date(dateString);
+    const today = new Date();
+
+    const isToday =
+        date.getFullYear() === today.getFullYear() &&
+        date.getMonth() === today.getMonth() &&
+        date.getDate() === today.getDate();
+
+    if (isToday) {
+        return 'Hari ini';
     }
-};
+
+    today.setDate(today.getDate() - 1);
+
+    const isYesterday =
+        date.getFullYear() === today.getFullYear() &&
+        date.getMonth() === today.getMonth() &&
+        date.getDate() === today.getDate();
+
+    if (isYesterday) {
+        return 'Kemarin';
+    }
+
+    return date.toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'short',
+    });
+
+}
 
 export default function DailyAttendance() {
     const [searchQuery, setSearchQuery] = useState<string>("");
-    const [users, setUsers] = useState<getUsersAttendanceInfoResponse>();
+    const [attendances, setAttendances] = useState<getAttendanceListResponse>();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
     const isFetched = useRef(false);
@@ -49,26 +124,10 @@ export default function DailyAttendance() {
 
         (async () => {
             try {
-                const response = await api.get<getUsersAttendanceInfoResponse>('/api/user/getlistusersinfo');
-                const mappedUsers = (response.data.users ?? []).map((user) => ({
-                    ...user,
-                    name: user.name ?? user.nama_lengkap ?? 'Unknown',
-                    school: user.school ?? user.sekolah ?? '-',
-                    major: user.major ?? user.jurusan ?? '-',
-                    attendance: getAttendanceStatus(user),
-                    wfo: Boolean(user.wfh ?? false),
-                    report: Boolean(user.sudah_laporan ?? false),
-                    clockOut: Boolean(user.sudah_pulang ?? false),
-                    time: user.jam_hadir ?? '-',
-                    date: user.created_date ?? '-',
-                    clockOutTime: user.jam_pulang ?? '-',
-                    profile_photo: user.profile_photo ?? '',
-                }));
+                const response = await api.get<getAttendanceListResponse>('/api/attendance/getattendancelist');
+                const resData = response.data;
 
-                setUsers({
-                    message: response.data.message,
-                    users: mappedUsers,
-                });
+                setAttendances(resData);
 
             } catch (err: unknown) {
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
@@ -86,12 +145,10 @@ export default function DailyAttendance() {
         setSearchQuery(event.target.value);
     }
 
-    const filteredUser = (users?.users ?? []).filter((user) => {
+    const filteredUser = (attendances?.attendances ?? []).filter((attendance) => {
         const lowercaseQuery = searchQuery.toLocaleLowerCase();
         return (
-            user.name?.toLocaleLowerCase().includes(lowercaseQuery) ||
-            user.school?.toLocaleLowerCase().includes(lowercaseQuery) ||
-            user.major?.toLocaleLowerCase().includes(lowercaseQuery)
+            attendance.nama_lengkap?.toLocaleLowerCase().includes(lowercaseQuery)
         )
     })
 
@@ -99,8 +156,9 @@ export default function DailyAttendance() {
         return <LoadingPage />;
     }
 
-    if (error) {
-        return <ErrorPage />;
+    if (error){
+        const errorMessage = JSON.parse(error)
+        return <ErrorPage errorMessage={errorMessage}  backPath="/admin/daily_attendance"/>
     }
 
     return (
@@ -115,108 +173,44 @@ export default function DailyAttendance() {
 
             <div className="flex flex-col p-4 pt-30 gap-10">
                 {filteredUser.length > 0 ? (
-                    filteredUser.map((user) => {
-                        const theAttendance = user.attendance ?? 'Belum'
-                        const isWFO = user.wfo ?? false
-                        const isReport = user.report ?? false
-                        const isClockOut = user.clockOut ?? false
-                        
-                        let userAttendance = ""
-                        let attendanceBGcolor = ""
-                        let attendanceTxtcolor = ""
-                        let userWFO = isWFO ? "WFO" : "WFH"
-                        let userReport = isReport ? "Sudah Laporan" : "Belum Laporan"
-                        let userClockOut = isClockOut ? "Keluar" : "Belum Keluar"
-                        let wfoBGcolor = isWFO ? "#DBEAFE" : "#F3E8FF"
-                        let reportBGcolor = isReport ? "#B7FCCF" : "#EEEEEE"
-                        let clockOutBGcolor = isClockOut ? "#B7FCCF" : "#EEEEEE"
-                        let wfoTxtcolor = isWFO ? "#1D4ED8" : "#7E22CE"
-                        let reportTxtcolor = isReport ? "#15803D" : "#6B7280"
-                        let clockOutTxtcolor = isClockOut ? "#15803D" : "#6B7280"
+                    filteredUser.map((attendance) => {
 
-                        if (theAttendance === "Hadir") {
-                            userAttendance = getAttendanceLabel(theAttendance)
-                            attendanceBGcolor = "#B7FCCF"
-                            attendanceTxtcolor = "#15803D"
-                        }
-                        else if (theAttendance === "Sakit") {
-                            userAttendance = "Sakit"
-                            userWFO = "N/A"
-                            userReport = "N/A"
-                            userClockOut = "N/A"
-                            attendanceBGcolor = "#F3E8FF"
-                            attendanceTxtcolor = "#7E22CE"
-                            wfoBGcolor = "#EEEEEE"
-                            wfoTxtcolor = "#6B7280"
-                            reportBGcolor = "#EEEEEE"
-                            reportTxtcolor = "#6B7280"
-                            clockOutBGcolor = "#EEEEEE"
-                            clockOutTxtcolor = "#6B7280"
-                        }
-                        else if (theAttendance === "Izin") {
-                            userAttendance = getAttendanceLabel(theAttendance)
-                            userWFO = "N/A"
-                            userReport = "N/A"
-                            userClockOut = "N/A"
-                            attendanceBGcolor = "#DBEAFE"
-                            attendanceTxtcolor = "#1D4ED8"
-                            wfoBGcolor = "#EEEEEE"
-                            wfoTxtcolor = "#6B7280"
-                            reportBGcolor = "#EEEEEE"
-                            reportTxtcolor = "#6B7280"
-                            clockOutBGcolor = "#EEEEEE"
-                            clockOutTxtcolor = "#6B7280"
-                        }
-                        else if (theAttendance === "Belum") {
-                            userAttendance = getAttendanceLabel(theAttendance)
-                            userWFO = "N/A"
-                            userReport = "N/A"
-                            userClockOut = "N/A"
-                            attendanceBGcolor = "#EEEEEE"
-                            attendanceTxtcolor = "#6B7280"
-                            wfoBGcolor = "#EEEEEE"
-                            wfoTxtcolor = "#6B7280"
-                            reportBGcolor = "#EEEEEE"
-                            reportTxtcolor = "#6B7280"
-                            clockOutBGcolor = "#EEEEEE"
-                            clockOutTxtcolor = "#6B7280"
-                        }
+                        const lastUpdate = new Date(attendance.updated_at).toLocaleTimeString("id-ID", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true
+                        }).replace(':','.');
+
+                        const date = dateParser(attendance.created_date);
 
                         return (
                             <Link 
-                                key={user.id} 
-                                href={`/admin/user_report/${encodeURIComponent(user.name ?? "unknown")}`}
-                                data={{
-                                    school: user.school,
-                                    major: user.major,
-                                    attendance: user.attendance,
-                                    wfo: user.wfo,
-                                    report: user.report,
-                                    clockOut: user.clockOut,
-                                    time: user.time,
-                                    date: user.date,
-                                    clockOutTime: user.clockOutTime,
-                                }} 
+                                key={attendance.attendance_id} 
+                                href={`/admin/user_report/${encodeURIComponent(attendance.nama_lengkap ?? "unknown")}`}
                                 className="flex w-full p-5 bg-[#FFFFFF] rounded-lg"
                             >
-                                <img src={user.profile_photo || ProfileIcon} alt="UserIcon" width={130} className="rounded-full object-cover" />
+                                <img src={attendance.profile_photo || ProfileIcon} alt="UserIcon" width={130} className="rounded-full object-cover" />
                                 <div className="flex flex-col w-full justify-center gap-3 ml-2">
-                                    <h1 className="text-2xl">{user.name}</h1>
+                                    <h1 className="text-2xl">{attendance.nama_lengkap}</h1>
                                     <div className="flex gap-2">
-                                        <h2>{user.school}</h2>
+                                        <h2>{attendance.sekolah}</h2>
                                         <h1>•</h1>
-                                        <h2>{user.major}</h2>
+                                        <h2>{attendance.jurusan}</h2>
                                     </div>
                                     <div className="flex gap-3">
-                                        <span style={{backgroundColor: attendanceBGcolor, color: attendanceTxtcolor}} className="flex justify-center items-center p-1 rounded-lg">{userAttendance}</span>
-                                        <span style={{backgroundColor: wfoBGcolor, color: wfoTxtcolor}} className="flex justify-center items-center p-1 rounded-lg">{userWFO}</span>
-                                        <span style={{backgroundColor: reportBGcolor, color: reportTxtcolor}} className="flex justify-center items-center p-1 rounded-lg">{userReport}</span>
-                                        <span style={{backgroundColor: clockOutBGcolor, color: clockOutTxtcolor}} className="flex justify-center items-center p-1 rounded-lg">{userClockOut}</span>
+                                        {
+                                            getAttendanceStatus(attendance).map((status: string) =>  
+                                                <StatusLabel 
+                                                    colorPallate={colorPallate[status.split(' ')[0]!]!} 
+                                                    statusLabel={status}
+                                                />
+                                            )
+                                        }
                                     </div>
                                 </div>
                                 <div className="flex flex-col w-full items-end">
-                                    <p className="text-[#6B7280]">{user.time}</p>
-                                    <p className="text-[#6B7280]">{user.date}</p>
+                                    <p className="text-[#6B7280]">{lastUpdate}</p>
+                                    <p className="text-[#6B7280]">{date}</p>
                                 </div>
                             </Link>
                         )

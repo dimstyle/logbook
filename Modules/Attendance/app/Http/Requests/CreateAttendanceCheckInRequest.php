@@ -17,7 +17,7 @@ class CreateAttendanceCheckInRequest extends FormRequest
         return [
             'status' => ['required', 'string', Rule::in($allowedStatus)],
             'jam_hadir' => ['required', 'date_format:H:i'],
-            'alasan' => ['nullable','string']
+            'keterangan' => ['nullable','string']
         ];
     }
 

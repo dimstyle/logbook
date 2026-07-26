@@ -7,7 +7,7 @@ class CreateAttendanceCheckInDTO {
     public function __construct(
         public string $status,
         public string $jam_hadir,
-        public string|null $alasan
+        public string|null $keterangan
     ){}
 
     public static function fromArray(array $data): self{

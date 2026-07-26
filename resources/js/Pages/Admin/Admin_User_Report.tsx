@@ -49,7 +49,7 @@ export default function AdminReportProps({studentName, attendanceData} : AdminRe
                     </div>
                     {/*Profil Siswa*/}
                     <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-                        <img src={ProfileIcon} alt="Profile" className="w-16 h-16 rounded-full object-cover bg-gray-100"/>
+                        <img src={ProfileIcon} alt="Profile"/>
                         <div>
                             <h2 className="text-2xl font-bold text-black">{studentName}</h2>
                             <p className="text-gray-500 text-sm mt-2">{school} • {major}</p>

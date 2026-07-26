@@ -2,7 +2,6 @@
 
 namespace Modules\Attendance\Services;
 
-use Hamcrest\Type\IsBoolean;
 use Modules\Attendance\DTO\CreateAttendanceCheckInDTO;
 use Modules\Attendance\Repositories\AttendanceRepository;
 
@@ -44,7 +43,7 @@ class CreateAttendanceCheckInService
             $result['sudah_hadir'] = true;
             $result['jam_hadir'] = $checkIn->jam_hadir;
         }else{
-            $result['alasan_tidak_masuk'] = $checkIn->alasan;
+            $result['keterangan'] = $checkIn->alasan;
         }
 
         switch($checkIn->status){

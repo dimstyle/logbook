@@ -78,7 +78,7 @@ export default function AdminNavbar({
                 </div>
 
                 {/* Search */}
-                <div className="flex flex-1 justify-center">
+                <div className="flex flex-1 pl-11 justify-center">
                     {input && (
                         <input
                             className="w-70 p-1.5 bg-white rounded-lg"
@@ -108,7 +108,7 @@ export default function AdminNavbar({
                         </a>
                     ))}
                     <a href="/admin/profile">
-                        <img src={url || ProfileIcon} alt="UserIcon" width="70rem" />
+                        <img className='rounded-full object-cover h-17.5 w-17.5' src={url || ProfileIcon} alt="UserIcon" width="70rem" />
                     </a>
                 </div>
             </nav>

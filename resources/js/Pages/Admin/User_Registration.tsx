@@ -14,6 +14,7 @@ export default function UserRegistration() {
         school: "",
         class: "",
         major: "",
+        division: "",
         startDate: "",
         endDate: "",
         username: "",
@@ -35,6 +36,7 @@ export default function UserRegistration() {
             nama_lengkap: data.fullName,
             sekolah: data.school,
             jurusan: [data.class, data.major].filter(Boolean).join(" / "),
+            divisi: data.division,
             nomor_telepon: data.phone,
             periode_awal: data.startDate,
             periode_akhir: data.endDate,
@@ -94,6 +96,13 @@ export default function UserRegistration() {
                         type="text"
                         value={data.school}
                         onChange={(e) => setData("school", e.target.value)}
+                        className="w-full p-1.5 bg-white rounded-lg"
+                    />
+                    <h2>Divisi</h2>
+                    <input
+                        type="text"
+                        value={data.division}
+                        onChange={(e) => setData("division", e.target.value)}
                         className="w-full p-1.5 bg-white rounded-lg"
                     />
                     <h2>Kelas/Jurusan</h2>

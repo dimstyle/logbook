@@ -10,10 +10,11 @@ import LoadingPage from "../ui/LoadingPage.js";
 
 
 export default function Profile() {
-    const isFetched = useRef(false);
     const [user, setUser] = useState<getUserProfileResponse>();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
+    const isFetched = useRef(false);
+
     useEffect(()=>{
         if (isFetched.current) return;
         isFetched.current = true;
@@ -26,7 +27,7 @@ export default function Profile() {
                 if(resData?.user?.profile_photo){
                     resData.user.profile_photo = '/storage/'+resData.user.profile_photo;
                 }
-
+                
                 setUser(resData);
 
             }catch(err: unknown){
@@ -39,7 +40,7 @@ export default function Profile() {
                 setLoading(false)
             }
         })()    
-    })
+    },[])
 
     if(loading){
         return <LoadingPage />
@@ -59,13 +60,14 @@ export default function Profile() {
             <div className="p-4 pl-40 pr-40 pt-30">
                 <div className="bg-[#F4F4F4] w-full p-10 rounded-xl">
                     <div className="flex items-center">
-                        <img className="rounded-full h-60 w-60 object-cover aspect-square" src={UserData?.profile_photo ?? ProfileIcon} alt="UserIcon" />
+                        <img className="rounded-full h-60 w-60 object-cover aspect-square" src={UserData?.profile_photo || ProfileIcon} alt="UserIcon" />
                         <div className="flex flex-col w-full gap-8 ml-5">
                             <h1 className="text-3xl">{UserData?.nama_lengkap}</h1>
                             <h2 className="text-[#1D4ED8] text-xl">{UserData?.role}</h2>
                         </div>
                         <div className="flex w-full justify-end mr-10">
-                            <Link href="/user_profile/edit" className="flex items-center gap-2 bg-[#F3E8FF] p-2 rounded-xl text-[#7C3AED]">Edit <img src={EditIcon} alt="EditIcon" width={"20px"} /></Link>
+                            <Link href="/user_profile/edit" 
+                                className="flex items-center gap-2 bg-[#F3E8FF] p-2 rounded-xl text-[#7C3AED]">Edit <img src={EditIcon} alt="EditIcon" width={"20px"} /></Link>
                         </div>
                     </div>
                     <div className="flex flex-col mx-5 mt-20">
@@ -96,8 +98,8 @@ export default function Profile() {
                                 <h1>{UserData?.username}</h1>
                             </div>
                             <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
-                                <h1 className="text-xl text-[#666]">User ID</h1>
-                                <h1>{UserData?.account_id}</h1>
+                                <h1 className="text-xl text-[#666]">Divisi</h1>
+                                <h1>{UserData?.divisi}</h1>
                             </div>
                         </div>
                         <div className="flex gap-30 mt-20 mb-10">

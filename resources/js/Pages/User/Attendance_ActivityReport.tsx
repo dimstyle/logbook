@@ -106,10 +106,10 @@ export default function ActivityReport() {
             
             <UserNavbar index={2} />
 
-            <div className="flex flex-col p-4 pt-30 w-full items-center ">
+            <div className="flex flex-col p-4 pt-30 w-full items-center">
                 <h1 className="text-2xl">Attendance Activity Report</h1>
                 <div className="flex w-170 flex-col gap-5" >
-                    <h2>Kegiatan</h2>
+                    <h2 className="mt-10">Kegiatan</h2>
                     <input onChange={(event: React.ChangeEvent<HTMLInputElement>)=> setLaporan(event.target.value)} type="text" className="bg-white rounded-lg p-1.5 w-full"/>
                     <h2>Dokumentasi</h2>
                     <div className="flex gap-3">

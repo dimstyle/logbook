@@ -11,7 +11,7 @@ use OpenApi\Attributes as OA;
         "username","email","password",
 
         //User data
-        "nama_lengkap", "sekolah","jurusan","nomor_telepon",
+        "nama_lengkap", "sekolah","jurusan","nomor_telepon", "divisi",
         
         //range date
         "periode_awal","periode_akhir"
@@ -24,6 +24,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: "nama_lengkap", type: "string"),
         new OA\Property(property: "sekolah", type: "string"),
         new OA\Property(property: "jurusan", type: "string"),
+        new OA\Property(property: "divisi", type: "string"),
         new OA\Property(property: "nomor_telepon", type: "string"),
         new OA\Property(property: "periode_awal", type: "string", format: "date"),
         new OA\Property(property: "periode_akhir", type: "string", format: "date")

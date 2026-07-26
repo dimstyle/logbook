@@ -39,13 +39,14 @@ export default function ClockOut() {
     now.toLocaleTimeString("id-ID", {
         hour: "2-digit",
         minute: "2-digit",
+        hour12: true
     });
     
 
 
     const submitEvent = async () => {
         const payload = {   
-            jam_pulang : currentTime.replace('.',':'),
+            jam_pulang : currentTime.replace('.',':').split(' ')[0],
         }
         
         try{
@@ -99,7 +100,7 @@ export default function ClockOut() {
                             </p>
 
                             <h2 className="text-3xl font-bold text-[#FF5454] mt-2">
-                                {currentTime} WIB
+                                {currentTime}
                             </h2>
                         </div>
                     </div>

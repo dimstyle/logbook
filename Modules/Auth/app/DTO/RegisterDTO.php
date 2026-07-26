@@ -12,6 +12,7 @@ class RegisterDTO {
         public string $nama_lengkap,
         public string $sekolah,
         public string $jurusan,
+        public string $divisi,
         public string $nomor_telepon,
         public string $periode_awal,
         public string $periode_akhir

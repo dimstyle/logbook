@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->boolean('izin')->default(false);
             $table->boolean('sakit')->default(false);
-
+            $table->string('keterangan')->default('');
 
             $table->boolean('sudah_hadir')->default(false);
             $table->time('jam_hadir')->nullable();
