@@ -126,7 +126,7 @@ export default function DailyAttendance() {
             try {
                 const response = await api.get<getAttendanceListResponse>('/api/attendance/getattendancelist');
                 const resData = response.data;
-                console.log(resData)
+                
                 setAttendances(resData);
 
             } catch (err: unknown) {
@@ -188,7 +188,7 @@ export default function DailyAttendance() {
                         return (
                             <Link 
                                 key={attendance.attendance_id} 
-                                href={`/admin/user_report/${encodeURIComponent(attendance.nama_lengkap ?? "unknown")}`}
+                                href={`/admin/user_report/${attendance.attendance_id}`}
                                 className="flex w-full p-5 bg-[#FFFFFF] rounded-lg"
                             >
                                 <img src={profile_photo  || ProfileIcon} alt="UserIcon" width={130} className="rounded-full object-cover" />

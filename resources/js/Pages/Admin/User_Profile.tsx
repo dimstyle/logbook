@@ -45,7 +45,7 @@ export default function UserProfileOnAdmin() {
 
     const deleteEvent = async ()=>{
         try{
-            const response = await api.get<DefaultResponse>(`/api/auth/deleteaccount/${id}`);
+            const response = await api.post<DefaultResponse>(`/api/auth/deleteaccount/${id}`);
             const resData = response.data;
 
             alert(resData.message);
@@ -117,8 +117,8 @@ export default function UserProfileOnAdmin() {
                                 <h1>{UserData?.username}</h1>
                             </div>
                             <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
-                                <h1 className="text-xl text-[#666]">User ID</h1>
-                                <h1>{UserData?.account_id}</h1>
+                                <h1 className="text-xl text-[#666]">Divisi</h1>
+                                <h1>{UserData?.divisi}</h1>
                             </div>
                         </div>
                         <div className="flex gap-30 mt-20 mb-10">

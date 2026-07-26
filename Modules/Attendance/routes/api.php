@@ -20,7 +20,7 @@ Route::prefix('attendance')
     Route::get('/getattendancelist', [GetAttendanceListController::class, 'handle']);
     Route::get('/attendance-reports/{targetId}/{filename}');
     
-    Route::get('/getattendancedetails/{$attendanceId}', [GetAttendanceDetailsController::class , 'handle'])
+    Route::get('/getattendancedetails/{attendanceId}', [GetAttendanceDetailsController::class , 'handle'])
     ->middleware('role:admin');
 
 

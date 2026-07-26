@@ -13,7 +13,7 @@ class GetAttendanceDetailsService
     ){}
     public function handle($attendanceId) {
         $user = Auth::user();
-        $adminId=  $user->id;
+        $adminId =  $user->id;
 
         $attendance = $this->attendanceRepository->getAttendanceDetailsByAttendanceId(
             $attendanceId, $adminId

@@ -4,19 +4,20 @@ namespace Modules\Attendance\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Modules\Attendance\Services\GetAttendanceDailyService;
+use Modules\Attendance\Services\GetAttendanceDetailsService;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class GetAttendanceDetailsController extends Controller
 {
     public function __construct(
-        private GetAttendanceDailyService $getAttendanceDailyService
+        private GetAttendanceDetailsService $getAttendanceDetailsService
     ){}
 
     public function handle($attendanceId){
+
         try{
-            $attendance = $this->getAttendanceDailyService->handle($attendanceId);
+            $attendance = $this->getAttendanceDetailsService->handle($attendanceId);
         }catch(ModelNotFoundException $e){
             return response()->json([
                 'message' => 'Attendance not found'
