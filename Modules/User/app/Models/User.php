@@ -15,7 +15,7 @@ use Modules\User\Database\Factories\UserFactory;
 
     // User info
     'nama_lengkap','sekolah','jurusan','nomor_telepon',
-    'hadir','tidak_masuk','laporan',
+    'hadir','tidak_masuk','laporan','divisi',
 
     //range date
     'periode_awal', 'periode_akhir'

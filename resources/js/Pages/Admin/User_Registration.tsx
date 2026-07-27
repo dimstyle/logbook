@@ -35,7 +35,7 @@ export default function UserRegistration() {
             password: data.password,
             nama_lengkap: data.fullName,
             sekolah: data.school,
-            jurusan: [data.class, data.major].filter(Boolean).join(" / "),
+            jurusan: [data.class, data.major].filter(Boolean).join(" "),
             divisi: data.division,
             nomor_telepon: data.phone,
             periode_awal: data.startDate,
@@ -63,9 +63,7 @@ export default function UserRegistration() {
     }
 
     return (
-        <>
-            <AdminNavbar index={2} />
-            
+        <>  
             <div className="flex flex-col items-center p-4 pt-30 w-full">
                 <h1 className="text-2xl">Halaman Daftar</h1>
                 <div className="flex flex-col w-170 gap-5">
