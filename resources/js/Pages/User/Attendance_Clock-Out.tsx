@@ -77,7 +77,7 @@ export default function ClockOut() {
                 <div className="w-full max-w-2xl bg-[#C0BDBD] rounded-2xl shadow-xl p-8">
                     {/* Header */}
                     <div className="text-center mb-8">
-                        <h1 className="text-4xl font-semibold text-[#560000]">
+                        <h1 className="text-4xl font-semibold">
                             Absen Pulang
                         </h1>
                     </div>
@@ -85,8 +85,8 @@ export default function ClockOut() {
                     {/* Live Date & Time */}
                     <div className="grid grid-cols-2 gap-5 mb-8">
                         <div
-                            className="rounded-xl border p-5 transition bg-[#D6D6D6] border-[#B3B3B3] text-gray-500">
-                            <p className="text-sm text-gray-500">Tanggal</p>
+                            className="rounded-xl border p-5 transition bg-[#D6D6D6] border-[#B3B3B3]">
+                            <p className="text-sm">Tanggal</p>
 
                             <h2 className="text-lg font-semibold text-[#560000] mt-2">
                                 {currentDate}
@@ -94,8 +94,8 @@ export default function ClockOut() {
                         </div>
 
                         <div
-                            className="rounded-xl border p-5 transition bg-[#D6D6D6] border-[#B3B3B3] text-gray-500">
-                            <p className="text-sm text-gray-500">
+                            className="rounded-xl border p-5 transition bg-[#D6D6D6] border-[#B3B3B3]">
+                            <p className="text-sm">
                                 Jam Sekarang
                             </p>
 
@@ -110,17 +110,20 @@ export default function ClockOut() {
                         <button
                             onClick={submitEvent}
                             className="bg-[#FF5454]
-              hover:bg-[#E54747]
-              text-white
-              font-semibold
-              px-10
-              py-3
-              rounded-xl
-              shadow-lg
-              transition-all
-              duration-200
-              hover:scale-105
-              cursor-pointer"
+                            hover:bg-[#E54747]
+                            flex
+                            items-center
+                            justify-center
+                            text-white
+                            w-30
+                            h-8
+                            p-1.5
+                            rounded-lg
+                            shadow-lg
+                            transition-all
+                            duration-200
+                            hover:scale-105
+                            cursor-pointer"
                         >
                             Submit
                         </button>

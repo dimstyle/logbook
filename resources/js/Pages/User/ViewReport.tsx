@@ -63,7 +63,7 @@ export default function ViewReport() {
                     <h2>Tanggal</h2>
                     <input type="text" value={record?.created_date ?? ""} className="w-50 p-1.5 bg-[#838383] rounded-lg cursor-not-allowed" disabled/>
                     <h2>Dokumentasi</h2>
-                    <span className="flex justify-center items-center bg-[#838383] w-50 h-50 rounded-lg cursor-not-allowed">
+                    <span className="flex justify-center items-center bg-[#838383] w-50 h-50 rounded-lg mt-2 border-2 border-gray-300 cursor-not-allowed">
                         <img src={Image} alt="" width={100}/>
                     </span>
                     <div className="flex justify-center mt-5 mb-10">

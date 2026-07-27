@@ -126,9 +126,9 @@ export default function EditReport() {
                         <input type="file" className="hidden" id="file-upload"/>
                         <img src={Plus} className="w-12 h-12"/>
                     </label>
-                </div>
-                <div className="flex justify-center mt-5 mb-10">
-                    <button onClick={handleSave} className="flex justify-center items-center bg-[#FF5454] w-30 h-8 rounded-lg p-1.5 cursor-pointer text-white disabled:cursor-not-allowed disabled:opacity-60">Done</button>
+                    <div className="flex justify-center mt-5 mb-10">
+                        <button onClick={handleSave} className="flex justify-center items-center bg-[#FF5454] w-30 h-8 rounded-lg p-1.5 cursor-pointer text-white hover:bg-[#E54747] hover:scale-105 duration-200 transition-all shadow-lg disabled:cursor-not-allowed disabled:opacity-60">Done</button>
+                    </div>
                 </div>
             </div>
         </>

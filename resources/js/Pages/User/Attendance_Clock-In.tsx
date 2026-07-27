@@ -90,7 +90,7 @@ export default function ClockIn() {
                 <div className="w-full max-w-2xl bg-[#C0BDBD] rounded-2xl shadow-xl p-8">
                     {/* Header */}
                     <div className="text-center mb-8">
-                        <h1 className="text-4xl font-semibold text-[#560000]">
+                        <h1 className="text-4xl font-semibold">
                             Absen Masuk
                         </h1>
                     </div>
@@ -104,7 +104,7 @@ export default function ClockIn() {
                                     : "bg-white border-[#A9A6A6]"
                             }`}
                         >
-                            <p className="text-sm text-gray-500">Tanggal</p>
+                            <p className="text-sm">Tanggal</p>
 
                             <h2 className="text-lg font-semibold text-[#560000] mt-2">
                                 {currentDate}
@@ -118,7 +118,7 @@ export default function ClockIn() {
                                     : "bg-white border-[#A9A6A6]"
                             }`}
                         >
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm">
                                 Jam Sekarang
                             </p>
 
@@ -130,7 +130,7 @@ export default function ClockIn() {
 
                     {/* Attendance */}
                     <div className="mb-8">
-                        <h2 className="text-xl font-semibold text-[#560000] mb-4">
+                        <h2 className="text-xl font-semibold mb-4">
                             Status Kehadiran
                         </h2>
 
@@ -248,20 +248,22 @@ export default function ClockIn() {
                     <div className="flex justify-center">
                         <button
                             onClick={submitEvent}
-                            className="
-                            bg-[#FF5454]
+
+                            className="bg-[#FF5454]
                             hover:bg-[#E54747]
+                            flex
+                            items-center
+                            justify-center
                             text-white
-                            font-semibold
-                            px-10
-                            py-3
-                            rounded-xl
+                            w-30
+                            h-8
+                            p-1.5
+                            rounded-lg
                             shadow-lg
                             transition-all
                             duration-200
                             hover:scale-105
-                            cursor-pointer
-                            "
+                            cursor-pointer"
                         >
                             Submit
                         </button>
