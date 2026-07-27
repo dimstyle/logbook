@@ -35,7 +35,7 @@ export default function UserRegistration() {
             password: data.password,
             nama_lengkap: data.fullName,
             sekolah: data.school,
-            jurusan: [data.class, data.major].filter(Boolean).join(" / "),
+            jurusan: [data.class, data.major].filter(Boolean).join(" "),
             divisi: data.division,
             nomor_telepon: data.phone,
             periode_awal: data.startDate,
