@@ -5,6 +5,7 @@ use Modules\Attendance\Http\Controllers\CreateAttendanceCheckInController;
 use Modules\Attendance\Http\Controllers\CreateAttendanceCheckOutController;
 use Modules\Attendance\Http\Controllers\CreateAttendanceReportController;
 use Modules\Attendance\Http\Controllers\GetAttendanceDailyController;
+use Modules\Attendance\Http\Controllers\GetAttendanceDetailsController;
 use Modules\Attendance\Http\Controllers\GetAttendanceHistoryController;
 use Modules\Attendance\Http\Controllers\GetAttendanceListController;
 use Modules\Attendance\Http\Controllers\GetAttendancePhotosController;
@@ -18,6 +19,10 @@ Route::prefix('attendance')
     Route::get('/getattendancephotos', [GetAttendancePhotosController::class, 'handle']);
     Route::get('/getattendancelist', [GetAttendanceListController::class, 'handle']);
     Route::get('/attendance-reports/{targetId}/{filename}');
+    
+    Route::get('/getattendancedetails/{attendanceId}', [GetAttendanceDetailsController::class , 'handle'])
+    ->middleware('role:admin');
+
 
     Route::post('/updatereport', [UpdateAttendanceReportController::class, 'handle']);
     Route::post('/createcheckin', [CreateAttendanceCheckInController::class, 'handle']);

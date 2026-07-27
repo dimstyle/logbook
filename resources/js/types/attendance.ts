@@ -45,3 +45,27 @@ export interface getAttendancePhotosResponse{
         images: string[]
     }
 }
+
+export interface getAttendanceDetails{
+    message: string,
+    attendance: {
+        nama_lengkap: string,
+        sekolah: string,
+        jurusan: string,
+        divisi: string,
+        profile_photo: string,
+
+        sudah_hadir: boolean,
+        wfh: boolean,
+        jam_hadir: string,
+
+        sudah_laporan: boolean,
+        laporan: string,
+        images: string[],
+
+        sudah_pulang: boolean,
+        jam_pulang: string,
+
+        created_date: string,       
+    }
+}

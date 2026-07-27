@@ -126,7 +126,7 @@ export default function DailyAttendance() {
             try {
                 const response = await api.get<getAttendanceListResponse>('/api/attendance/getattendancelist');
                 const resData = response.data;
-
+                
                 setAttendances(resData);
 
             } catch (err: unknown) {
@@ -182,14 +182,16 @@ export default function DailyAttendance() {
                         }).replace(':','.');
 
                         const date = dateParser(attendance.created_date);
+                        
+                        const profile_photo = attendance.profile_photo? '/storage/'+attendance.profile_photo : "";
 
                         return (
                             <Link 
                                 key={attendance.attendance_id} 
-                                href={`/admin/user_report/${encodeURIComponent(attendance.nama_lengkap ?? "unknown")}`}
+                                href={`/admin/user_report/${attendance.attendance_id}`}
                                 className="flex w-full p-5 bg-[#FFFFFF] rounded-lg"
                             >
-                                <img src={attendance.profile_photo || ProfileIcon} alt="UserIcon" width={130} className="rounded-full object-cover" />
+                                <img src={profile_photo  || ProfileIcon} alt="UserIcon" width={130} className="rounded-full object-cover" />
                                 <div className="flex flex-col w-full justify-center gap-3 ml-2">
                                     <h1 className="text-2xl">{attendance.nama_lengkap}</h1>
                                     <div className="flex gap-2">
