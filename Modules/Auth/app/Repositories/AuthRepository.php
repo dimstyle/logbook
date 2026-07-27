@@ -29,6 +29,7 @@ class AuthRepository{
                 'nama_lengkap' => $userData['nama_lengkap'],
                 'sekolah' => $userData['sekolah'],
                 'jurusan' => $userData['jurusan'],
+                'divisi' => $userData['divisi'],
                 'nomor_telepon' => $userData['nomor_telepon'],
                 'periode_awal' => $userData['periode_awal'],
                 'periode_akhir' => $userData['periode_akhir']

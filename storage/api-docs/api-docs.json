@@ -582,6 +582,57 @@
                 }
             }
         },
+        "/api/auth/register/excel": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register Users from Excel File",
+                "operationId": "b8b260efa0eb5b8f3de85d621a604c9a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterExcelFormatRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success Process Excel File",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Something error on the server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/user/createadmininfo": {
             "post": {
                 "tags": [
@@ -1313,6 +1364,7 @@
                             "tidak_masuk",
                             "laporan",
                             "photo_path",
+                            "divisi",
                             "periode_awal",
                             "periode_akhir"
                         ],
@@ -1339,6 +1391,9 @@
                                 "type": "string"
                             },
                             "jurusan": {
+                                "type": "string"
+                            },
+                            "divisi": {
                                 "type": "string"
                             },
                             "nomor_telepon": {
@@ -1434,6 +1489,58 @@
                 },
                 "type": "object"
             },
+            "RegisterExcelFormatRequest": {
+                "required": [
+                    "register_file"
+                ],
+                "properties": {
+                    "register_file": {
+                        "description": "Excel file containing user registration data",
+                        "type": "string",
+                        "format": "binary"
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterExcelFormatResponse": {
+                "required": [
+                    "message",
+                    "success",
+                    "failed",
+                    "errors"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Excel berhasil diproses"
+                    },
+                    "success": {
+                        "type": "integer",
+                        "example": 8
+                    },
+                    "failed": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "row": {
+                                    "type": "integer",
+                                    "example": 5
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "The email has already been taken."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "RegisterRequest": {
                 "required": [
                     "username",
@@ -1443,6 +1550,7 @@
                     "sekolah",
                     "jurusan",
                     "nomor_telepon",
+                    "divisi",
                     "periode_awal",
                     "periode_akhir"
                 ],
@@ -1463,6 +1571,9 @@
                         "type": "string"
                     },
                     "jurusan": {
+                        "type": "string"
+                    },
+                    "divisi": {
                         "type": "string"
                     },
                     "nomor_telepon": {
