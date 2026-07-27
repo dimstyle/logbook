@@ -63,9 +63,7 @@ export default function UserRegistration() {
     }
 
     return (
-        <>
-            <AdminNavbar index={2} />
-            
+        <>  
             <div className="flex flex-col items-center p-4 pt-30 w-full">
                 <h1 className="text-2xl">Halaman Daftar</h1>
                 <div className="flex flex-col w-170 gap-5">

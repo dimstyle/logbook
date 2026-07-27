@@ -3,9 +3,7 @@
 namespace Modules\Auth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Modules\Auth\Services\DeleteAccountService;
-use PHPUnit\TextUI\Output\SummaryPrinter;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 use OpenApi\Attributes as OA;

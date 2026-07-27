@@ -6,6 +6,7 @@ use Modules\Auth\Http\Controllers\LoginController;
 use Modules\Auth\Http\Controllers\LogoutController;
 use Modules\Auth\Http\Controllers\RefreshTokenController;
 use Modules\Auth\Http\Controllers\RegisterController;
+use Modules\Auth\Http\Controllers\RegisterExcelFormatController;
 
 
 Route::prefix('auth')
@@ -16,6 +17,7 @@ Route::prefix('auth')
 
     Route::middleware(['jwt','role:admin'])
     ->group(function (){
+        Route::post('/register/excel',[RegisterExcelFormatController::class, 'handle']);
         Route::post('/register', [RegisterController::class, 'handle']);
         Route::post('/deleteaccount/{id}',[DeleteAccountController::class, 'handle']);
     });
