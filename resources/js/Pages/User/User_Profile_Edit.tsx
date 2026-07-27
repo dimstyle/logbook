@@ -192,7 +192,7 @@ export default function UserProfileEdit() {
                                 </div>
                             </div>
                             <div className="flex justify-center mt-20">
-                                <button type="submit" disabled={processing} className="bg-[#FF5454] text-white px-6 py-2 rounded-lg disabled:bg-gray-400 cursor-pointer">
+                                <button type="submit" disabled={processing} className="bg-[#FF5454] text-white px-6 py-2 rounded-lg hover:bg-[#E54747] hover:scale-105 duration-200 transition-all shadow-lg disabled:bg-gray-400 cursor-pointer">
                                     {processing ? "Saving..." : "Simpan Perubahan"}
                                 </button>
                             </div>
