@@ -248,6 +248,7 @@ export default function ClockIn() {
                     <div className="flex justify-center">
                         <button
                             onClick={submitEvent}
+
                             className="bg-[#FF5454]
                             hover:bg-[#E54747]
                             flex

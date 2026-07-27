@@ -3,6 +3,7 @@
 namespace Modules\Auth\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Modules\Auth\Models\Account;
 use Modules\User\Models\Admin;
 
@@ -45,7 +46,7 @@ class AdminDatabaseSeeder extends Seeder
                 ['email' => $data['email']],
                 Account::factory()->raw([
                     'username' => $data['username'],
-                    'email' => $data['email'],
+                    'password' => Hash::make('password'),
                     'role' => 'admin',
                 ])
             );
