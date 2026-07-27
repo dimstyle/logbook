@@ -2,6 +2,7 @@ import { useState } from "react";
 import api from "../../lib/axios.js";
 import type { ErrorMessage } from "../ui/ErrorPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
+import { type DefaultResponse } from "../../types/default.js";
 
 export default function UserExcelRegistration() {
     const [file, setFile] = useState<File | null>(null);
@@ -20,7 +21,7 @@ export default function UserExcelRegistration() {
         try {
             setProcessing(true);
 
-            await api.post(
+            const response = await api.post<DefaultResponse>(
                 "/api/auth/register/excel",
                 formData,
                 {
@@ -28,7 +29,9 @@ export default function UserExcelRegistration() {
                 }
             );
 
-            alert("Registration successful");
+            const resData = response.data;
+
+            alert(resData.message);
             setFile(null);
 
         } catch (error: any) {
@@ -77,8 +80,7 @@ export default function UserExcelRegistration() {
                     </h1>
 
                     <p className="mb-6 text-base text-[#4b3f3f]">
-                        Upload file Excel untuk mendaftarkan user secara
-                        sekaligus.
+                        Upload file Excel untuk mendaftarkan user.
                     </p>
 
                     <div className="flex flex-col gap-5 text-left">

@@ -4,6 +4,7 @@ namespace Modules\Auth\Services;
 
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
 use Modules\Auth\DTO\RegisterDTO;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
@@ -15,7 +16,7 @@ class RegisterExcelFormatService
     ) {}
 
     public function handle(UploadedFile $file): array
-    {
+    {  
         $spreadsheet = IOFactory::load(
             $file->path()
         );
@@ -45,22 +46,15 @@ class RegisterExcelFormatService
                     array_values($row)
                 );
 
-                $registerDTO = RegisterDTO::fromArray([
-                    'username' => $data['username'],
-                    'email' => $data['email'],
-                    'password' => $data['password'],
-                    'nama_lengkap' => $data['nama_lengkap'],
-                    'sekolah' => $data['sekolah'],
-                    'jurusan' => $data['jurusan'],
-                    'divisi' => $data['divisi'],
-                    'nomor_telepon' => $data['nomor_telepon'],
-                    'periode_awal' => $data['periode_awal'],
-                    'periode_akhir' => $data['periode_akhir'],
-                ]);
+                $registerDTO = RegisterDTO::fromArray($data);
 
-                $this->registerService->handle(
+                $account_id = $this->registerService->handle(
                     $registerDTO
                 );
+
+                Log::info('Success to create user',[
+                    'account_id' => $account_id
+                ]);
 
                 $success++;
 
