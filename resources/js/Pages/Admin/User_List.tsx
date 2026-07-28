@@ -84,7 +84,7 @@ export default function UserList() {
                 </div> */}
 
                 <div className="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm">
-                    <h1 className="text-xl font-bold text-black">Daftar Pengguna</h1>
+                    <h1 className="text-xl font-bold text-black">User List</h1>
                     <div className="flex items-center gap-3">
                         <label className="text-sm font-medium text-gray-600">Filter Sekolah:</label>
                         <select
