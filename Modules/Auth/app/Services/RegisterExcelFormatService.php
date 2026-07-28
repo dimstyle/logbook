@@ -68,7 +68,6 @@ class RegisterExcelFormatService
 
         return [
             'success' => $success,
-            'failed' => count($failed),
             'errors' => $failed,
         ];
     }
