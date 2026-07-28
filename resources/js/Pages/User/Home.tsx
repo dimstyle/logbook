@@ -3,7 +3,22 @@ import UserNavbar from "../../Components/User/UserNavbar.js";
 import api from "../../lib/axios.js";
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { ReportPDF } from "./Report_PDF.js";
+import { usePage } from "@inertiajs/react";
 import type { getAttendanceHistoryResponse } from "../../types/attendance.js";
+
+interface SharedProps {
+    auth?: {
+        user?: {
+            nama_lengkap?: string;
+            sekolah?: string;
+            jurusan?: string;
+            [key: string]: any;
+        }
+    };
+    [key: string]: any;
+}
 
 function formatTime(time: string) {
     if(!time) return
@@ -15,6 +30,8 @@ function formatTime(time: string) {
 }
 
 export default function Home(){
+    const { props } = usePage<SharedProps>();
+    const currentUser = props.auth?.user;
     const [searchQuery, setSearchQuery] = useState("");
     const [records, setRecords] = useState<getAttendanceHistoryResponse>();
     const [error, setError] = useState("");
@@ -46,7 +63,7 @@ export default function Home(){
 
     const userAttendances = records?.attendances;
 
-    const filteredUser = (userAttendances ?? []).filter((history) => {
+    const filteredReport = (userAttendances ?? []).filter((history) => {
         const lowercaseQuery = searchQuery.toLocaleLowerCase();
         return (
             history.laporan.toLocaleLowerCase().includes(lowercaseQuery) 
@@ -74,7 +91,20 @@ export default function Home(){
                 onChangeHandler={handleSearchChange}
             />
             <div className="p-4 pt-30">
-                <span className="bg-[#FF5454] text-white p-2 inline-block mb-5 rounded-lg cursor-pointer">Export as PDF</span>
+                <PDFDownloadLink
+                    document={<ReportPDF
+                                data={filteredReport}
+                                userProfile={{
+                                    name: currentUser?.nama_lengkap || "N/A",
+                                    school: currentUser?.sekolah || "N/A",
+                                    major: currentUser?.jurusan || "N/A"
+                                    }}
+                                />}
+                    fileName={`Logbook_Report_${today}.pdf`}
+                    className="bg-[#FF5454] text-white p-2 inline-block mb-5 rounded-lg cursor-pointer"
+                >
+                    Export as PDF
+                </PDFDownloadLink>
                 <table className="min-w-full border-collapse divide-y divide-white-100 bg-[#838383] text-white">
                     <thead className="bg-[#505050]">
                         <tr className="divide-x divide-white-100">
@@ -90,8 +120,8 @@ export default function Home(){
                             <tr>
                                 <td colSpan={5} className="text-center text-xl items-center h-20">Loading history...</td>
                             </tr>
-                        ) : filteredUser.length > 0 ? (
-                            filteredUser.map((user) => {
+                        ) : filteredReport.length > 0 ? (
+                            filteredReport.map((user) => {
                                 const isToday = user.created_date === today;
                                 const linktext = isToday ? "Edit" : "View";
                                 const linkcolor = isToday ? "#FF5454" : "#1D4ED8";
