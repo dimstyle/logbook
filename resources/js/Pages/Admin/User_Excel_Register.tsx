@@ -31,6 +31,8 @@ export default function UserExcelRegistration() {
 
             const resData = response.data;
 
+            const success = response
+
             alert(resData.message);
             setFile(null);
 

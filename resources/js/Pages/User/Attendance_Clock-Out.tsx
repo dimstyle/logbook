@@ -10,7 +10,7 @@ export default function ClockOut() {
     const [error, setError] = useState("");
     const [now, setNow] = useState(new Date());
 
-    if(sudah_pulang) {
+    if(sudah_pulang || izin || sakit) {
         router.get('/done')
         return
     }
