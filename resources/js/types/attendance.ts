@@ -36,6 +36,7 @@ export interface DailyAttendance{
     jam_hadir: string
     jam_pulang: string,
     laporan: string,
+    images: string,
     created_date: string
 }
 
