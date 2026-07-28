@@ -134,9 +134,9 @@ export default function AdminReportProps() {
                                 <div className="flex flex-col gap-3">
                                     <div className="flex justify-between items-center border-b border-gray-100 pb-2">
                                     <span className="text-gray-500 text-base mt-3">Status</span>
-                                    <div className="flex gap-2">
+                                    <div className="flex items-center gap-2">
                                         <span className="text-base text-black">Hadir •</span>
-                                        <span style={{backgroundColor: wfoBGcolor, color: wfoTxtcolor}} className="text-base rounded-md font-medium"> {AttendanceDetails?.wfh ? 'WFH' : 'WFO'}</span>
+                                        <span style={{backgroundColor: wfoBGcolor, color: wfoTxtcolor}} className="text-base p-1 rounded-md font-medium"> {AttendanceDetails?.wfh ? 'WFH' : 'WFO'}</span>
                                     </div>
                                 </div>
                                     <div className="flex justify-between border-b border-gray-50 pb-2">
@@ -164,11 +164,13 @@ export default function AdminReportProps() {
                                     <div>
                                         <span className="text-[16px] font-bold tracking-wider">Dokumentasi</span>
                                         <div className="flex gap-10 mt-2">
-                                            {
+                                            {Array.isArray(AttendanceDetails?.images) && (AttendanceDetails?.images.length ?? 0) > 0 ? (
                                                 AttendanceDetails?.images.map(image =>
                                                     <div className="w-50 h-50 bg-gray-200 border border-dashed flex items-center border-gray-200 rounded-xl justify-center cursor-pointer hover:bg-gray-300 transition">
                                                         <img src={`/api/attendance/${image}`} alt="" width={100} />
-                                                    </div>        
+                                                    </div>
+                                                )) : (
+                                                    <h1 className="text-[#FF5454]">Tidak ada Dokumentasi.</h1>
                                                 )
                                             }
                                         </div>

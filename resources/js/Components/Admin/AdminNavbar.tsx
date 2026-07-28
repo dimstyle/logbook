@@ -78,7 +78,7 @@ export default function AdminNavbar({
                 </div>
 
                 {/* Search */}
-                <div className="flex flex-1 pl-11 justify-center">
+                <div className="flex flex-1 pr-8 justify-center">
                     {input && (
                         <input
                             className="w-70 p-1.5 bg-white rounded-lg"
@@ -91,7 +91,7 @@ export default function AdminNavbar({
                 </div>
 
                 {/* Menu + Profile */}
-                <div className="flex justify-end items-center gap-4">
+                <div className="flex justify-end items-center gap-5">
                     {/* link render */}
                     {menus.map((menu, i) => (
                         <a
