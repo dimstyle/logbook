@@ -5,20 +5,7 @@ import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { ReportPDF } from "./Report_PDF.js";
-import { usePage } from "@inertiajs/react";
 import type { getAttendanceHistoryResponse } from "../../types/attendance.js";
-
-interface SharedProps {
-    auth?: {
-        user?: {
-            nama_lengkap?: string;
-            sekolah?: string;
-            jurusan?: string;
-            [key: string]: any;
-        }
-    };
-    [key: string]: any;
-}
 
 function formatTime(time: string) {
     if(!time) return
@@ -30,8 +17,6 @@ function formatTime(time: string) {
 }
 
 export default function Home(){
-    const { props } = usePage<SharedProps>();
-    const currentUser = props.auth?.user;
     const [searchQuery, setSearchQuery] = useState("");
     const [records, setRecords] = useState<getAttendanceHistoryResponse>();
     const [error, setError] = useState("");
@@ -80,6 +65,7 @@ export default function Home(){
     }
 
     const today = new Date().toISOString().slice(0, 10);
+    const currentUser = records?.user;
 
     return(
         <>

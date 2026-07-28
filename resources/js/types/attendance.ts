@@ -1,6 +1,11 @@
 export interface getAttendanceHistoryResponse{
     message: string,
-    attendances: DailyAttendance[]
+    attendances: DailyAttendance[],
+    user: {
+        nama_lengkap: string,
+        sekolah: string,
+        jurusan: string
+    }
 }
 
 export interface getAttendanceDailyResponse{

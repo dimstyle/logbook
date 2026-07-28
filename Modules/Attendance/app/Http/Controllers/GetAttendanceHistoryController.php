@@ -53,6 +53,20 @@ class GetAttendanceHistoryController extends Controller
 
         try{
             $attendances = $this->getAttendanceHistoryService->handle();
+            $loggedInAccountId = auth()->id();
+            $userInfo = null;
+            if ($loggedInAccountId) {
+                $userInfo = \Modules\User\Models\User::where('account_id', $loggedInAccountId)->first();
+            }
+
+            if (!$userInfo && !empty($attendances) && count($attendances) > 0) {
+                $firstRecord = is_array($attendances) ? $attendances[0] : $attendances->first();
+                $accountId = is_array($firstRecord) ? ($firstRecord['account_id'] ?? null) : ($firstRecord->account_id ?? null);
+            
+            if ($accountId) {
+                $userInfo = \Modules\User\Models\User::where('account_id', $accountId)->first();
+            }
+        }
         }catch(Throwable $e){
             return response()->json([
                 'message' => 'Internal server error'
@@ -62,6 +76,11 @@ class GetAttendanceHistoryController extends Controller
         return response()->json([
             'message' => 'Success to get attendance history',
             'attendances' => $attendances,
+            'user' => [
+                'nama_lengkap' => $userInfo?->nama_lengkap ?? 'N/A',
+                'sekolah' => $userInfo?->sekolah ?? 'N/A',
+                'jurusan' => $userInfo?->jurusan ?? 'N/A',
+            ]
         ], Response::HTTP_OK);
     }
 }
