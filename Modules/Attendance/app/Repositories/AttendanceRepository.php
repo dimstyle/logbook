@@ -65,7 +65,7 @@ class AttendanceRepository{
             return Attendance::select(
                 'account_id', 'id',
 
-                'jam_hadir', 'jam_pulang',
+                'jam_hadir', 'jam_pulang', 'images',
 
                 'laporan', 'created_date'
             )

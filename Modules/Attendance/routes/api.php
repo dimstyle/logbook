@@ -7,6 +7,7 @@ use Modules\Attendance\Http\Controllers\CreateAttendanceReportController;
 use Modules\Attendance\Http\Controllers\GetAttendanceDailyController;
 use Modules\Attendance\Http\Controllers\GetAttendanceDetailsController;
 use Modules\Attendance\Http\Controllers\GetAttendanceHistoryController;
+use Modules\Attendance\Http\Controllers\GetAttendanceImageController;
 use Modules\Attendance\Http\Controllers\GetAttendanceListController;
 use Modules\Attendance\Http\Controllers\GetAttendancePhotosController;
 use Modules\Attendance\Http\Controllers\UpdateAttendanceReportController;
@@ -18,7 +19,7 @@ Route::prefix('attendance')
     Route::get('/getattendancedaily', [GetAttendanceDailyController::class, 'handle']);
     Route::get('/getattendancephotos', [GetAttendancePhotosController::class, 'handle']);
     Route::get('/getattendancelist', [GetAttendanceListController::class, 'handle']);
-    Route::get('/attendance-reports/{targetId}/{filename}');
+    Route::get('/attendance-reports/{targetId}/{filename}', [GetAttendanceImageController::class, 'handle']);
     
     Route::get('/getattendancedetails/{attendanceId}', [GetAttendanceDetailsController::class , 'handle'])
     ->middleware('role:admin');

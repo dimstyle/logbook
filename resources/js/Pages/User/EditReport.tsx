@@ -1,11 +1,16 @@
 import { router, usePage } from "@inertiajs/react";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import UserNavbar from "../../Components/User/UserNavbar.js";
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import Plus from "../../../../assets/plus.png";
 import api from "../../lib/axios.js";
 import type { getAttendanceDailyResponse } from "../../types/attendance.js";
+
+interface ImageObject {
+    id: number,
+    image: File
+}
 
 export default function EditReport() {
     const { attendance_id } = usePage().props;
@@ -22,6 +27,9 @@ export default function EditReport() {
     const [canEditDate, setCanEditDate] = useState(false);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
+    const [reportImages, setReportImages] = useState<string[]>([]);
+    const [newImages, setNewImages] = useState<ImageObject[]>([]);
+    const [changedImages, setChangedImages] = useState<ImageObject[]>([]);
 
     useEffect(() => {
         if(isFetched.current) return
@@ -41,6 +49,7 @@ export default function EditReport() {
                     setCanEditClockIn(Boolean(record.jam_hadir && record.jam_hadir.trim().length > 0));
                     setCanEditClockOut(Boolean(record.jam_pulang && record.jam_pulang.trim().length > 0));
                     setCanEditDate(Boolean(record.created_date && record.created_date.trim().length > 0));
+                    setReportImages(JSON.parse(record.images) || []);
                 }
             } catch (err: unknown) {
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
@@ -122,13 +131,39 @@ export default function EditReport() {
                         readOnly={!canEditDate}
                     />
                     <h2>Dokumentasi</h2>
-                    <label htmlFor="file-upload" className="bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
-                        <input type="file" className="hidden" id="file-upload"/>
-                        <img src={Plus} className="w-12 h-12"/>
-                    </label>
-                    <div className="flex justify-center mt-5 mb-10">
-                        <button onClick={handleSave} className="flex justify-center items-center bg-[#FF5454] w-30 h-8 rounded-lg p-1.5 cursor-pointer text-white hover:bg-[#E54747] hover:scale-105 duration-200 transition-all shadow-lg disabled:cursor-not-allowed disabled:opacity-60">Done</button>
+                    <div className="flex gap-3">
+                        {
+                            reportImages.map((image, index) => {
+                                const url = image? '/api/attendance/'+image : "";
+
+                                const updateHandler = (event : React.ChangeEvent<HTMLInputElement>, idx = index) =>{
+                                    const file = event.target.files?.[0];
+
+                                    if (!file) return;
+
+                                    console.log(URL.createObjectURL(file))
+
+                                    setReportImages(images => images.map((image, idx) => {
+                                        return idx === index? URL.createObjectURL(file) : image
+                                    }))
+                                }
+
+                                return(
+                                    <label key={index}  htmlFor={`file-upload-${index}`} className="bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
+                                        <input onChange={updateHandler} type="file" className="hidden" id={`file-upload-${index}`}/>
+                                        <img src={ url || Plus} className="w-12 h-12"/>
+                                    </label>
+                                )
+                            })
+                        }
+                        <label htmlFor="file-upload" className="bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
+                            <input type="file" className="hidden" id="file-upload"/>
+                            <img src={ Plus } className="w-12 h-12"/>
+                        </label>
                     </div>
+                </div>
+                <div className="flex justify-center mt-5 mb-10">
+                    <button onClick={handleSave} className="flex justify-center items-center bg-[#FF5454] w-30 h-8 rounded-lg p-1.5 cursor-pointer text-white disabled:cursor-not-allowed disabled:opacity-60">Done</button>
                 </div>
             </div>
         </>

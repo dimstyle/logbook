@@ -7,6 +7,7 @@
 </head>
 
 <body>
-    <x-inertia::app />
+    <!-- <x-inertia::app /> -->
+     @inertia
 </body>
 </html>
