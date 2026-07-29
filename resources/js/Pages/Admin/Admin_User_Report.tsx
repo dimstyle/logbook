@@ -131,9 +131,9 @@ export default function AdminReportProps() {
                             {/*Absensi Masuk*/}
                             <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
                                 <h2 className="text-green-500 text-[23px]">Absensi Masuk</h2>
-                                <div className="flex flex-col gap-3">
+                                <div className="flex flex-col gap-3 mt-3">
                                     <div className="flex justify-between items-center border-b border-gray-100 pb-2">
-                                    <span className="text-gray-500 text-base mt-3">Status</span>
+                                    <span className="text-gray-500 text-base">Status</span>
                                     <div className="flex items-center gap-2">
                                         <span className="text-base text-black">Hadir •</span>
                                         <span style={{backgroundColor: wfoBGcolor, color: wfoTxtcolor}} className="text-base p-1 rounded-md font-medium"> {AttendanceDetails?.wfh ? 'WFH' : 'WFO'}</span>
