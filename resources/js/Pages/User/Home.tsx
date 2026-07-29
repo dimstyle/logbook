@@ -50,8 +50,18 @@ export default function Home(){
 
     const filteredReport = (userAttendances ?? []).filter((history) => {
         const lowercaseQuery = searchQuery.toLocaleLowerCase();
+
+        const dateFormatted = history.created_date
+            ? new Date(history.created_date).toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            }).toLowerCase()
+            :'';
         return (
-            history.laporan.toLocaleLowerCase().includes(lowercaseQuery) 
+            history.laporan.toLocaleLowerCase().includes(lowercaseQuery)||
+            dateFormatted.includes(lowercaseQuery) ||
+            history.created_date.includes(lowercaseQuery)
         )
     })
 
@@ -79,7 +89,7 @@ export default function Home(){
             <div className="p-4 pt-30">
                 <PDFDownloadLink
                     document={<ReportPDF
-                                data={filteredReport}
+                                data={userAttendances ?? []}
                                 userProfile={{
                                     name: currentUser?.nama_lengkap || "N/A",
                                     school: currentUser?.sekolah || "N/A",
