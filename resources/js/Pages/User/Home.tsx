@@ -89,7 +89,7 @@ export default function Home(){
             <div className="p-4 pt-30">
                 <PDFDownloadLink
                     document={<ReportPDF
-                                data={filteredReport}
+                                data={userAttendances ?? []}
                                 userProfile={{
                                     name: currentUser?.nama_lengkap || "N/A",
                                     school: currentUser?.sekolah || "N/A",

@@ -18,7 +18,15 @@ class GetAttendanceHistoryService
 
         $accountId = $user->id;
 
-        $attendances = $this->attendanceRepository->getAttendanceHistoryByAccountId($accountId);
+        $rawAttendances = $this->attendanceRepository->getAttendanceHistoryByAccountId($accountId);
+
+        $attendances = $rawAttendances->filter(function ($item) {
+            return $item->sudah_hadir == true 
+                || $item->izin == true 
+                || $item->sakit == true 
+                || !is_null($item->jam_hadir) 
+                || ($item->laporan !== '' && !is_null($item->laporan));
+            })->values();
 
         Log::info("Success to get User attendances",[
             'account_id' => $accountId
