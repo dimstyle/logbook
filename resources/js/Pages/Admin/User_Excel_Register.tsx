@@ -70,7 +70,7 @@ export default function UserExcelRegistration() {
 
     return (
         <>
-            <div className="flex min-h-screen items-center justify-center bg-[#D9D9D9] px-4 py-10">
+            <div className="flex pt-20 items-center justify-center bg-[#D9D9D9] px-4 py-10">
                 <div className="flex w-full max-w-lg flex-col rounded-2xl border border-[#b1a9a9] bg-[#f3f0f0] p-8 text-center shadow-lg">
 
                     <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#FF5454]">

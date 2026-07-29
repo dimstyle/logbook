@@ -64,7 +64,7 @@ export default function UserRegistration() {
 
     return (
         <>  
-            <div className="flex flex-col items-center p-4 pt-30 w-full">
+            <div className="flex flex-col items-center p-4 pt-10 w-full">
                 <h1 className="text-2xl">Halaman Daftar</h1>
                 <div className="flex flex-col w-170 gap-5">
                     <h2>Nama Lengkap</h2>
