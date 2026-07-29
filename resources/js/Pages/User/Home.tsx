@@ -3,8 +3,8 @@ import UserNavbar from "../../Components/User/UserNavbar.js";
 import api from "../../lib/axios.js";
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import { ReportPDF } from "./Report_PDF.js";
+// import { PDFDownloadLink } from "@react-pdf/renderer";
+// import { ReportPDF } from "./Report_PDF.js";
 import type { getAttendanceHistoryResponse } from "../../types/attendance.js";
 
 function formatTime(time: string) {
@@ -77,7 +77,7 @@ export default function Home(){
                 onChangeHandler={handleSearchChange}
             />
             <div className="p-4 pt-30">
-                <PDFDownloadLink
+                {/* <PDFDownloadLink
                     document={<ReportPDF
                                 data={filteredReport}
                                 userProfile={{
@@ -90,7 +90,7 @@ export default function Home(){
                     className="bg-[#FF5454] text-white p-2 inline-block mb-5 rounded-lg cursor-pointer"
                 >
                     Export as PDF
-                </PDFDownloadLink>
+                </PDFDownloadLink> */}
                 <table className="min-w-full border-collapse divide-y divide-white-100 bg-[#838383] text-white">
                     <thead className="bg-[#505050]">
                         <tr className="divide-x divide-white-100">

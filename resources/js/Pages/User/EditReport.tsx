@@ -17,7 +17,8 @@ export default function EditReport() {
     const { attendance_id } = usePage().props;
 
     const isFetched = useRef(false);
-    
+    const isChanged = useRef(false);
+
     const [reportText, setReportText] = useState("");
     const [clockIn, setClockIn] = useState("-");
     const [clockOut, setClockOut] = useState("-");
@@ -63,7 +64,16 @@ export default function EditReport() {
         })();
     }, []);
 
+    useEffect(()=>{
+
+    },[])
+
     const handleSave = async () => {
+        if(!isChanged.current) {
+            router.visit('/');
+            return
+        }
+
         try {
             const payload = new FormData();
 
@@ -85,7 +95,7 @@ export default function EditReport() {
             const resData = response.data; 
 
             alert(resData.message);
-            // router.visit('/');
+            router.visit('/');
         } catch (err: unknown) {
             const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
             const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
@@ -108,6 +118,7 @@ export default function EditReport() {
         }
 
         setNewImages(images => [...images, payloadNewImage]);
+        isChanged.current = true;
     }
     
     if(loading){
@@ -129,7 +140,10 @@ export default function EditReport() {
                     <h2 className="mt-10">Kegiatan</h2>
                     <textarea
                         value={reportText}
-                        onChange={(event) => setReportText(event.target.value)}
+                        onChange={(event) => {
+                            isChanged.current = true;
+                            setReportText(event.target.value)
+                        }}
                         className="flex-start bg-white rounded-lg w-full h-28 justify-start border-gray-300 p-1.5 items-start focus:ring-2 focus:border-blue-500 outline-none disabled:cursor-not-allowed"
                         placeholder={canEditReport ? "Tuliskan Kegiatan Anda" : "Belum ada laporan untuk diedit"}
                         disabled={loading || !canEditReport}
@@ -182,12 +196,14 @@ export default function EditReport() {
                                     }
 
                                     setChangedImages(images => [...images, payloadImage])
+
+                                    isChanged.current = true;
                                 }
 
                                 return(
                                     <label key={index}  htmlFor={`file-upload-${index}`} className="shrink-0 bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
                                         <input onChange={updateHandler} type="file" className="hidden" id={`file-upload-${index}`}/>
-                                        <img src={ url || Plus} className="w-12 h-12"/>
+                                        <img src={ url || Plus} className="w-full"/>
                                     </label>
                                 )
                             })

@@ -58,8 +58,6 @@ export default function AdminReportProps() {
                 const response = await api.get<getAttendanceDetails>(`/api/attendance/getattendancedetails/${attendance_id}`);
                 const resData = response.data;
                 
-                console.log(resData)
-                
                 setAttendance(resData);
 
             }catch (err: unknown) {
@@ -90,7 +88,7 @@ export default function AdminReportProps() {
     const wfoBGcolor = !AttendanceDetails?.wfh ? "#E0F2FE" : "#F3E8FF";
     const wfoTxtcolor = !AttendanceDetails?.wfh ? "#0369A1" : "#7C3AED";
     const profileUrl = AttendanceDetails?.profile_photo ? '/storage/'+AttendanceDetails.profile_photo : "";
-
+    const reportImages: string[] = JSON.parse(AttendanceDetails?.images || "[]");
 
     return (
         <>
@@ -163,11 +161,11 @@ export default function AdminReportProps() {
                                     </div>
                                     <div>
                                         <span className="text-[16px] font-bold tracking-wider">Dokumentasi</span>
-                                        <div className="flex gap-10 mt-2">
-                                            {Array.isArray(AttendanceDetails?.images) && (AttendanceDetails?.images.length ?? 0) > 0 ? (
-                                                AttendanceDetails?.images.map(image =>
-                                                    <div className="w-50 h-50 bg-gray-200 border border-dashed flex items-center border-gray-200 rounded-xl justify-center cursor-pointer hover:bg-gray-300 transition">
-                                                        <img src={`/api/attendance/${image}`} alt="" width={100} />
+                                        <div className="flex gap-10 mt-2 overflow-x-scroll">
+                                            {reportImages.length > 0 ? (
+                                                reportImages.map(image =>
+                                                    <div className="shrink-0 w-50 h-50 bg-gray-200 border border-dashed flex items-center border-gray-200 rounded-xl justify-center cursor-pointer hover:bg-gray-300 transition">
+                                                        <img src={`/api/attendance/${image}`} alt="" className="w-full"/>
                                                     </div>
                                                 )) : (
                                                     <h1 className="text-[#FF5454]">Tidak ada Dokumentasi.</h1>
