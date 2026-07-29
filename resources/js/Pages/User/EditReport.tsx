@@ -6,6 +6,7 @@ import ErrorPage from "../ui/ErrorPage.js";
 import Plus from "../../../../assets/plus.png";
 import api from "../../lib/axios.js";
 import type { getAttendanceDailyResponse } from "../../types/attendance.js";
+import { type DefaultResponse } from "../../types/default.js";
 
 interface ImageObject {
     id: number,
@@ -64,12 +65,27 @@ export default function EditReport() {
 
     const handleSave = async () => {
         try {
-            await api.post('/api/attendance/updatereport', {
-                attendance_id: attendance_id,
-                laporan: reportText,
+            const payload = new FormData();
+
+            payload.append('attendance_id', attendance_id);
+            payload.append('laporan', reportText);
+
+            newImages.forEach((item, index) => {
+                payload.append(`new_images[${index}][id]`, String(item.id));
+                payload.append(`new_images[${index}][images]`, item.image);
             });
 
-            router.visit('/');
+            changedImages.forEach((item, index) => {
+                payload.append(`changed_images[${index}][id]`, String(item.id));
+                payload.append(`changed_images[${index}][images]`, item.image);
+            });
+
+
+            const response = await api.post<DefaultResponse>('/api/attendance/updatereport', payload);
+            const resData = response.data; 
+
+            alert(resData.message);
+            // router.visit('/');
         } catch (err: unknown) {
             const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
             const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
@@ -80,7 +96,19 @@ export default function EditReport() {
         }
     };
 
-    
+    const imageHandler = (event: React.ChangeEvent<HTMLInputElement>)=>{
+        const file = event.target.files?.[0];
+        if(!file) return;
+
+        setReportImages(images => [...images, URL.createObjectURL(file)]);
+
+        const payloadNewImage = {
+            id: reportImages.length + 1,
+            image: file
+        }
+
+        setNewImages(images => [...images, payloadNewImage]);
+    }
     
     if(loading){
         return <LoadingPage />
@@ -90,7 +118,7 @@ export default function EditReport() {
         const errMessage = JSON.parse(error);
         return <ErrorPage errorMessage={errMessage} backPath="/"/>
     }
-
+  
     return (
         <>
             <UserNavbar />
@@ -131,33 +159,41 @@ export default function EditReport() {
                         readOnly={!canEditDate}
                     />
                     <h2>Dokumentasi</h2>
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 overflow-x-scroll  flex-">
                         {
                             reportImages.map((image, index) => {
-                                const url = image? '/api/attendance/'+image : "";
+                                const url = image? 
+                                !image.includes('blob') ? 
+                                    '/api/attendance/'+image : image : "";
+
 
                                 const updateHandler = (event : React.ChangeEvent<HTMLInputElement>, idx = index) =>{
                                     const file = event.target.files?.[0];
 
                                     if (!file) return;
 
-                                    console.log(URL.createObjectURL(file))
-
                                     setReportImages(images => images.map((image, idx) => {
                                         return idx === index? URL.createObjectURL(file) : image
                                     }))
+
+                                    const payloadImage: ImageObject = {
+                                        id: index,
+                                        image: file
+                                    }
+
+                                    setChangedImages(images => [...images, payloadImage])
                                 }
 
                                 return(
-                                    <label key={index}  htmlFor={`file-upload-${index}`} className="bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
+                                    <label key={index}  htmlFor={`file-upload-${index}`} className="shrink-0 bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
                                         <input onChange={updateHandler} type="file" className="hidden" id={`file-upload-${index}`}/>
                                         <img src={ url || Plus} className="w-12 h-12"/>
                                     </label>
                                 )
                             })
                         }
-                        <label htmlFor="file-upload" className="bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
-                            <input type="file" className="hidden" id="file-upload"/>
+                        <label htmlFor="file-upload" className="shrink-0 bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
+                            <input onChange={imageHandler} type="file" className="hidden" id="file-upload"/>
                             <img src={ Plus } className="w-12 h-12"/>
                         </label>
                     </div>

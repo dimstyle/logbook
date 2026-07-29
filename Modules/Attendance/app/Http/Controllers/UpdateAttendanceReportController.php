@@ -3,11 +3,7 @@
 namespace Modules\Attendance\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Modules\Attendance\Http\Requests\UpdateAttendanceReportRequest;
-use Modules\Attendance\Models\Attendance;
-use Modules\Attendance\Repositories\AttendanceRepository;
 use Modules\Attendance\Services\UpdateAttendanceReportService;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -22,16 +18,16 @@ class UpdateAttendanceReportController extends Controller
     {
         $data = $request->validated();
 
-        try{
+        // try{
             $this->updateAttendanceReportService->handle($data);
-        }catch(Throwable $e) {
-            return response()->json([
-                'message' => 'Internal server error'
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        } 
+        // }catch(Throwable $e) {
+        //     return response()->json([
+        //         'message' => 'Internal server error'
+        //     ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        // } 
 
         return response()->json([
-            'message' => 'Success to update user attendance'
+            'message' => 'Success to update user attendance',
         ],Response::HTTP_OK);
     }
 }

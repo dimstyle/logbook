@@ -12,9 +12,17 @@ class UpdateAttendanceReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'laporan' => ['required', 'string',  'nullable'],
-            'images' => ['required', 'array'],
-            'images.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp']
+        
+            'attendance_id' => ['required', 'integer'],
+            'laporan' => ['required', 'string'],
+
+            'new_images' => ['nullable', 'array'],
+            'new_images.*.id' => ['required', 'integer'],
+            'new_images.*.images' => ['required', 'file', 'image'],
+
+            'changed_images' => ['nullable', 'array'],
+            'changed_images.*.id' => ['required', 'integer'],
+            'changed_images.*.images' => ['required', 'file', 'image'],
         ];
     }
 
