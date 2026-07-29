@@ -95,6 +95,20 @@ class AttendanceRepository{
         }
     }
 
+
+    public function getAttendanceImagesPathByAttendanceId(int $attendanceId){
+        try{
+            return Attendance::select('images')
+            ->findOrFail($attendanceId);
+        }catch(Throwable $e){
+            Log::error('Failed to get images path',[
+                'exception' => $e
+            ]);
+
+            throw $e;
+        }
+    }
+
     public function getAttendanceListByAdminId(int $adminId){
         try{
             return User::where('admin_id', $adminId)
@@ -154,6 +168,19 @@ class AttendanceRepository{
             ->firstOrFail();
         }catch(Throwable $e){
             Log::error('Failed to fetch attendance details',[
+                'exception' => $e
+            ]);
+
+            throw $e;
+        }
+    }
+
+    public function updateAttendanceReportByAttendanceId(int $attendanceId, array $data){
+        try{
+            Attendance::where('id', $attendanceId)
+            ->update($data);
+        }catch(Throwable $e){
+            Log::error('Failed to update report attendance',[
                 'exception' => $e
             ]);
 
