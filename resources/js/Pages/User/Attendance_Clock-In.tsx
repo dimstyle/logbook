@@ -17,6 +17,7 @@ export default function ClockIn() {
     const [attendance, setAttendance] = useState("");
     const [reason, setReason] = useState("");
     
+
     if(sudah_hadir || izin || sakit) {
         router.get('/report')
         return;

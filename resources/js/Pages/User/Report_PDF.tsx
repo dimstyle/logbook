@@ -66,20 +66,20 @@ export const ReportPDF: React.FC<ReportPDFProps> = ({ data, userProfile }) => (
     <Document>
         <Page size="A4" style={styles.page}>
             <Text style={styles.title}>Logbook Report</Text>
-            <View style={[{ display: 'flex' }, { flexDirection: 'row' }, { width: 160 }, { justifyContent: 'space-between' }, { marginLeft: 3 }, { gap: 10 }, { marginBottom: 5 }]}>
+            <View style={[{ display: 'flex' }, { flexDirection: 'row' }, { width: 260 }, { justifyContent: 'space-between' }, { marginLeft: 3 }, { gap: 10 }, { marginBottom: 5 }]}>
                 <Text style={[styles.info, { width: 80 }, { fontWeight: 'bold' }]}>Nama</Text>
                 <Text style={styles.info}>:</Text>
-                <Text style={[styles.info, { width: 150 }]}>{userProfile.name}</Text>
+                <Text style={[styles.info, { width: 250 }]}>{userProfile.name}</Text>
             </View>
-            <View style={[{ display: 'flex' }, { flexDirection: 'row' }, { width: 160 }, { justifyContent: 'space-between' }, { marginLeft: 3 }, { gap: 10 }, { marginBottom: 5 }]}>
+            <View style={[{ display: 'flex' }, { flexDirection: 'row' }, { width: 260 }, { justifyContent: 'space-between' }, { marginLeft: 3 }, { gap: 10 }, { marginBottom: 5 }]}>
                 <Text style={[styles.info, { width: 80 }, { fontWeight: 'bold' }]}>Sekolah</Text>
                 <Text style={styles.info}>:</Text>
-                <Text style={[styles.info, { width: 150 }]}>{userProfile.school}</Text>
+                <Text style={[styles.info, { width: 250 }]}>{userProfile.school}</Text>
             </View>
-            <View style={[{ display: 'flex' }, { flexDirection: 'row' }, { width: 160 }, { justifyContent: 'space-between' }, { marginLeft: 3 }, { gap: 10 }, { marginBottom: 10 }]}>
+            <View style={[{ display: 'flex' }, { flexDirection: 'row' }, { width: 260 }, { justifyContent: 'space-between' }, { marginLeft: 3 }, { gap: 10 }, { marginBottom: 10 }]}>
                 <Text style={[styles.info, { width: 80 }, { fontWeight: 'bold' }]}>Jurusan</Text>
                 <Text style={styles.info}>:</Text>
-                <Text style={[styles.info, { width: 150 }]}>{userProfile.major}</Text>
+                <Text style={[styles.info, { width: 250 }]}>{userProfile.major}</Text>
             </View>
             <View style={styles.table}>
                 <View style={[styles.tableRow, styles.tableHeader]}>

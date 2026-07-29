@@ -12,14 +12,11 @@ export default function ActivityReport() {
 
     const [laporan, setLaporan] = useState("");
     const [images, setImages] = useState<File[]>([]);
-    // const [imageForms, setImageForms] = useState<React.ReactNode[]>([]);
-    // const [imageIndex, setImageIndex] = useState(0);
 
     const imageHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
 
-        console.log("haha")
 
         setImages(images => [...images, file]);
     }
@@ -55,15 +52,16 @@ export default function ActivityReport() {
         }
     }
 
+    if (sudah_laporan || izin || sakit) {
+        router.get('/clock-out');
+        return
+    }
+
     if (!sudah_hadir) {
         router.get('/clock-in')
         return
     }
 
-    if (sudah_laporan || izin || sakit) {
-        router.get('/clock-out');
-        return
-    }
 
     if (error) {
         const errorMessage = JSON.parse(error);

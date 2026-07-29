@@ -77,11 +77,6 @@ export default function UserList() {
             />
 
             <div className="flex flex-col p-6 pt-28 gap-6 max-w-7xl mx-auto">
-                {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <StatCard title="Total Siswa PKL" value={totalUsers} textColor="text-blue-600" />
-                    <StatCard title="Total Sekolah Terdaftar" value={schoolsList.length} textColor="text-emerald-600" />
-                    <StatCard title="Hasil Pencarian" value={filteredUser.length} textColor="text-blue-600" />
-                </div> */}
 
                 <div className="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm">
                     <h1 className="text-xl font-bold text-black">User List</h1>
