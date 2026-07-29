@@ -67,7 +67,7 @@ export interface getAttendanceDetails{
 
         sudah_laporan: boolean,
         laporan: string,
-        images: string[],
+        images: string,
 
         sudah_pulang: boolean,
         jam_pulang: string,

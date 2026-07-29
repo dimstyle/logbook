@@ -97,7 +97,7 @@ export default function ActivityReport() {
                                 return (
                                     <label htmlFor={`file-upload-${idx}`} className="bg-white w-47.5 h-47.5 rounded-[29px] mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
                                         <input id={`file-upload-${idx}`} onChange={updateHandler} type="file" className="hidden" />
-                                        <img src={ URL.createObjectURL(image) } className="w-12 h12" />
+                                        <img src={ URL.createObjectURL(image) } className="w-full" />
                                     </label> 
                                 )
                             })

@@ -18,13 +18,13 @@ class UpdateAttendanceReportController extends Controller
     {
         $data = $request->validated();
 
-        // try{
+        try{
             $this->updateAttendanceReportService->handle($data);
-        // }catch(Throwable $e) {
-        //     return response()->json([
-        //         'message' => 'Internal server error'
-        //     ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        // } 
+        }catch(Throwable $e) {
+            return response()->json([
+                'message' => 'Internal server error'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        } 
 
         return response()->json([
             'message' => 'Success to update user attendance',

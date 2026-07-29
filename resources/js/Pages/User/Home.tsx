@@ -50,8 +50,18 @@ export default function Home(){
 
     const filteredReport = (userAttendances ?? []).filter((history) => {
         const lowercaseQuery = searchQuery.toLocaleLowerCase();
+
+        const dateFormatted = history.created_date
+            ? new Date(history.created_date).toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            }).toLowerCase()
+            :'';
         return (
-            history.laporan.toLocaleLowerCase().includes(lowercaseQuery) 
+            history.laporan.toLocaleLowerCase().includes(lowercaseQuery)||
+            dateFormatted.includes(lowercaseQuery) ||
+            history.created_date.includes(lowercaseQuery)
         )
     })
 

@@ -132,6 +132,7 @@ class AttendanceRepository{
                 'attendances.created_date',
                 'attendances.updated_at'
             )
+            ->orderBy('attendances.created_at','desc')
             ->get();
         }catch(Throwable $e){
             Log::error('Failed to get attendances list',[
