@@ -11,7 +11,8 @@ use Modules\Auth\Http\Controllers\RegisterExcelFormatController;
 
 Route::prefix('auth')
 ->group(function (){
-    Route::post('/login', [LoginController::class, 'handle']);
+    Route::post('/login', [LoginController::class, 'handle'])->middleware('loginrole:user');
+    Route::post('/adminlogin', [LoginController::class, 'handle'])->middleware('loginrole:admin');
     Route::post('/refresh', [RefreshTokenController::class, 'handle']);
     Route::post('/logout', [LogoutController::class, 'handle']);
 

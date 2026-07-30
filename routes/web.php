@@ -4,8 +4,11 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 // User
-Route::get('/login', fn() => Inertia::render('User/Login'));
-Route::get('/done', fn() => Inertia::render('ui/Done'));
+Route::prefix('/')
+->group(function () {
+    Route::get('/login', fn() => Inertia::render('User/Login'))->middleware('loginpage');
+    Route::get('/done', fn() => Inertia::render('ui/Done'));
+});
 
 Route::prefix('/')
 ->middleware('jwt.page.validation:user')
@@ -37,7 +40,7 @@ Route::prefix('/')
 // Admin
 Route::prefix('admin')
 ->group(function (){
-    Route::get('/login', fn() => Inertia::render('Admin/Login'));
+    Route::get('/login', fn() => Inertia::render('Admin/Login'))->middleware('loginpage');
 });
 
 Route::prefix('admin')
@@ -60,3 +63,5 @@ Route::prefix('admin')
         'id' => $id
     ]));
 });
+
+Route::fallback(fn() => Inertia::render('ui/NotFound'));

@@ -2,11 +2,13 @@
 
 namespace Modules\Attendance\Services;
 
+use Illuminate\Support\Facades\DB;
 use Modules\Attendance\DTO\CreateAttendanceCheckInDTO;
 use Modules\Attendance\Repositories\AttendanceRepository;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class CreateAttendanceCheckInService
 {
@@ -18,11 +20,34 @@ class CreateAttendanceCheckInService
         $userAccount = Auth::user();
 
         $accountId = $userAccount->id;
+        
+        try{
+            DB::beginTransaction();
+    
+            $this->attendanceRepository->createAttendanceById(
+                $accountId,
+                $this->makeArrayUpdate($checkIn)
+            );
 
-        $this->attendanceRepository->createAttendanceById(
-            $accountId,
-            $this->makeArrayUpdate($checkIn)
-        );
+            if($this->isCheckIn($checkIn->status)){
+                $this->attendanceRepository->incrementAttendanceByAccountId(
+                    $accountId, 
+                    'hadir'
+                );
+            }else{
+                $this->attendanceRepository->incrementAttendanceByAccountId(
+                    $accountId,
+                    'tidak_masuk'
+                );
+            }
+
+            DB::commit();
+        }catch(Throwable $e){
+            DB::rollBack();
+            throw $e;
+        }
+
+        
 
         Log::info('Success to create Check In',[
             'account_id' => $accountId
@@ -43,7 +68,7 @@ class CreateAttendanceCheckInService
             $result['sudah_hadir'] = true;
             $result['jam_hadir'] = $checkIn->jam_hadir;
         }else{
-            $result['keterangan'] = $checkIn->alasan;
+            $result['keterangan'] = $checkIn->keterangan;
         }
 
         switch($checkIn->status){
