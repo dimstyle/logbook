@@ -7,7 +7,6 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Modules\Auth\DTO\LoginDTO;
-use Modules\Auth\Http\Requests\LoginRequest;
 use Modules\Auth\Repositories\AuthRepository;
 use Nwidart\Modules\Exceptions\ModuleNotFoundException;
 use Str;

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Modules\Auth\Http\Middleware\AuthGateRoleFilterMiddleware;
 use Modules\Auth\Http\Middleware\JwtMiddleware;
+use Modules\Auth\Http\Middleware\LoginPageGuard;
 use Modules\Auth\Http\Middleware\RoleMiddleware;
 use Modules\Auth\Http\Middleware\JwtValidationPageMiddleware;
 use Modules\Attendance\Http\Middleware\AttendanceCheckerMiddleware;
@@ -22,7 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => RoleMiddleware::class,
             'jwt.page.validation' => JwtValidationPageMiddleware::class,
             'attendancechecker' => AttendanceCheckerMiddleware::class,
-            'loginrole' => AuthGateRoleFilterMiddleware::class
+            'loginrole' => AuthGateRoleFilterMiddleware::class,
+            'loginpage' => LoginPageGuard::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
