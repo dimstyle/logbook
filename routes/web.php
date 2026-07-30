@@ -63,3 +63,5 @@ Route::prefix('admin')
         'id' => $id
     ]));
 });
+
+Route::fallback(fn() => Inertia::render('ui/NotFound'));

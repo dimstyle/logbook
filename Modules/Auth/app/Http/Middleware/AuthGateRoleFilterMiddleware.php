@@ -72,8 +72,6 @@ class AuthGateRoleFilterMiddleware
             );
         }
 
-
-
         return $next($request);
     }
 
