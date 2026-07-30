@@ -5,7 +5,7 @@ import { type getAdminProfileResponse, type UpdateAdminProfileRequest } from "..
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
-import { Link, useForm } from "@inertiajs/react";
+import { Link, router, useForm } from "@inertiajs/react";
 import type { DefaultResponse } from "../../types/default.js";
 
 function EliminateEmptyString(data: UpdateAdminProfileRequest){
@@ -23,6 +23,7 @@ function EliminateEmptyString(data: UpdateAdminProfileRequest){
 
 export default function AdminProfileEdit() {
     const isFetched = useRef(false);
+    const [isSubmitted, setIsSubmitted] = useState(false)
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
     const [preview, setPreview] = useState<string | null>(null);
@@ -90,6 +91,8 @@ export default function AdminProfileEdit() {
             alert(message)
             setError(JSON.stringify({ message, status }));
         }
+
+        setIsSubmitted(true)
     }
     
     if(loading){
@@ -99,6 +102,11 @@ export default function AdminProfileEdit() {
     if (error){
         const errMessage = JSON.parse(error);
         return <ErrorPage errorMessage={errMessage} backPath="/admin/login"/>
+    }
+
+    if (isSubmitted) {
+        router.get('/user_profile')
+        return;
     }
 
     return (
