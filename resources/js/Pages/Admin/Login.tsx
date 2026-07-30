@@ -21,7 +21,7 @@ export default function AdminLogin() {
         }
 
             try{
-                const response = await api.post<DefaultResponse>('/api/auth/login', payload);
+                const response = await api.post<DefaultResponse>('/api/auth/adminlogin', payload);
                 const resdata = response.data;
 
                 alert(resdata.message);

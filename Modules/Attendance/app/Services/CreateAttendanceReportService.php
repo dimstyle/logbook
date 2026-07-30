@@ -3,6 +3,7 @@
 namespace Modules\Attendance\Services;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Format;
 use Intervention\Image\Laravel\Facades\Image;
@@ -10,6 +11,7 @@ use Modules\Attendance\DTO\CreateAttendanceReportDTO;
 use Modules\Attendance\Repositories\AttendanceRepository;
 use Storage;
 use Str;
+use Throwable;
 
 class CreateAttendanceReportService
 {
@@ -20,15 +22,26 @@ class CreateAttendanceReportService
     public function handle(CreateAttendanceReportDTO $report) {
         $user = Auth::user();
         $accountId = $user->id;
-
-        $this->attendanceRepository->createAttendanceById(
-            $accountId,
-            [   
-                'sudah_laporan' => true,
-                'laporan' => $report->laporan,
-                'images' => $this->saveImages($report, $accountId)
-            ]
-        );
+        
+        try{
+            DB::beginTransaction();
+            $this->attendanceRepository->createAttendanceById(
+                $accountId,
+                [   
+                    'sudah_laporan' => true,
+                    'laporan' => $report->laporan,
+                    'images' => $this->saveImages($report, $accountId)
+                ]
+            );
+            $this->attendanceRepository->incrementAttendanceByAccountId(
+                $accountId,
+                'laporan'
+            );
+            DB::commit();
+        }catch(Throwable $e){
+            DB::rollBack();
+            throw $e;
+        }
 
         Log::info("Success to create attendance report",[
             'account_id' => $accountId

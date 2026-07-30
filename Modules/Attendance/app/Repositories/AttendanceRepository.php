@@ -21,6 +21,20 @@ class AttendanceRepository{
         }
     }
 
+    public function incrementAttendanceByAccountId(int $accountId ,string $column, int $inc = 1){
+        try{
+            User::where('account_id', $accountId)
+            ->increment($column, $inc);
+        }catch(Throwable $e){
+            Log::error('Failed to increment data' ,[
+                'exception' => $e
+            ]);
+
+            throw $e;
+        }
+
+    }
+
     public function getAttendanceChecker(int $accountId){
         try{
             return Attendance::select(
