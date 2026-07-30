@@ -78,7 +78,7 @@ export default function ActivityReport() {
                     <h2 className="mt-10">Kegiatan</h2>
                     <input onChange={(event: React.ChangeEvent<HTMLInputElement>)=> setLaporan(event.target.value)} type="text" className="bg-white rounded-lg p-1.5 w-full"/>
                     <h2>Dokumentasi</h2>
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 overflow-x-auto">
                         {
                             images.map((image, idx) =>{
                  
@@ -95,17 +95,16 @@ export default function ActivityReport() {
                                 }
 
                                 return (
-                                    <label htmlFor={`file-upload-${idx}`} className="bg-white w-47.5 h-47.5 rounded-[29px] mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
+                                    <label htmlFor={`file-upload-${idx}`} className="shrink-0 bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
                                         <input id={`file-upload-${idx}`} onChange={updateHandler} type="file" className="hidden" />
-                                        <img src={ URL.createObjectURL(image) } className="w-full" />
+                                        <img src={ URL.createObjectURL(image) } className="w-full h-full rounded-xl" />
                                     </label> 
                                 )
                             })
-                        }  
-                                   
-                        <label htmlFor="file-upload" className="bg-white w-47.5 h-47.5 rounded-[29px] mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
+                        }     
+                        <label htmlFor="file-upload" className="shrink-0 bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
                             <input onChange={imageHandler} type="file" className="hidden" id="file-upload"/>
-                            <img src={Plus} className="w-12 h12" />
+                            <img src={Plus} className="w-12 h-12" />
                         </label> 
                     </div>
                 </div>

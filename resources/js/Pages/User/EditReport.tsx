@@ -151,29 +151,29 @@ export default function EditReport() {
                     <h2>Jam Masuk</h2>
                     <input
                         type="time"
-                        className="w-50 p-1.5 rounded-lg bg-gray-100"
+                        className="w-50 p-1.5 rounded-lg bg-gray-100 disabled:cursor-not-allowed"
                         value={clockIn}
                         onChange={(event) => setClockIn(event.target.value)}
-                        readOnly={!canEditClockIn}
+                        disabled={!canEditClockIn}
                     />
                     <h2>Jam Pulang</h2>
                     <input
                         type="time"
-                        className="w-50 p-1.5 rounded-lg bg-gray-100"
+                        className="w-50 p-1.5 rounded-lg bg-gray-100 disabled:cursor-not-allowed"
                         value={clockOut}
                         onChange={(event) => setClockOut(event.target.value)}
-                        readOnly={!canEditClockOut}
+                        disabled={!canEditClockOut}
                     />
                     <h2>Tanggal</h2>
                     <input
                         type="date"
-                        className="w-50 p-1.5 rounded-lg bg-gray-100"
+                        className="w-50 p-1.5 rounded-lg bg-gray-100 disabled:cursor-not-allowed"
                         value={date}
                         onChange={(event) => setDate(event.target.value)}
-                        readOnly={!canEditDate}
+                        disabled={!canEditDate}
                     />
                     <h2>Dokumentasi</h2>
-                    <div className="flex gap-3 overflow-x-scroll  flex-">
+                    <div className="flex gap-3 overflow-x-auto pb-5">
                         {
                             reportImages.map((image, index) => {
                                 const url = image? 
@@ -203,7 +203,7 @@ export default function EditReport() {
                                 return(
                                     <label key={index}  htmlFor={`file-upload-${index}`} className="shrink-0 bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
                                         <input onChange={updateHandler} type="file" className="hidden" id={`file-upload-${index}`}/>
-                                        <img src={ url || Plus} className="w-full"/>
+                                            <img src={url || Plus} className="w-full h-full rounded-xl" />
                                     </label>
                                 )
                             })
