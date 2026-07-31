@@ -171,7 +171,7 @@ export default function DailyAttendance() {
                 onChangeHandler={handleSearchChange} 
             />
 
-            <div className="flex flex-col p-4 pt-30 gap-10">
+            <div className="flex flex-col p-6 pt-30 gap-10 max-w-7xl mx-auto">
                 {filteredUser.length > 0 ? (
                     filteredUser.map((attendance) => {
 
@@ -189,9 +189,13 @@ export default function DailyAttendance() {
                             <Link 
                                 key={attendance.attendance_id} 
                                 href={`/admin/user_report/${attendance.attendance_id}`}
-                                className="flex w-full p-5 bg-[#FFFFFF] rounded-lg"
+                                className="flex w-full h-40 p-5 bg-[#FFFFFF] rounded-lg"
                             >
-                                <img src={profile_photo  || ProfileIcon} alt="UserIcon" width={130} className="rounded-full object-cover aspect-square" />
+                                {profile_photo ? (
+                                    <img className="rounded-full w-25 ml-2 mt-3 mb-2 mr-3 object-cover aspect-square" src={profile_photo} alt="UserIcon" />
+                                ) : (
+                                    <img className="rounded-full w-30 object-cover aspect-square" src={ProfileIcon} alt="UserIcon" />
+                                )}
                                 <div className="flex flex-col w-full justify-center gap-3 ml-2">
                                     <h1 className="text-2xl">{attendance.nama_lengkap}</h1>
                                     <div className="flex gap-2">

@@ -70,7 +70,7 @@ export default function AdminNavbar({
 
     return(
         <>
-            <nav className="bg-[#FF5454] shadow-[0px_0px_10px_black] fixed z-1000 w-full p-3 px-6 flex items-center">
+            <nav className="bg-[#FF5454] shadow-[0px_0px_10px_black] fixed z-1000 w-full h-20 p-3 px-6 flex items-center">
                 {/* Logo */}
                 <div className="flex flex-1 items-end">
                     <h1 className="font-freckle text-3xl text-white">Logbook</h1>
@@ -78,7 +78,7 @@ export default function AdminNavbar({
                 </div>
 
                 {/* Search */}
-                <div className="flex flex-1 pr-8 justify-center">
+                <div className="flex flex-1 pl-18 justify-center">
                     {input && (
                         <input
                             className="w-70 p-1.5 bg-white rounded-lg"
