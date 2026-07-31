@@ -42,7 +42,9 @@ export interface getAdminProfileResponse{
         laporan_hari_ini: number, 
         created_at: string,
         updated_at: string
-        profile_photo: string
+        profile_photo: string,
+
+        jumlah_laporan: number
     }
 }
 

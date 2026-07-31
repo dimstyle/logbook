@@ -109,7 +109,7 @@ export default function AdminProfile() {
                                 <h1>Sekolah</h1>
                             </div>
                             <div className="flex flex-col items-center bg-[#FFC7C7] w-full rounded-lg p-4 py-10">
-                                <h1 className="text-xl text-[#FF5454]">{AdminData?.laporan_hari_ini}</h1>
+                                <h1 className="text-xl text-[#FF5454]">{AdminData?.jumlah_laporan}</h1>
                                 <h1>Laporan Hari Ini</h1>
                             </div>
                         </div>
