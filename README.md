@@ -17,3 +17,26 @@ A web-based attendance and daily activity logbook system designed to help employ
 
 ![User Flow](Docs/images/logbook_user_flow.png)
 ![Admin Flow](Docs/images/logbook_admin_flow.png)
+
+## 🚀 Getting Started
+
+### Installation
+
+```bash
+composer install
+npm install
+```
+
+### Run in Development
+
+Start the Laravel development server:
+
+```bash
+php artisan serve
+```
+
+In another terminal, run:
+
+```bash
+npm run dev
+```

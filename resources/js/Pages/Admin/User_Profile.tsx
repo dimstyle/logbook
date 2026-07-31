@@ -87,7 +87,7 @@ export default function UserProfileOnAdmin() {
                         )}
                         <div className="flex flex-col w-full gap-8 ml-5">
                             <h1 className="text-3xl">{UserData?.nama_lengkap}</h1>
-                            <h2 className="text-[#1D4ED8] text-xl">{UserData?.role}</h2>
+                            <h2 className="text-[#1D4ED8] text-xl">user</h2>
                         </div>
                         <div className="flex w-full justify-end mr-10">
                             <button onClick={deleteEvent} className="flex items-center gap-2 bg-[#FFC7C7] p-2 rounded-xl text-[#FF5454]">Delete Account</button>

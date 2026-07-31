@@ -2,6 +2,7 @@
 namespace Modules\Auth\Repositories;
 use Modules\Attendance\Models\Attendance;
 use Modules\Auth\Models\Account;
+use Modules\User\Models\Admin;
 use Modules\User\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

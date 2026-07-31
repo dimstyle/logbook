@@ -63,7 +63,7 @@ export default function UserList() {
         return <ErrorPage />
     }
 
-    const totalUsers = users?.users?.length ?? 0;
+    // const totalUsers = users?.users?.length ?? 0;
 
     return (
         <>
