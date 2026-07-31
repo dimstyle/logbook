@@ -18,8 +18,8 @@ export default function ErrorPage({
     backPath = ""
 }: ErrorPageProps) {
     return (
-        <div className="flex min-h-screen items-center justify-center bg-[#D9D9D9] px-4">
-            <div className="flex flex-col items-center w-full max-w-lg rounded-2xl border border-[#b1a9a9] bg-[#f3f0f0] p-8 shadow-lg">
+        <div className="min-h-screen bg-[#D9D9D9] px-4 py-10 text-[#505050] flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center w-full h-65 max-w-md rounded-[28px] border border-[#505050]/10 bg-white/80 p-8 shadow-lg backdrop-blur-sm">
                 <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#FF5454]">
                     Error {errorMessage.status}
                 </p>
