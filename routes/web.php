@@ -6,7 +6,7 @@ use Inertia\Inertia;
 // User
 Route::prefix('/')
 ->group(function () {
-    Route::get('/login', fn() => Inertia::render('User/Login'))->middleware('loginpage');
+    Route::get('/login', fn() => Inertia::render('User/Login'));
     Route::get('/done', fn() => Inertia::render('ui/Done'));
 });
 
@@ -40,7 +40,7 @@ Route::prefix('/')
 // Admin
 Route::prefix('admin')
 ->group(function (){
-    Route::get('/login', fn() => Inertia::render('Admin/Login'))->middleware('loginpage');
+    Route::get('/login', fn() => Inertia::render('Admin/Login'));
 });
 
 Route::prefix('admin')
