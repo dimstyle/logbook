@@ -87,20 +87,30 @@ export default function Home(){
                 onChangeHandler={handleSearchChange}
             />
             <div className="p-4 pt-30">
-                <PDFDownloadLink
-                    document={<ReportPDF
-                                data={userAttendances ?? []}
-                                userProfile={{
-                                    name: currentUser?.nama_lengkap || "N/A",
-                                    school: currentUser?.sekolah || "N/A",
-                                    major: currentUser?.jurusan || "N/A"
-                                    }}
-                                />}
-                    fileName={`Logbook_Report_${today}.pdf`}
-                    className="bg-[#FF5454] text-white p-2 inline-block mb-5 rounded-lg cursor-pointer"
-                >
-                    Export as PDF
-                </PDFDownloadLink>
+                {userAttendances && userAttendances.length > 0 ? (
+                    <PDFDownloadLink
+                        document={<ReportPDF
+                                    data={userAttendances}
+                                    userProfile={{
+                                        name: currentUser?.nama_lengkap || "N/A",
+                                        school: currentUser?.sekolah || "N/A",
+                                        major: currentUser?.jurusan || "N/A"
+                                        }}
+                                    />}
+                        fileName={`${currentUser?.nama_lengkap}_Logbook_Report_${today}.pdf`}
+                        className="bg-[#FF5454] text-white p-2 inline-block mb-5 rounded-lg cursor-pointer"
+                    >
+                        Export as PDF
+                    </PDFDownloadLink>
+                ) : (
+                    <button
+                        className="bg-[#838383]/70 text-white p-2 inline-block mb-5 rounded-lg cursor-not-allowed"
+                        title="Belum ada laporan untuk diekspor."
+                        disabled
+                    >
+                        Export as PDF
+                    </button>
+                )}
                 <table className="min-w-full border-collapse divide-y divide-white-100 bg-[#838383] text-white">
                     <thead className="bg-[#505050]">
                         <tr className="divide-x divide-white-100">
