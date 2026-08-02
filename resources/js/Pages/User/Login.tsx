@@ -2,13 +2,19 @@ import React, { useRef, useState } from "react"
 import { type loginRequestBody } from "../../types/auth.js"
 import { type DefaultResponse } from "../../types/default.js"
 import ErrorPage from "../ui/ErrorPage.js";
+import NotVisible from "../../../../assets/not-visible-svgrepo-com.png";
 import { router } from "@inertiajs/react";
 import api from "../../lib/axios.js";
 
 export default function Login(){
     const emailRef: React.RefObject<HTMLInputElement|null> = useRef(null);
     const passwordRef: React.RefObject<HTMLInputElement|null> = useRef(null);
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
+
+    const handleToggle = (): void => {
+        setShowPassword((prev) => !prev);
+    }
 
     const loginEvent = async ()=>{
         if ( !emailRef.current || !passwordRef.current) return;
@@ -50,9 +56,12 @@ export default function Login(){
                 </span>
                 <span className="flex bg-[#C0BDBD] flex-col p-5 rounded-bl-lg rounded-br-lg gap-3">
                     <h2>Email</h2>
-                    <input ref={emailRef} type="text" className="w-full p-1.5 bg-white rounded-lg" />
+                    <input ref={emailRef} type="email" className="w-full p-1.5 bg-white rounded-lg" />
                     <h2>Password</h2>
-                    <input ref={passwordRef} type="password" className="w-full p-1.5 bg-white rounded-lg" />
+                    <div className="relative justify-between items-center w-full bg-white rounded-lg">
+                        <input ref={passwordRef} type={showPassword ? 'text' : 'password'} className="w-full p-1.5 bg-white rounded-lg" />
+                        <button onClick={handleToggle} className={`absolute ${showPassword ? 'bg-[#FF5454]' : 'bg-white'} inset-y-0 right-0 flex items-center pr-3 pl-3 border-l-2 border-black cursor-pointer rounded-r-lg`}><img src={NotVisible} width={25} /></button>
+                    </div>
                     <div className="flex justify-center mt-5">
                         <button onClick={loginEvent} className="flex justify-center items-center bg-[#FF5454] w-20 rounded-lg p-1.5 cursor-pointer text-white ">Login</button>
                     </div>
