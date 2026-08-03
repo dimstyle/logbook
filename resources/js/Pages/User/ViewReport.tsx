@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import UserNavbar from "../../Components/User/UserNavbar.js";
-import Image from "../../../../assets/image-picture-svgrepo-com.png";
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
@@ -13,6 +12,7 @@ export default function ViewReport() {
     const isFetched = useRef(false);
 
     const [attendance, setAttendance] = useState<getAttendanceDailyResponse>();
+    const [reportImages, setReportImages] = useState<string[]>([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
 
@@ -24,8 +24,18 @@ export default function ViewReport() {
             try {
                 const response = await api.get<getAttendanceDailyResponse>(`/api/attendance/getattendancedaily?attendance_id=${attendance_id}`);
                 const resData = response.data;
+                const record = resData?.attendance;
 
                 setAttendance(resData);
+
+                if (record?.images) {
+                    try {
+                        const parsedImages = JSON.parse(record.images);
+                        setReportImages(Array.isArray(parsedImages) ? parsedImages : []);
+                    } catch {
+                        setReportImages([]);
+                    }
+                }
             } catch (err: unknown) {
                 const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
                 const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
@@ -63,9 +73,25 @@ export default function ViewReport() {
                     <h2>Tanggal</h2>
                     <input type="text" value={record?.created_date ?? ""} className="w-50 p-1.5 bg-[#838383] rounded-lg cursor-not-allowed" disabled/>
                     <h2>Dokumentasi</h2>
-                    <span className="flex justify-center items-center bg-[#838383] w-50 h-50 rounded-lg mt-2 border-2 border-gray-300 cursor-not-allowed">
-                        <img src={Image} alt="" className="w-full"/>
-                    </span>
+                    <div className="flex gap-3 overflow-x-auto pb-5">
+                        {reportImages.length > 0 ? (
+                            reportImages.map((image, index) => {
+                                const url = image
+                                    ? !image.includes("blob")
+                                        ? `/api/attendance/${image}`
+                                        : image
+                                    : "";
+
+                                return (
+                                    <div key={index} className="shrink-0 bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center">
+                                        <img src={url} alt={`Dokumentasi ${index + 1}`} className="w-full h-full rounded-xl object-cover" />
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <h1>Tidak ada Dokumentasi.</h1>
+                        )}
+                    </div>
                     <div className="flex justify-center mt-5 mb-10">
                         <a href="/" className="flex justify-center items-center bg-[#FF5454] w-30 h-8 rounded-lg p-1.5 cursor-pointer text-white ">Done</a>
                     </div>

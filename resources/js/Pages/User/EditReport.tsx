@@ -64,10 +64,6 @@ export default function EditReport() {
         })();
     }, []);
 
-    useEffect(()=>{
-
-    },[])
-
     const handleSave = async () => {
         if(!isChanged.current) {
             router.visit('/');
