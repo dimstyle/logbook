@@ -296,6 +296,50 @@
                 }
             }
         },
+        "/api/attendance/getattendancedetails/{attendanceId}": {
+            "get": {
+                "tags": [
+                    "Attendance"
+                ],
+                "summary": "Get attendance details",
+                "operationId": "8b286d92631118d94c0b537367c10416",
+                "parameters": [
+                    {
+                        "name": "attendanceId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success to get attendance details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetAttendanceDetailsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Attendance not found"
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/user/getattendancehistory": {
             "get": {
                 "tags": [
@@ -330,6 +374,154 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/MessageWithErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/attendance/attendance-reports/{targetId}/{filename}": {
+            "get": {
+                "tags": [
+                    "Attendance"
+                ],
+                "summary": "Get attendance image",
+                "operationId": "997bf5986ef32641aa80da4b008c76ab",
+                "parameters": [
+                    {
+                        "name": "targetId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filename",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Attendance image",
+                        "content": {
+                            "image/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetAttendanceImageResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Image not found"
+                    }
+                }
+            }
+        },
+        "/api/attendance/getattendancelist": {
+            "get": {
+                "tags": [
+                    "Attendance"
+                ],
+                "summary": "Get attendance list",
+                "operationId": "7de2365427b2b1196edcc313a66d911c",
+                "responses": {
+                    "200": {
+                        "description": "Success to get attendance list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetAttendanceListResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/attendance/getattendancephotos": {
+            "get": {
+                "tags": [
+                    "Attendance"
+                ],
+                "summary": "Get attendance photos",
+                "operationId": "61029519ef46ba3af3bcfba6e8fcba67",
+                "responses": {
+                    "200": {
+                        "description": "Success to get user images",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetAttendancePhotosResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/attendance/updatereport": {
+            "post": {
+                "tags": [
+                    "Attendance"
+                ],
+                "summary": "Update attendance report",
+                "operationId": "902408891cce5c597e5c56adf5b39839",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateAttendanceReportRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success to update user attendance",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateAttendanceReportResponse"
                                 }
                             }
                         }
@@ -1287,6 +1479,21 @@
                 },
                 "type": "object"
             },
+            "GetAttendanceDetailsResponse": {
+                "required": [
+                    "message",
+                    "attendance"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "attendance": {
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "GetAttendanceHistoryResponse": {
                 "required": [
                     "message",
@@ -1300,6 +1507,46 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/DailyAttendance"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "GetAttendanceImageResponse": {
+                "type": "string",
+                "format": "binary"
+            },
+            "GetAttendanceListResponse": {
+                "required": [
+                    "message",
+                    "attendances"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "attendances": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "GetAttendancePhotosResponse": {
+                "required": [
+                    "message",
+                    "photos"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "photos": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
                         }
                     }
                 },
@@ -1502,45 +1749,6 @@
                 },
                 "type": "object"
             },
-            "RegisterExcelFormatResponse": {
-                "required": [
-                    "message",
-                    "success",
-                    "failed",
-                    "errors"
-                ],
-                "properties": {
-                    "message": {
-                        "type": "string",
-                        "example": "Excel berhasil diproses"
-                    },
-                    "success": {
-                        "type": "integer",
-                        "example": 8
-                    },
-                    "failed": {
-                        "type": "integer",
-                        "example": 2
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "properties": {
-                                "row": {
-                                    "type": "integer",
-                                    "example": 5
-                                },
-                                "message": {
-                                    "type": "string",
-                                    "example": "The email has already been taken."
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "type": "object"
-            },
             "RegisterRequest": {
                 "required": [
                     "username",
@@ -1626,6 +1834,62 @@
                         "type": "string"
                     },
                     "nomor_telepon": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateAttendanceReportRequest": {
+                "required": [
+                    "attendance_id",
+                    "laporan"
+                ],
+                "properties": {
+                    "attendance_id": {
+                        "type": "integer"
+                    },
+                    "laporan": {
+                        "type": "string"
+                    },
+                    "new_images": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "images": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "changed_images": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "images": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateAttendanceReportResponse": {
+                "required": [
+                    "message"
+                ],
+                "properties": {
+                    "message": {
                         "type": "string"
                     }
                 },

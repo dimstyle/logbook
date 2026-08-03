@@ -69,7 +69,7 @@ export default function UserNavbar({
     
     return(
         <>
-            <nav className="bg-[#FF5454] shadow-[0px_0px_10px_black] fixed z-1000 w-full p-3 px-6 flex items-center">
+            <nav className="bg-[#FF5454] shadow-[0px_0px_10px_black] fixed z-1000 w-full h-20 p-3 px-6 flex items-center">
                 {/* Logo */}
                 <div className="flex flex-1 items-end">
                     <h1 className="font-freckle text-3xl text-white">Logbook</h1>
@@ -106,7 +106,11 @@ export default function UserNavbar({
                         </a>
                     ))}
                     <a href="/user_profile" >
-                        <img className='rounded-full object-cover h-17.5 w-17.5' src={url || ProfileIcon} onError={(e) => {e.currentTarget.src = ProfileIcon}} alt="UserIcon" width="70rem"  />
+                        {url ? (
+                            <img className='rounded-full object-cover max-h-15.5 md:max-h-15.5 lg:max-h-15.5 max-w-15.5 md:max-w-15.5 lg:max-w-15.5 ml-2' src={url} alt="UserIcon" width="70rem"  />
+                        ) : (
+                            <img className='rounded-full object-cover max-h-17.5 md:max-h-17.5 lg:max-h-17.5 max-w-17.5 md:max-w-17.5 lg:max-w-17.5' src={ProfileIcon} alt="UserIcon" width="70rem"  />
+                        )}
                     </a>
                 </div>
             </nav>

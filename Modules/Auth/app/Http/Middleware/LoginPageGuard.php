@@ -16,10 +16,12 @@ class LoginPageGuard
         $token = $_COOKIE['access_token'] ?? null;
 
         $request->headers->set('Authorization', 'Bearer ' . $token);
-        
-        
-        $user = auth()->user();
-        $role = $user->role;
+
+        $role = ""; 
+        if($token){
+            $user = auth()->user();
+            $role = $user->role;
+        }
 
         if($role === 'admin' && $request->is('admin/login')) return redirect($this->resolvePath($role));
         if($role === 'user' && $request->is('login')) return redirect($this->resolvePath($role));

@@ -117,6 +117,45 @@ class UserRepository{
             throw $e;
         }
     }
+    public function incrementAdminByAccountId(int $accountId, string $column, int $inc = 1){
+        try{
+            Admin::where('account_id' ,$accountId)
+            ->increment($column, $inc);
+        }catch(Throwable $e){
+            Log::error("Failed to increment value",[
+                'exception' => $e
+            ]);
+            throw $e;
+        }
+    }
 
+    public function updateAdminByAccountId(int $accountId, string $column, $value){
+        try{
+            Admin::where('account_id', $accountId)
+            ->update([
+                $column => $value 
+            ]);
+        }catch(Throwable $e){
+            Log::error("Failed to update Admin data",[
+                'exceptionn' => $e
+            ]);
+
+            throw $e;
+        }
+    }
+
+     public function getSelectUserByAdminId(int $accountId, string $column): Collection{
+        try{
+            return User::where('admin_id', $accountId)
+            ->select($column)
+            ->get();
+        }catch(Throwable $e){
+            Log::error("Failed to get data",[
+                'exceptionn' => $e
+            ]);
+
+            throw $e;
+        }
+    }
 
 }

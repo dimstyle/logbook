@@ -1,6 +1,7 @@
 <?php
 namespace Modules\Attendance\Repositories;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 use Modules\Attendance\Models\Attendance;
 use Modules\User\Models\User;
@@ -196,6 +197,22 @@ class AttendanceRepository{
             ->update($data);
         }catch(Throwable $e){
             Log::error('Failed to update report attendance',[
+                'exception' => $e
+            ]);
+
+            throw $e;
+        }
+    }
+
+    public function getTodayAttendanceByAdminId(int $adminId, string $column): Collection{
+        try{
+            return User::where('admin_id',$adminId)
+            ->join('attendances', 'attendances.account_id', '=', 'users.account_id')
+            ->whereDate('attendances.created_at', now())
+            ->select($column)
+            ->get();
+        }catch(Throwable $e){
+            Log::error('Failed to get attendance',[
                 'exception' => $e
             ]);
 

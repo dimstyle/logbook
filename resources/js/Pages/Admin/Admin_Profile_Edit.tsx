@@ -5,7 +5,7 @@ import { type getAdminProfileResponse, type UpdateAdminProfileRequest } from "..
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
-import { Link, useForm } from "@inertiajs/react";
+import { Link, router, useForm } from "@inertiajs/react";
 import type { DefaultResponse } from "../../types/default.js";
 
 function EliminateEmptyString(data: UpdateAdminProfileRequest){
@@ -23,6 +23,7 @@ function EliminateEmptyString(data: UpdateAdminProfileRequest){
 
 export default function AdminProfileEdit() {
     const isFetched = useRef(false);
+    const [isSubmitted, setIsSubmitted] = useState(false)
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
     const [preview, setPreview] = useState<string | null>(null);
@@ -90,6 +91,8 @@ export default function AdminProfileEdit() {
             alert(message)
             setError(JSON.stringify({ message, status }));
         }
+
+        setIsSubmitted(true)
     }
     
     if(loading){
@@ -99,6 +102,11 @@ export default function AdminProfileEdit() {
     if (error){
         const errMessage = JSON.parse(error);
         return <ErrorPage errorMessage={errMessage} backPath="/admin/login"/>
+    }
+
+    if (isSubmitted) {
+        router.get('/user_profile')
+        return;
     }
 
     return (
@@ -150,7 +158,7 @@ export default function AdminProfileEdit() {
                             </label>
                             <div className="flex flex-col w-full gap-4 ml-10 mt-10">
                                 <h1 className="text-2xl">Nama</h1>
-                                <input value={data.nama_lengkap} onChange={e => setData('nama_lengkap', e.target.value)} type="text" className="w-150 p-1.5 bg-[#666] rounded-lg text-white" />
+                                <input value={data.nama_lengkap} onChange={e => setData('nama_lengkap', e.target.value)} type="text" className="w-full max-w-sm md:max-w-xl lg:max-w-lg p-1.5 bg-[#666] rounded-lg text-white" />
                                 {errors.nama_lengkap && <span className="text-red-500">{errors.nama_lengkap}</span>}
                             </div>
                         </div>
