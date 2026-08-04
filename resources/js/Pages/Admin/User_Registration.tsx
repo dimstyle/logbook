@@ -1,5 +1,4 @@
 import { useState } from "react";
-import AdminNavbar from "../../Components/Admin/AdminNavbar.js";
 import api from "../../lib/axios.js";
 import type { ErrorMessage } from "../ui/ErrorPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
@@ -67,7 +66,7 @@ export default function UserRegistration() {
             <div className="flex flex-col items-center p-4 pt-10 w-full">
                 <h1 className="text-2xl">Halaman Daftar</h1>
                 <div className="flex flex-col w-170 gap-5">
-                    <h2>Nama Lengkap</h2>
+                    <h2 className="mt-10">Nama Lengkap</h2>
                     <input
                         type="text"
                         value={data.fullName}

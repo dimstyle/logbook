@@ -4,7 +4,7 @@ export default function Done(){
     return (
      
         <div className="flex min-h-screen items-center justify-center bg-[#D9D9D9] px-4">
-            <div className="flex w-full max-w-lg flex-col items-center rounded-2xl border border-[#b1a9a9] bg-[#f3f0f0] p-8 text-center shadow-lg">
+            <div className="flex flex-col w-full items-center justify-center h-65 max-w-md rounded-[28px] border border-[#505050]/10 bg-white/80 p-8 shadow-lg backdrop-blur-sm">
                 <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#FF5454]">
                     Info
                 </p>

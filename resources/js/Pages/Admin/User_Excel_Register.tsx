@@ -71,7 +71,7 @@ export default function UserExcelRegistration() {
     return (
         <>
             <div className="flex pt-20 items-center justify-center bg-[#D9D9D9] px-4 py-10">
-                <div className="flex w-full max-w-lg flex-col rounded-2xl border border-[#b1a9a9] bg-[#f3f0f0] p-8 text-center shadow-lg">
+                <div className="flex flex-col w-full text-center max-w-md rounded-[28px] border border-[#505050]/10 bg-white/80 p-8 shadow-lg backdrop-blur-sm">
 
                     <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#FF5454]">
                         Register
@@ -126,7 +126,7 @@ export default function UserExcelRegistration() {
                                 type="button"
                                 onClick={registerExcelEvent}
                                 disabled={processing || !file}
-                                className="rounded-lg bg-[#FF5454] px-6 py-2 font-semibold text-white transition hover:bg-[#e63f3f] disabled:cursor-not-allowed disabled:opacity-50"
+                                className="rounded-lg bg-[#FF5454] px-6 py-2 font-semibold text-white disabled:cursor-not-allowed disabled:bg-[#838383]/70"
                             >
                                 {processing
                                     ? "Loading..."
