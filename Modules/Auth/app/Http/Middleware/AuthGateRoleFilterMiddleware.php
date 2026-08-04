@@ -4,11 +4,11 @@ namespace Modules\Auth\Http\Middleware;
 
 use Closure;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Modules\Auth\DTO\LoginDTO;
 use Modules\Auth\Repositories\AuthRepository;
-use Nwidart\Modules\Exceptions\ModuleNotFoundException;
 use Str;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -25,19 +25,22 @@ class AuthGateRoleFilterMiddleware
     public function handle(Request $request, Closure $next, string $role)
     {  
         $data = LoginDTO::fromArray($request->all());
+        $backPath = $this->resolveBackPath($request);
 
         try{
             $user = $this->authRepository->getAccountByEmail(
                 $data->email
             );
-
+            
             $roleUser = $user['role'];
-
+            
             $backPath = $roleUser === 'admin' ? '/admin/login' : '/login';
 
             if($roleUser !== $role){
                 throw new AuthorizationException('role doesn\'t match');
             }
+
+            return $next($request);
         }catch(AuthorizationException $e){
             report($e);
             $this->logAuthFailure('Role not match', $request, 'error',[
@@ -48,7 +51,7 @@ class AuthGateRoleFilterMiddleware
             return $this->respondWithError(
                 $request, Response::HTTP_FORBIDDEN,
                 'forbiden error unauthorization', $backPath);
-        }catch(ModuleNotFoundException $e){
+        }catch(ModelNotFoundException $e){
             report($e);
             $this->logAuthFailure('User not found', $request, 'error', [
                 'reason' => 'not_found',
@@ -71,8 +74,11 @@ class AuthGateRoleFilterMiddleware
                 'Internal server error', $backPath
             );
         }
+    }
 
-        return $next($request);
+    private function resolveBackPath(Request $request): string
+    {
+        return $request->is('admin*') ? '/admin/login' : '/login';
     }
 
     private function logAuthFailure(string $message, Request $request, string $level, array $context = []): void
