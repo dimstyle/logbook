@@ -106,11 +106,7 @@ export default function UserNavbar({
                         </a>
                     ))}
                     <a href="/user_profile" >
-                        {url ? (
-                            <img className='rounded-full object-cover max-h-15.5 md:max-h-15.5 lg:max-h-15.5 max-w-15.5 md:max-w-15.5 lg:max-w-15.5 ml-2' src={url} alt="UserIcon" width="70rem"  />
-                        ) : (
-                            <img className='rounded-full object-cover max-h-17.5 md:max-h-17.5 lg:max-h-17.5 max-w-17.5 md:max-w-17.5 lg:max-w-17.5' src={ProfileIcon} alt="UserIcon" width="70rem"  />
-                        )}
+                        <img className='rounded-full object-cover aspect-square max-h-14 md:max-h-14 lg:max-h-14 max-w-14 md:max-w-14 lg:max-w-14' src={url || ProfileIcon} alt="UserIcon"  />
                     </a>
                 </div>
             </nav>

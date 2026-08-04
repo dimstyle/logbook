@@ -60,7 +60,7 @@ export default function Login(){
                     <h2>Password</h2>
                     <div className="relative justify-between items-center w-full bg-white rounded-lg">
                         <input ref={passwordRef} type={showPassword ? 'text' : 'password'} className="w-full p-1.5 bg-white rounded-lg" />
-                        <button onClick={handleToggle} className={`absolute ${showPassword ? 'bg-[#FF5454]' : 'bg-white'} inset-y-0 right-0 flex items-center pr-3 pl-3 border-l-2 border-black cursor-pointer rounded-r-lg`}><img src={NotVisible} width={25} /></button>
+                        <button onClick={handleToggle} className={`absolute ${showPassword ? 'bg-[#FF5454]' : 'bg-white'} inset-y-0 right-0 flex items-center pr-3 pl-3 border-l-2 border-black cursor-pointer rounded-r-lg transition-all duration-300`}><img src={NotVisible} width={25} /></button>
                     </div>
                     <div className="flex justify-center mt-5">
                         <button onClick={loginEvent} className="flex justify-center items-center bg-[#FF5454] w-20 rounded-lg p-1.5 cursor-pointer text-white ">Login</button>
