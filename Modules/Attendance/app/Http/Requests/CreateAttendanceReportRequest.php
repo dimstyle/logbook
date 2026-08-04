@@ -14,7 +14,7 @@ class CreateAttendanceReportRequest extends FormRequest
         return [
             'laporan' => ['required', 'string'],
             'images' => ['required', 'array'],
-            'images.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp']
+            'images.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp,avif']
         ];
     }
 

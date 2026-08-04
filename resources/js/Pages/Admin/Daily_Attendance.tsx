@@ -223,7 +223,7 @@ export default function DailyAttendance() {
                     })
                 ) : (
                     <div className="flex w-full justify-center">
-                        <h1 className="text-3xl">No Users Found.</h1>
+                        <h1 className="text-3xl">No Attendances Found.</h1>
                     </div>
                 )}
             </div>

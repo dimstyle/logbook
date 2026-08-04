@@ -62,9 +62,9 @@ export default function Profile() {
                     <div className="flex items-center">
                         <div className="flex items-center w-110 h-42">
                             {UserData?.profile_photo ? (
-                                <img className="rounded-full w-35 ml-3 mt-3 mb-4 mr-3 object-cover aspect-square" src={UserData?.profile_photo} alt="UserIcon" />
+                                <img className="rounded-full ml-3 mt-3 mb-4 mr-3 object-cover aspect-square max-h-35 md:max-h-35 lg:max-h-35 max-w-35 md:max-w-35 lg:max-w-35" src={UserData?.profile_photo} alt="UserIcon" />
                             ) : (
-                                <img className="rounded-full w-60 object-cover aspect-square" src={ProfileIcon} alt="UserIcon" />
+                                <img className="rounded-full object-cover aspect-square max-h-60 md:max-h-60 lg:max-h-60 max-w-60 md:max-w-60 lg:max-w-60" src={ProfileIcon} alt="UserIcon" />
                             )}
                         </div>
                         <div className="flex flex-col w-full gap-8 ml-5">
@@ -109,15 +109,15 @@ export default function Profile() {
                             </div>
                         </div>
                         <div className="flex gap-30 mt-20 mb-10">
-                            <div className="flex flex-col items-center bg-[#FFC7C7] w-full rounded-lg p-4 py-10">
+                            <div className="flex flex-col text-center justify-center bg-[#FFC7C7] w-full h-30 rounded-lg px-2 py-10">
                                 <h1 className="text-xl text-[#FF5454]">{UserData?.hadir}</h1>
                                 <h1>Hadir</h1>
                             </div>
-                            <div className="flex flex-col items-center bg-[#FFC7C7] w-full rounded-lg p-4 py-10">
+                            <div className="flex flex-col text-center justify-center bg-[#FFC7C7] w-full h-30 rounded-lg px-2 py-10">
                                 <h1 className="text-xl text-[#FF5454]">{UserData?.tidak_masuk}</h1>
                                 <h1>Tidak Masuk</h1>
                             </div>
-                            <div className="flex flex-col items-center bg-[#FFC7C7] w-full rounded-lg p-4 py-10">
+                            <div className="flex flex-col text-center justify-center bg-[#FFC7C7] w-full h-30 rounded-lg px-2 py-10">
                                 <h1 className="text-xl text-[#FF5454]">{UserData?.laporan}</h1>
                                 <h1>Laporan</h1>
                             </div>

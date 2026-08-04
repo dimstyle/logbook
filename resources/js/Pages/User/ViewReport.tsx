@@ -84,7 +84,7 @@ export default function ViewReport() {
 
                                 return (
                                     <div key={index} className="shrink-0 bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center">
-                                        <img src={url} alt={`Dokumentasi ${index + 1}`} className="w-full h-full rounded-xl object-cover" />
+                                        <img src={url} alt={`Dokumentasi ${index + 1}`} className="w-full h-full rounded-xl" />
                                     </div>
                                 );
                             })
