@@ -32,7 +32,7 @@ export default function Login(){
 
             alert(resdata.message);
 
-            // router.get('/clock-in')
+            router.get('/clock-in')
         }catch(err: unknown){
             const axiosError = err as { response?: { data?: DefaultResponse; status?: number }; message?: string };
             const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';

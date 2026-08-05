@@ -2,6 +2,8 @@ import AdminNavbar from "../../Components/Admin/AdminNavbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png";
 import React, { useEffect, useRef, useState } from "react";
 import { type getAdminProfileResponse, type UpdateAdminProfileRequest } from "../../types/user.js";
+import ReactCrop, { type Crop, centerCrop, makeAspectCrop } from "react-image-crop";
+import 'react-image-crop/dist/ReactCrop.css';
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import api from "../../lib/axios.js";
@@ -12,7 +14,15 @@ function EliminateEmptyString(data: UpdateAdminProfileRequest){
     const formData = new FormData();
 
     Object.entries(data).forEach(([key, value]) => {
-        if(!value) return;
+        if (key === 'profile_photo') {
+            if (value instanceof File) {
+                formData.append(key, value)
+            }
+            return
+        }
+
+        if (value === null || value === undefined || value === '') return
+
         formData.append(
             key, 
             value instanceof File ? value : String(value)
@@ -27,6 +37,11 @@ export default function AdminProfileEdit() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
     const [preview, setPreview] = useState<string | null>(null);
+    const [rawImageSrc, setRawImageSrc] = useState<string>("");
+    const [crop, setCrop] = useState<Crop>();
+    const [completedCrop, setCompletedCrop] = useState<any>(null);
+    const [showCropperModal, setShowCropperModal] = useState(false);
+    const imgRef = useRef<HTMLImageElement>(null);
 
     const { data, setData, processing, errors}  = useForm<UpdateAdminProfileRequest>({
         username: "",
@@ -38,6 +53,65 @@ export default function AdminProfileEdit() {
         nomor_telepon: "",
         profile_photo: null as File | null
     })
+
+
+    function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
+        const { width, height } = e.currentTarget;
+        const initialCrop = centerCrop(
+            makeAspectCrop({ unit: '%', width: 90 }, 1, width, height),
+            width,
+            height
+        );
+        setCrop(initialCrop);
+    }
+    
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+    
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            setRawImageSrc(reader.result?.toString() || "");
+            setShowCropperModal(true);
+        });
+        reader.readAsDataURL(file);
+    };
+    
+    const handleCropComplete = async () => {
+        if (!completedCrop || !imgRef.current) return;
+    
+        const image = imgRef.current;
+        const canvas = document.createElement("canvas");
+        const scaleX = image.naturalWidth / image.width;
+        const scaleY = image.naturalHeight / image.height;
+    
+        canvas.width = completedCrop.width * scaleX;
+        canvas.height = completedCrop.height * scaleY;
+        const ctx = canvas.getContext("2d");
+    
+        if (!ctx) return;
+    
+        ctx.drawImage(
+            image,
+            completedCrop.x * scaleX,
+            completedCrop.y * scaleY,
+            completedCrop.width * scaleX,
+            completedCrop.height * scaleY,
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+    
+        canvas.toBlob((blob) => {
+            if (!blob) return;
+            const croppedFile = new File([blob], "profile-cropped.jpg", { type: "image/jpeg" });
+                
+            setData('profile_photo', croppedFile);
+            setPreview(URL.createObjectURL(croppedFile));
+            setShowCropperModal(false); // Close modal
+        }, "image/jpeg", 0.95);
+    };
 
     useEffect(()=>{
         if (isFetched.current) return;
@@ -56,7 +130,8 @@ export default function AdminProfileEdit() {
                         email: currentUser.email || "",
                         nomor_telepon: currentUser.nomor_telepon || "",
                         username: currentUser.username || "",
-                        password: ""
+                        password: "",
+                        profile_photo: null
                     })
 
                     if(currentUser.profile_photo) setPreview('/storage/'+currentUser.profile_photo);
@@ -130,14 +205,7 @@ export default function AdminProfileEdit() {
                                     type="file" 
                                     accept="image/*" 
                                     className="hidden" 
-                                    onChange={(e) => {
-                                        const file = e.target.files?.[0] ?? null;
-
-                                        if(!file) return
-
-                                        setData('profile_photo', file);
-                                        setPreview(URL.createObjectURL(file));
-                                    }}
+                                    onChange={handleFileChange}
                                 />
                                 <img 
                                     className="w-full object-cover aspect-square transition-all duration-300 group-hover:scale-105" 
@@ -209,6 +277,54 @@ export default function AdminProfileEdit() {
                     </div>
                 </form>
             </div>
+            {showCropperModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 z-1001">
+                    <div className="bg-white p-6 rounded-xl max-w-lg w-full flex flex-col items-center shadow-xl">
+                        <h2 className="text-xl font-semibold mb-4">Sesuaikan Foto Profil</h2>
+            
+                        <div className="max-h-[60vh] overflow-auto flex justify-center w-full">
+                            <img 
+                                ref={imgRef} 
+                                src={rawImageSrc} 
+                                alt="Crop source" 
+                                onLoad={onImageLoad}
+                                style={{ display: 'none' }}
+                            />
+                            {crop && (
+                                <ReactCrop
+                                    crop={crop}
+                                    onChange={(c) => setCrop(c)}
+                                    onComplete={(c) => setCompletedCrop(c)}
+                                    aspect={1}
+                                    circularCrop
+                                >
+                                    <img 
+                                        src={rawImageSrc} 
+                                        alt="Crop preview" 
+                                        className="max-h-50vh"
+                                    />
+                                </ReactCrop>
+                            )}
+                        </div>
+                        <div className="flex justify-end gap-3 mt-6 w-full">
+                            <button
+                                type="button"
+                                onClick={() => setShowCropperModal(false)}
+                                className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 cursor-pointer"
+                            >
+                            Batal
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleCropComplete}
+                                className="px-4 py-2 bg-[#FF5454] text-white rounded-lg hover:bg-[#E54747] cursor-pointer"
+                            >
+                            Simpan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     )
 }
