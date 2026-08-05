@@ -109,7 +109,11 @@ export default function AdminReportProps() {
                     </div>
                     {/*Profil Siswa*/}
                     <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-                        <img className="rounded-full h-40 w-40 object-cover aspect-square" src={profileUrl || ProfileIcon} alt="Profile"/>
+                        {profileUrl ? (
+                            <img className="rounded-full w-25 ml-2 mt-3 mb-2 mr-3 object-cover aspect-square" src={profileUrl} alt="UserIcon" />
+                        ) : (
+                            <img className="rounded-full w-30 object-cover aspect-square" src={ProfileIcon} alt="UserIcon" />
+                        )}
                         <div>
                             <h2 className="text-2xl font-bold text-black">{AttendanceDetails?.nama_lengkap}</h2>
                             <p className="text-gray-500 text-sm mt-2">{AttendanceDetails?.sekolah} • {AttendanceDetails?.jurusan}</p>
@@ -161,11 +165,11 @@ export default function AdminReportProps() {
                                     </div>
                                     <div>
                                         <span className="text-[16px] font-bold tracking-wider">Dokumentasi</span>
-                                        <div className="flex gap-10 mt-2 overflow-x-scroll">
+                                        <div className="flex gap-10 mt-2 overflow-x-scroll pb-5">
                                             {reportImages.length > 0 ? (
                                                 reportImages.map(image =>
-                                                    <div className="shrink-0 w-50 h-50 bg-gray-200 border border-dashed flex items-center border-gray-200 rounded-xl justify-center cursor-pointer hover:bg-gray-300 transition">
-                                                        <img src={`/api/attendance/${image}`} alt="" className="w-full"/>
+                                                    <div className="shrink-0 w-50 h-50 bg-gray-200 border border-dashed flex items-center border-gray-200 rounded-xl justify-center">
+                                                        <img src={`/api/attendance/${image}`} alt="" className="w-full h-full rounded-xl"/>
                                                     </div>
                                                 )) : (
                                                     <h1 className="text-[#FF5454]">Tidak ada Dokumentasi.</h1>

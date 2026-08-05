@@ -91,7 +91,7 @@ export default function UserList() {
                     filteredUser.map((user) => {
                         const profile_photo = user.profile_photo ? '/storage/'+user.profile_photo : "" ;
                         return (
-                            <div key={user.id} className="flex w-full h-40 p-5 bg-[#FFFFFF] rounded-lg">
+                            <div key={user.id} className="flex w-full items-center h-40 p-5 bg-[#FFFFFF] rounded-lg">
                                 {profile_photo ? (
                                     <img className="rounded-full w-25 ml-2 mt-3 mb-2 mr-3 object-cover aspect-square" src={profile_photo} alt="UserIcon" />
                                 ) : (

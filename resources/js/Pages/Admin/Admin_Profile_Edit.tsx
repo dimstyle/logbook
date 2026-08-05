@@ -105,7 +105,7 @@ export default function AdminProfileEdit() {
     }
 
     if (isSubmitted) {
-        router.get('/user_profile')
+        router.get('/admin/profile')
         return;
     }
 

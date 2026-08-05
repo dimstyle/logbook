@@ -70,7 +70,7 @@ class UpdateAttendanceReportService
             $imagesPath[$index] = $path;
         }
 
-        foreach($new_path as $path){
+        foreach($new_path as $fileImage){
             $file = $fileImage['images'];
 
             $path = $this->saveImageToStorage($accountId, $file);
