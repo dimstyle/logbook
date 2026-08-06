@@ -85,8 +85,9 @@ export default function AdminProfileEdit() {
         const scaleX = image.naturalWidth / image.width;
         const scaleY = image.naturalHeight / image.height;
     
-        canvas.width = completedCrop.width * scaleX;
-        canvas.height = completedCrop.height * scaleY;
+        const TARGET_SIZE = 400;
+        canvas.width = TARGET_SIZE;
+        canvas.height = TARGET_SIZE;
         const ctx = canvas.getContext("2d");
     
         if (!ctx) return;
@@ -99,8 +100,8 @@ export default function AdminProfileEdit() {
             completedCrop.height * scaleY,
             0,
             0,
-            canvas.width,
-            canvas.height
+            TARGET_SIZE,
+            TARGET_SIZE
         );
     
         canvas.toBlob((blob) => {
@@ -109,7 +110,7 @@ export default function AdminProfileEdit() {
                 
             setData('profile_photo', croppedFile);
             setPreview(URL.createObjectURL(croppedFile));
-            setShowCropperModal(false); // Close modal
+            setShowCropperModal(false);
         }, "image/jpeg", 0.95);
     };
 
@@ -208,7 +209,7 @@ export default function AdminProfileEdit() {
                                     onChange={handleFileChange}
                                 />
                                 <img 
-                                    className="w-full object-cover aspect-square transition-all duration-300 group-hover:scale-105" 
+                                    className="w-60 h-60 object-cover aspect-square transition-all duration-300 group-hover:scale-105" 
                                     src={preview || ProfileIcon} 
                                     alt="UserIcon"
                                 />
@@ -288,7 +289,7 @@ export default function AdminProfileEdit() {
                                 src={rawImageSrc} 
                                 alt="Crop source" 
                                 onLoad={onImageLoad}
-                                style={{ display: 'none' }}
+                                className="hidden"
                             />
                             {crop && (
                                 <ReactCrop
@@ -301,7 +302,7 @@ export default function AdminProfileEdit() {
                                     <img 
                                         src={rawImageSrc} 
                                         alt="Crop preview" 
-                                        className="max-h-50vh"
+                                        style={{ maxHeight: '50vh', display: 'block', width: '100%', height: 'auto' }}
                                     />
                                 </ReactCrop>
                             )}
