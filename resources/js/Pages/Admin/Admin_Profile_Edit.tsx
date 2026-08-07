@@ -38,8 +38,14 @@ export default function AdminProfileEdit() {
     const [loading, setLoading] = useState(true);
     const [preview, setPreview] = useState<string | null>(null);
     const [rawImageSrc, setRawImageSrc] = useState<string>("");
-    const [crop, setCrop] = useState<Crop>();
-    const [completedCrop, setCompletedCrop] = useState<any>(null);
+    const [crop, setCrop] = useState<Crop>({
+        unit: '%',
+        width: 90,
+        height: 90,
+        x: 5,
+        y: 5,
+    });
+    const [completedCrop, setCompletedCrop] = useState<Crop | null>(null);
     const [showCropperModal, setShowCropperModal] = useState(false);
     const imgRef = useRef<HTMLImageElement>(null);
 
@@ -69,15 +75,27 @@ export default function AdminProfileEdit() {
         const file = e.target.files?.[0];
         if (!file) return;
     
-        const reader = new FileReader();
-        reader.addEventListener("load", () => {
-            setRawImageSrc(reader.result?.toString() || "");
-            setShowCropperModal(true);
+        setCompletedCrop(null)
+
+        setCrop({
+            unit: "%",
+            width: 90,
+            height: 90,
+            x: 5,
+            y: 5,
         });
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            setRawImageSrc(reader.result as string);
+            setShowCropperModal(true);
+        };
         reader.readAsDataURL(file);
+        
+        e.target.value = ""
     };
     
-    const handleCropComplete = async () => {
+    const handleCropComplete = async (cropToUse: Crop) => {
         if (!completedCrop || !imgRef.current) return;
     
         const image = imgRef.current;
@@ -282,30 +300,22 @@ export default function AdminProfileEdit() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 z-1001">
                     <div className="bg-white p-6 rounded-xl max-w-lg w-full flex flex-col items-center shadow-xl">
                         <h2 className="text-xl font-semibold mb-4">Sesuaikan Foto Profil</h2>
-            
                         <div className="max-h-[60vh] overflow-auto flex justify-center w-full">
-                            <img 
-                                ref={imgRef} 
-                                src={rawImageSrc} 
-                                alt="Crop source" 
-                                onLoad={onImageLoad}
-                                className="hidden"
-                            />
-                            {crop && (
-                                <ReactCrop
-                                    crop={crop}
-                                    onChange={(c) => setCrop(c)}
-                                    onComplete={(c) => setCompletedCrop(c)}
-                                    aspect={1}
-                                    circularCrop
-                                >
-                                    <img 
-                                        src={rawImageSrc} 
-                                        alt="Crop preview" 
-                                        style={{ maxHeight: '50vh', display: 'block', width: '100%', height: 'auto' }}
-                                    />
-                                </ReactCrop>
-                            )}
+                            <ReactCrop
+                                crop={crop}
+                                onChange={(c) => setCrop(c)}
+                                onComplete={(c) => setCompletedCrop(c)}
+                                aspect={1}
+                                circularCrop
+                            >
+                                <img
+                                    ref={imgRef} 
+                                    src={rawImageSrc} 
+                                    alt="Crop preview"
+                                    onLoad={onImageLoad}
+                                    style={{ maxHeight: '50vh', display: 'block', width: '100%', height: 'auto' }}
+                                />
+                            </ReactCrop>
                         </div>
                         <div className="flex justify-end gap-3 mt-6 w-full">
                             <button
@@ -313,14 +323,16 @@ export default function AdminProfileEdit() {
                                 onClick={() => setShowCropperModal(false)}
                                 className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 cursor-pointer"
                             >
-                            Batal
+                                Batal
                             </button>
                             <button
                                 type="button"
-                                onClick={handleCropComplete}
+                                onClick={() => {
+                                    handleCropComplete(completedCrop ?? crop)
+                                }}
                                 className="px-4 py-2 bg-[#FF5454] text-white rounded-lg hover:bg-[#E54747] cursor-pointer"
                             >
-                            Simpan
+                                Simpan
                             </button>
                         </div>
                     </div>
