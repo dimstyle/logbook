@@ -71,12 +71,12 @@ export default function UserNavbar({
         <>
             <nav className="bg-[#FF5454] shadow-[0px_0px_10px_black] fixed z-1000 w-full h-20 p-3 px-6 flex items-center">
                 {/* Logo */}
-                <div className="flex flex-1 items-end">
+                <div className="flex items-end">
                     <h1 className="font-freckle text-3xl text-white">Logbook</h1>
                 </div>
 
                 {/* Search */}
-                <div className="flex flex-1 justify-center">
+                <div className="absolute left-1/2 -translate-x-1/2">
                     {input && (
                         <input
                             className="w-70 p-1.5 bg-white rounded-lg"
@@ -89,7 +89,7 @@ export default function UserNavbar({
                 </div>
 
                 {/* Menu + Profile */}
-                <div className="flex flex-1 justify-end items-center gap-5">
+                <div className="ml-auto flex justify-end items-center gap-5">
                     {/* link render */}
                     {menus.map((menu, i) => (
                         <a
