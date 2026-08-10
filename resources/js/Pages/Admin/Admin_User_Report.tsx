@@ -159,13 +159,13 @@ export default function AdminReportProps() {
                                     </div>
                                     <div className="mb-4">
                                         <span className="text-[16px] font-bold tracking-wider">Kegiatan</span>
-                                        <div className="list-disc leading-relaxed space-y-2 mt-2 p-3 pl-7 bg-gray-200 rounded-lg text-[15px] border border-gray-200">
+                                        <div className="list-disc leading-relaxed space-y-2 mt-2 p-3 pl-4 bg-gray-200 rounded-lg text-[15px] border border-gray-200">
                                             {AttendanceDetails?.laporan}
                                         </div>
                                     </div>
                                     <div>
                                         <span className="text-[16px] font-bold tracking-wider">Dokumentasi</span>
-                                        <div className="flex gap-10 mt-2 overflow-x-scroll pb-5">
+                                        <div className="flex gap-10 mt-2 overflow-x-auto pb-5">
                                             {reportImages.length > 0 ? (
                                                 reportImages.map(image =>
                                                     <div className="shrink-0 w-50 h-50 bg-gray-200 border border-dashed flex items-center border-gray-200 rounded-xl justify-center">

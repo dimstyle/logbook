@@ -26,6 +26,7 @@ export default function UserNavbar({
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
     const [url, setUrl] = useState<string | null>(null);
+    const [menuOpen, setMenuOpen] = useState(false);
     const isFetched = useRef(false);
 
     // logout event
@@ -89,24 +90,75 @@ export default function UserNavbar({
                 </div>
 
                 {/* Menu + Profile */}
-                <div className="ml-auto flex justify-end items-center gap-5">
-                    {/* link render */}
-                    {menus.map((menu, i) => (
-                        <a
-                            key={menu.name}
-                            href={menu.href}
-                            onClick={menu.onClick}
-                            className={`p-1 rounded-lg transition-colors ${
-                                index === i
-                                    ? "bg-white text-black"
-                                    : "text-white"
-                            }`}
+                <div className="ml-auto flex items-center gap-5">
+                    {/* Desktop menu */}
+                    <div className="hidden lg:flex items-center gap-5">
+                        {menus.map((menu, i) => (
+                            <a
+                                key={menu.name}
+                                href={menu.href}
+                                onClick={menu.onClick}
+                                className={`p-1 rounded-lg transition-colors ${
+                                    index === i
+                                        ? "bg-white text-black"
+                                        : "text-white"
+                                }`}
+                            >
+                                {menu.name}
+                            </a>
+                        ))}
+                    </div>
+                    {/* Mobile/tablet hamburger */}
+                    <div className="lg:hidden relative">
+                        <button
+                            type="button"
+                            onClick={() => setMenuOpen(prev => !prev)}
+                            className="text-white p-2"
                         >
-                            {menu.name}
-                        </a>
-                    ))}
-                    <a href="/user_profile" >
-                        <img className='rounded-full object-cover aspect-square max-h-14 md:max-h-14 lg:max-h-14 max-w-14 md:max-w-14 lg:max-w-14' src={url || ProfileIcon} alt="UserIcon"  />
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={2}
+                                stroke="currentColor"
+                                className="w-7 h-7"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                                />
+                            </svg>
+                        </button>
+                        {menuOpen && (
+                            <div className="absolute right-0 top-12 w-48 bg-white rounded-lg shadow-lg">
+                                {menus.map((menu, i) => (
+                                    <a
+                                        key={menu.name}
+                                        href={menu.href}
+                                        onClick={(event) => {
+                                            menu.onClick();
+                                            setMenuOpen(false);
+                                        }}
+                                        className={`block px-4 py-3 ${
+                                            index === i
+                                                ? "bg-gray-200 text-black"
+                                                : "text-black hover:bg-gray-100"
+                                            }`}
+                                    >
+                                        {menu.name}
+                                    </a>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    {/* Profile */}
+                    <a href="/user_profile">
+                        <img
+                            className="rounded-full object-cover aspect-square max-h-14 max-w-14"
+                            src={url || ProfileIcon}
+                            alt="UserIcon"
+                        />
                     </a>
                 </div>
             </nav>
