@@ -227,7 +227,7 @@ export default function ClockIn() {
                     {/* Reason */}
                     {isPermission && (
                         <div className="mb-8">
-                            <h2 className="text-xl font-semibold text-[#560000] mb-3">
+                            <h2 className="text-xl font-semibold ml-1 mb-3">
                                 Alasan {attendance}
                             </h2>
 
@@ -236,11 +236,7 @@ export default function ClockIn() {
                                 value={reason}
                                 onChange={(e) => setReason(e.target.value)}
                                 placeholder={`Masukkan alasan ${attendance}...`}
-                                className="w-full rounded-xl border border-[#A9A6A6] bg-white p-4 resize-none
-                                focus:outline-none
-                                focus:ring-2
-                                focus:ring-[#FF5454]
-                                focus:border-[#FF5454]"
+                                className="w-full rounded-xl bg-white p-4 resize-none"
                             />
                         </div>
                     )}

@@ -115,16 +115,21 @@ export default function AdminReportProps() {
                             <img className="rounded-full w-30 object-cover aspect-square" src={ProfileIcon} alt="UserIcon" />
                         )}
                         <div>
-                            <h2 className="text-2xl font-bold text-black">{AttendanceDetails?.nama_lengkap}</h2>
+                            <h2 className="text-2xl text-black">{AttendanceDetails?.nama_lengkap}</h2>
                             <p className="text-gray-500 text-sm mt-2">{AttendanceDetails?.sekolah} • {AttendanceDetails?.jurusan}</p>
                             <p className="text-gray-500 text-sm">{AttendanceDetails?.created_date}</p>
                         </div>
                     </div>
                     {/*Izin atau TIdak Masuk*/}
                     {!AttendanceDetails?.sudah_hadir&&(
-                        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-gray-500">
-                            <p className="font-semibold">User data does not exist</p>
-                            <p className="text-sm text-gray-400 mt-1">Student Status: <span className="font-bold text-blue-600">{AttendanceDetails?.sudah_hadir ? "Sudah Hadir" : "Belum Hadir"}</span></p>
+                        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                            {!!AttendanceDetails?.sakit && (
+                                <p className="text-lg mt-1">Status : <span className="p-1 rounded-lg bg-[#F3E8FF] text-[#7E22CE] ">Sakit</span></p>
+                            )}
+                            {!!AttendanceDetails?.izin && (
+                                <p className="text-lg mt-1">Status : <span className="p-1 rounded-lg bg-[#DBEAFE] text-[#1D4ED8] ">Izin</span></p>
+                            )}
+                            <p className="text-md mt-1">Keterangan : <span className="text-[#505050]">{AttendanceDetails?.keterangan}</span></p>
                         </div>
                     )}
                     {/*Sudah Masuk*/}
@@ -154,17 +159,17 @@ export default function AdminReportProps() {
                                         <h2 className="text-black text-[23px]">Laporan Kegiatan</h2>
                                     </div>
                                     <div className="mb-4">
-                                        <span className="text-[16px] font-bold tracking-wider">Divisi</span>
+                                        <span className="text-[16px] tracking-wider">Divisi</span>
                                         <div className="mt-2 p-3 pl-4 bg-gray-200 rounded-lg text-[15px] border border-gray-200">Software Development</div>
                                     </div>
                                     <div className="mb-4">
-                                        <span className="text-[16px] font-bold tracking-wider">Kegiatan</span>
+                                        <span className="text-[16px] tracking-wider">Kegiatan</span>
                                         <div className="list-disc leading-relaxed space-y-2 mt-2 p-3 pl-4 bg-gray-200 rounded-lg text-[15px] border border-gray-200">
                                             {AttendanceDetails?.laporan}
                                         </div>
                                     </div>
                                     <div>
-                                        <span className="text-[16px] font-bold tracking-wider">Dokumentasi</span>
+                                        <span className="text-[16px] tracking-wider">Dokumentasi</span>
                                         <div className="flex gap-10 mt-2 overflow-x-auto pb-5">
                                             {reportImages.length > 0 ? (
                                                 reportImages.map(image =>
@@ -196,7 +201,7 @@ export default function AdminReportProps() {
                                 </div>
                             )}
                             <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                                <span className="text-[16px] font-bold tracking-wider">Divisi</span>
+                                <span className="text-[16px] tracking-wider">Divisi</span>
                                 <div className="mt-2 p-3 pl-4 bg-gray-200 rounded-lg text-[15px] border border-gray-200">{AttendanceDetails?.divisi}</div>
                             </div>
                         </>

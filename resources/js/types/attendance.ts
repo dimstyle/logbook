@@ -63,6 +63,9 @@ export interface getAttendanceDetails{
 
         sudah_hadir: boolean,
         wfh: boolean,
+        sakit: boolean,
+        izin: boolean,
+        keterangan: string,
         jam_hadir: string,
 
         sudah_laporan: boolean,

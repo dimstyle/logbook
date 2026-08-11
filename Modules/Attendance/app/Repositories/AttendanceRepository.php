@@ -172,6 +172,9 @@ class AttendanceRepository{
                 'users.profile_photo',
 
                 'attendances.sudah_hadir',
+                'attendances.sakit',
+                'attendances.izin',
+                'attendances.keterangan',
                 'attendances.wfh',
                 'attendances.jam_hadir',
                 'attendances.sudah_laporan',
