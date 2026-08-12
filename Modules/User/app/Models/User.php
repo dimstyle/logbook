@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Modules\Auth\Models\Account;
 use Modules\User\Database\Factories\UserFactory;
 
 #[Fillable([
@@ -26,5 +27,10 @@ class User extends Model{
     protected static function newFactory(): Factory
     {
         return UserFactory::new();
+    }
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class, 'account_id');
     }
 }

@@ -23,12 +23,12 @@ class GetUserProfileService
 
         Log::info($user);
 
-        $userAccount = Auth::user();
+        $account = $user->account;
 
         return [
-            'username'=> $userAccount->username,
-            'email' => $userAccount->email,
-            'role' => $userAccount->role,
+            'username'=> $account->username,
+            'email' => $account->email,
+            'role' => $account->role,
             ...$user->toArray()
         ];
     }

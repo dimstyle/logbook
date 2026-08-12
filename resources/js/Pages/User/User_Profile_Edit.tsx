@@ -240,7 +240,7 @@ export default function UserProfileEdit() {
                                     </svg>
                                 </div>
                             </label>
-                            <div className="flex flex-col w-full gap-4 ml-10 mt-10">
+                            <div className="flex flex-col w-full gap-4 px-5 mt-10">
                                 <h1 className="text-2xl">Nama</h1>
                                 <input value={data.nama_lengkap} onChange={e => setData('nama_lengkap', e.target.value)} type="text" className="w-full max-w-sm md:max-w-xl lg:max-w-lg p-1.5 bg-[#666] rounded-lg text-white" />
                                 {errors.nama_lengkap && <span className="text-red-500">{errors.nama_lengkap}</span>}

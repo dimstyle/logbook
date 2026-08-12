@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Log;
 class UserRepository{
     public function getUserByAccountId(int $accountId): User{
         try{
-            return User::where('account_id', $accountId)->firstOrFail();
+            return User::where('account_id', $accountId)
+                ->with('account')
+                ->firstOrFail();
         }catch(Throwable $e){
             Log::error('Failed to get data',[
                 'exception' => $e
