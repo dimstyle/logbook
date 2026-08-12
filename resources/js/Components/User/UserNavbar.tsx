@@ -27,6 +27,7 @@ export default function UserNavbar({
     const [loading, setLoading] = useState(true);
     const [url, setUrl] = useState<string | null>(null);
     const [menuOpen, setMenuOpen] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
     const isFetched = useRef(false);
 
     // logout event
@@ -60,6 +61,23 @@ export default function UserNavbar({
             }
         })()
     });
+    
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                menuRef.current &&
+                !menuRef.current.contains(event.target as Node)
+            ) {
+                setMenuOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
     
     if(loading) return <LoadingPage />
 
@@ -109,7 +127,7 @@ export default function UserNavbar({
                         ))}
                     </div>
                     {/* Mobile/tablet hamburger */}
-                    <div className="lg:hidden relative">
+                    <div ref={menuRef} className="lg:hidden relative">
                         <button
                             type="button"
                             onClick={() => setMenuOpen(prev => !prev)}
@@ -136,7 +154,7 @@ export default function UserNavbar({
                                     <a
                                         key={menu.name}
                                         href={menu.href}
-                                        onClick={(event) => {
+                                        onClick={() => {
                                             menu.onClick();
                                             setMenuOpen(false);
                                         }}

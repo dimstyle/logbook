@@ -105,7 +105,7 @@ export default function AdminReportProps() {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
                             </svg>
                         </Link>
-                        <h1 className="text-xl text-black">Detail Laporan</h1>
+                        <h1 className="text-xl">Detail Laporan</h1>
                     </div>
                     {/*Profil Siswa*/}
                     <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
@@ -115,7 +115,7 @@ export default function AdminReportProps() {
                             <img className="rounded-full w-30 object-cover aspect-square" src={ProfileIcon} alt="UserIcon" />
                         )}
                         <div>
-                            <h2 className="text-2xl text-black">{AttendanceDetails?.nama_lengkap}</h2>
+                            <h2 className="text-2xl">{AttendanceDetails?.nama_lengkap}</h2>
                             <p className="text-gray-500 text-sm mt-2">{AttendanceDetails?.sekolah} • {AttendanceDetails?.jurusan}</p>
                             <p className="text-gray-500 text-sm">{AttendanceDetails?.created_date}</p>
                         </div>
@@ -146,13 +146,13 @@ export default function AdminReportProps() {
                                     <div className="flex justify-between items-center border-b border-gray-100 pb-2">
                                     <span className="text-gray-500 text-base">Status</span>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-base text-black">Hadir •</span>
+                                        <span className="text-base">Hadir •</span>
                                         <span style={{backgroundColor: wfoBGcolor, color: wfoTxtcolor}} className="text-base p-1 rounded-md font-medium"> {AttendanceDetails?.wfh ? 'WFH' : 'WFO'}</span>
                                     </div>
                                 </div>
                                     <div className="flex justify-between border-b border-gray-50 pb-2">
                                         <span className="text-gray-500 text-base">Jam Masuk</span>
-                                        <span className="text-black text-base">{clockInTime}</span>
+                                        <span className="text-base">{clockInTime}</span>
                                     </div>
                                 </div>
                             </div>
@@ -160,20 +160,16 @@ export default function AdminReportProps() {
                             {(AttendanceDetails?.sudah_laporan || "") && (
                                 <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
                                     <div className="border-b border-gray-100 pb-3 mb-4">
-                                        <h2 className="text-black text-[23px]">Laporan Kegiatan</h2>
+                                        <h2 className="text-[23px]">Laporan Kegiatan</h2>
                                     </div>
                                     <div className="mb-4">
-                                        <span className="text-[16px] tracking-wider">Divisi</span>
-                                        <div className="mt-2 p-3 pl-4 bg-gray-200 rounded-lg text-[15px] border border-gray-200">Software Development</div>
-                                    </div>
-                                    <div className="mb-4">
-                                        <span className="text-[16px] tracking-wider">Kegiatan</span>
+                                        <span className="text-[16px]">Kegiatan</span>
                                         <div className="list-disc leading-relaxed space-y-2 mt-2 p-3 pl-4 bg-gray-200 rounded-lg text-[15px] border border-gray-200">
                                             {AttendanceDetails?.laporan}
                                         </div>
                                     </div>
                                     <div>
-                                        <span className="text-[16px] tracking-wider">Dokumentasi</span>
+                                        <span className="text-[16px]">Dokumentasi</span>
                                         <div className="flex gap-10 mt-2 overflow-x-auto pb-5">
                                             {reportImages.length > 0 ? (
                                                 reportImages.map(image =>
@@ -195,11 +191,11 @@ export default function AdminReportProps() {
                                     <div className="flex flex-col gap-3">
                                         <div className="flex justify-between items-center border-b border-gray-100 pb-2">
                                             <span className="text-gray-500 text-base mt-3">Status</span>
-                                            <span className="text-black text-base">Pulang</span>
+                                            <span className="text-base">Pulang</span>
                                         </div>
                                         <div className="flex justify-between border-b border-gray-50 pb-2">
                                             <span className="text-gray-500 text-base">Jam Pulang</span>
-                                            <span className="text-black text-base">{clockOutTime} PM</span>
+                                            <span className="text-base">{clockOutTime} PM</span>
                                         </div>
                                     </div>
                                 </div>
@@ -207,7 +203,7 @@ export default function AdminReportProps() {
                         </>
                     )}
                     <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                        <span className="text-[16px] tracking-wider">Divisi</span>
+                        <span className="text-[23px]">Divisi</span>
                         <div className="mt-2 p-3 pl-4 bg-gray-200 rounded-lg text-[15px] border border-gray-200">{AttendanceDetails?.divisi}</div>
                     </div>
                 </div>

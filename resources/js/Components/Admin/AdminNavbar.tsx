@@ -26,6 +26,7 @@ export default function AdminNavbar({
     const isFetched = useRef(false);
     const [url, setUrl] = useState<string | null>(null)
     const [menuOpen, setMenuOpen] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -61,6 +62,23 @@ export default function AdminNavbar({
             }
         })()
     });
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                menuRef.current &&
+                !menuRef.current.contains(event.target as Node)
+            ) {
+                setMenuOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
     
     if(loading) return <LoadingPage />
     
@@ -111,7 +129,7 @@ export default function AdminNavbar({
                         ))}
                     </div>
                     {/* Mobile/tablet hamburger */}
-                    <div className="lg:hidden relative">
+                    <div ref={menuRef} className="lg:hidden relative">
                         <button
                             type="button"
                             onClick={() => setMenuOpen(prev => !prev)}
@@ -138,7 +156,7 @@ export default function AdminNavbar({
                                     <a
                                         key={menu.name}
                                         href={menu.href}
-                                        onClick={(event) => {
+                                        onClick={() => {
                                             menu.onClick();
                                             setMenuOpen(false);
                                         }}
