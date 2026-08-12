@@ -121,15 +121,19 @@ export default function AdminReportProps() {
                         </div>
                     </div>
                     {/*Izin atau TIdak Masuk*/}
-                    {!AttendanceDetails?.sudah_hadir&&(
+                    {!AttendanceDetails?.sudah_hadir &&(
                         <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
                             {!!AttendanceDetails?.sakit && (
-                                <p className="text-lg mt-1">Status : <span className="p-1 rounded-lg bg-[#F3E8FF] text-[#7E22CE] ">Sakit</span></p>
+                                <p className="text-lg mt-1">Status : <span className="p-1 rounded-lg bg-[#F3E8FF] text-[#7E22CE]">Sakit</span></p>
                             )}
                             {!!AttendanceDetails?.izin && (
-                                <p className="text-lg mt-1">Status : <span className="p-1 rounded-lg bg-[#DBEAFE] text-[#1D4ED8] ">Izin</span></p>
+                                <p className="text-lg mt-1">Status : <span className="p-1 rounded-lg bg-[#DBEAFE] text-[#1D4ED8]">Izin</span></p>
                             )}
-                            <p className="text-md mt-1">Keterangan : <span className="text-[#505050]">{AttendanceDetails?.keterangan}</span></p>
+                            {AttendanceDetails?.keterangan ? (
+                                <p className="text-md mt-1">Keterangan : <span className="text-[#505050]">{AttendanceDetails?.keterangan}</span></p>
+                            ) : (
+                                <p className="text-lg mt-1">Status : <span className="p-1 rounded-lg bg-[#EEEEEE] text-[#6B7280]">Belum Hadir</span></p>
+                            )}
                         </div>
                     )}
                     {/*Sudah Masuk*/}
@@ -200,13 +204,12 @@ export default function AdminReportProps() {
                                     </div>
                                 </div>
                             )}
-                            <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                                <span className="text-[16px] tracking-wider">Divisi</span>
-                                <div className="mt-2 p-3 pl-4 bg-gray-200 rounded-lg text-[15px] border border-gray-200">{AttendanceDetails?.divisi}</div>
-                            </div>
                         </>
                     )}
-                    
+                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                        <span className="text-[16px] tracking-wider">Divisi</span>
+                        <div className="mt-2 p-3 pl-4 bg-gray-200 rounded-lg text-[15px] border border-gray-200">{AttendanceDetails?.divisi}</div>
+                    </div>
                 </div>
             </div>
         </>
