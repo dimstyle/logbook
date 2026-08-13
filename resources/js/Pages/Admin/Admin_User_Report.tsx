@@ -100,7 +100,7 @@ export default function AdminReportProps() {
                 <div className="max-w-200 mx-auto flex flex-col gap-5">
                     {/*Back*/}
                     <div className="flex items-center gap-3 py-2">
-                        <Link href='/admin/daily_attendance' className='text-gray-700 bg-white hover:bg-gray-200 p-2 rounded-full shadow-sm'>
+                        <Link href='/admin/daily_attendance' className='bg-white hover:bg-black/5 p-2 rounded-full shadow-sm'>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
                             </svg>

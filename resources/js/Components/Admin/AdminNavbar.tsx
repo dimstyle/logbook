@@ -133,7 +133,11 @@ export default function AdminNavbar({
                         <button
                             type="button"
                             onClick={() => setMenuOpen(prev => !prev)}
-                            className="text-white p-2"
+                            className={`text-white rounded-lg p-2 ${
+                                menuOpen 
+                                    ? "bg-black/30"
+                                    : ""
+                            }`}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

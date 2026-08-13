@@ -208,7 +208,7 @@ export default function UserProfileEdit() {
                 <form onSubmit={handleSubmit} className="bg-[#F4F4F4] w-full p-10 rounded-xl">
                     <div className="bg-[#F4F4F4] w-full p-10 rounded-xl">
                         <div className="flex items-center gap-3 py-2">
-                            <Link href='/user_profile' className='flex gap-2 items-center text-gray-700 bg-white hover:bg-gray-200 p-2 rounded-full shadow-sm'>
+                            <Link href='/user_profile' className='flex gap-2 items-center bg-white hover:bg-black/5 p-2 rounded-full shadow-sm'>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
                                 </svg>

@@ -23,7 +23,7 @@ export default function SlideButton({
                 <button
                     type="button"
                     onClick={() => setIsExcelMode(false)}
-                    className={`relative z-10 w-1/2 rounded-full py-2 font-semibold transition-colors duration-300 ${
+                    className={`relative z-10 w-1/2 rounded-full py-2 font-semibold transition-colors cursor-pointer duration-300 ${
                         !isExcelMode
                             ? "text-white"
                             : "text-[#560000]"
@@ -36,7 +36,7 @@ export default function SlideButton({
                 <button
                     type="button"
                     onClick={() => setIsExcelMode(true)}
-                    className={`relative z-10 w-1/2 rounded-full py-2 font-semibold transition-colors duration-300 ${
+                    className={`relative z-10 w-1/2 rounded-full py-2 font-semibold transition-colors cursor-pointer duration-300 ${
                         isExcelMode
                             ? "text-white"
                             : "text-[#560000]"

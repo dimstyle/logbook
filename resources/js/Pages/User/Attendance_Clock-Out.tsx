@@ -85,7 +85,7 @@ export default function ClockOut() {
                     {/* Live Date & Time */}
                     <div className="grid grid-cols-2 gap-5 mb-8">
                         <div
-                            className="rounded-xl border p-5 transition bg-[#D6D6D6] border-[#B3B3B3]">
+                            className="rounded-xl border p-5 transition bg-white border-[#A9A6A6]">
                             <p className="text-sm">Tanggal</p>
 
                             <h2 className="text-lg font-semibold text-[#560000] mt-2">
@@ -94,7 +94,7 @@ export default function ClockOut() {
                         </div>
 
                         <div
-                            className="rounded-xl border p-5 transition bg-[#D6D6D6] border-[#B3B3B3]">
+                            className="rounded-xl border p-5 transition bg-white border-[#A9A6A6]">
                             <p className="text-sm">
                                 Jam Sekarang
                             </p>
