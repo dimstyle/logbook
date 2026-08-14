@@ -4,6 +4,7 @@ import UserNavbar from "../../Components/User/UserNavbar.js";
 import LoadingPage from "../ui/LoadingPage.js";
 import ErrorPage from "../ui/ErrorPage.js";
 import Plus from "../../../../assets/plus.png";
+import Image from "../../../../assets/image-picture-svgrepo-com.png"
 import api from "../../lib/axios.js";
 import type { getAttendanceDailyResponse } from "../../types/attendance.js";
 import { type DefaultResponse } from "../../types/default.js";
@@ -140,14 +141,14 @@ export default function EditReport() {
                             isChanged.current = true;
                             setReportText(event.target.value)
                         }}
-                        className="flex-start bg-white rounded-lg w-full h-28 justify-start border-gray-300 p-1.5 items-start focus:ring-2 focus:border-blue-500 outline-none disabled:cursor-not-allowed"
+                        className="flex-start bg-white rounded-lg w-full h-28 justify-start border-gray-300 p-1.5 items-start focus:ring-2 focus:border-blue-500 outline-none disabled:bg-gray-200 disabled:cursor-not-allowed"
                         placeholder={canEditReport ? "Tuliskan Kegiatan Anda" : "Belum ada laporan untuk diedit"}
                         disabled={loading || !canEditReport}
                     />
                     <h2>Jam Masuk</h2>
                     <input
                         type="time"
-                        className="w-50 p-1.5 rounded-lg bg-gray-100 disabled:cursor-not-allowed"
+                        className="w-50 p-1.5 rounded-lg bg-white disabled:bg-gray-200 disabled:cursor-not-allowed"
                         value={clockIn}
                         onChange={(event) => setClockIn(event.target.value)}
                         disabled={!canEditClockIn}
@@ -155,7 +156,7 @@ export default function EditReport() {
                     <h2>Jam Pulang</h2>
                     <input
                         type="time"
-                        className="w-50 p-1.5 rounded-lg bg-gray-100 disabled:cursor-not-allowed"
+                        className="w-50 p-1.5 rounded-lg bg-white disabled:bg-gray-200 disabled:cursor-not-allowed"
                         value={clockOut}
                         onChange={(event) => setClockOut(event.target.value)}
                         disabled={!canEditClockOut}
@@ -163,7 +164,7 @@ export default function EditReport() {
                     <h2>Tanggal</h2>
                     <input
                         type="date"
-                        className="w-50 p-1.5 rounded-lg bg-gray-100 disabled:cursor-not-allowed"
+                        className="w-50 p-1.5 rounded-lg bg-white disabled:bg-gray-200 disabled:cursor-not-allowed"
                         value={date}
                         onChange={(event) => setDate(event.target.value)}
                         disabled={!canEditDate}
@@ -204,10 +205,16 @@ export default function EditReport() {
                                 )
                             })
                         }
-                        <label htmlFor="file-upload" className="shrink-0 bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
-                            <input onChange={imageHandler} type="file" className="hidden" id="file-upload"/>
-                            <img src={ Plus } className="w-12 h-12"/>
-                        </label>
+                        {reportImages.length > 0 ? (
+                            <label htmlFor="file-upload" className="shrink-0 bg-white w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center hover:border-blue-500 transition-colors cursor-pointer">
+                                <input onChange={imageHandler} type="file" className="hidden" id="file-upload"/>
+                                <img src={ Plus } className="w-12 h-12"/>
+                            </label>
+                        ) : (
+                            <label title="Belum ada gambar untuk ditambah" className="shrink-0 bg-gray-200 w-50 h-50 rounded-xl mt-2 border-2 border-gray-300 flex items-center justify-center cursor-not-allowed">
+                                <img src={ Image } className="w-12 h-12"/>
+                            </label>
+                        )}
                     </div>
                 </div>
                 <div className="flex justify-center mt-5 mb-10">

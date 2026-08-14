@@ -2,35 +2,10 @@ import AdminNavbar from "../../Components/Admin/AdminNavbar.js"
 import React, { useEffect, useRef, useState } from "react"
 import { Head, Link, usePage } from "@inertiajs/react"
 import ProfileIcon from "../../../../assets/download-removebg-preview.png"
-// import Image from "../../../../assets/image-picture-svgrepo-com.png"
 import api from "../../lib/axios.js"
 import LoadingPage from "../ui/LoadingPage.js"
 import ErrorPage from "../ui/ErrorPage.js"
 import { type getAttendanceDetails } from "../../types/attendance.js"
-
-// interface AttendanceData{
-//     school: string;
-//     major: string;
-//     attendance: string;
-//     wfo: boolean | string;
-//     report: boolean | string;
-//     clockOut: boolean | string;
-//     time: string;
-//     date: string;
-//     clockOutTime: string;
-// }
-
-// interface AdminReportProps {
-//     studentName: string;
-//     attendanceData: AttendanceData;
-// }
-// {studentName, attendanceData} : AdminReportProps
-
-// const {attendance, wfo, report, clockOut, time, date, school, major, clockOutTime} = attendanceData
-// const ifWfoBool = wfo === true || String(wfo) === "true" || String(wfo) === "1";
-// const isReportBool = String(report) === "true";
-// const isClockOutBool = String(clockOut) === "true";
-// const userWFO = ifWfoBool ? "WFO" : "WFH";
 
 function formatTime(time: string | undefined) {
     if(!time) return
