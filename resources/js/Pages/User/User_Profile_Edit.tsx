@@ -47,6 +47,7 @@ export default function UserProfileEdit() {
     });
     const [completedCrop, setCompletedCrop] = useState<Crop | null>(null);
     const [showCropperModal, setShowCropperModal] = useState(false);
+    const [showPassModal, setShowPassModal] = useState(false);
     const imgRef = useRef<HTMLImageElement>(null);
 
     const { data, setData, processing, errors} = useForm<UpdateUserProfileRequest>({
@@ -280,7 +281,9 @@ export default function UserProfileEdit() {
                                 </div>
                                 <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
                                     <h1 className="text-xl text-[#666]">Password</h1>
-                                    <input value={data.password} onChange={e => setData('password', e.target.value)} type="password" className="w-full p-1.5 bg-[#666] rounded-lg text-white" />
+                                    <div className="flex justify-center">
+                                        <button type="button" onClick={() => setShowPassModal(true)} className="bg-[#FF5454] text-white p-1.5 rounded-lg cursor-pointer shadow-lg">Ubah password</button>
+                                    </div>
                                     {errors.password && <span className="text-red-500">{errors.password}</span>}
                                 </div>
                             </div>
@@ -327,6 +330,34 @@ export default function UserProfileEdit() {
                                 onClick={() => {
                                     handleCropComplete(completedCrop ?? crop)
                                 }}
+                                className="px-4 py-2 bg-[#FF5454] text-white rounded-lg hover:bg-[#E54747] cursor-pointer"
+                            >
+                                Simpan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showPassModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 z-1001">
+                    <div className="bg-white p-6 rounded-xl max-w-lg w-full flex flex-col items-center shadow-xl">
+                        <h2 className="text-xl font-semibold mb-4">Ubah Password</h2>
+                        <div className="flex flex-col gap-3 mt-6 w-full">
+                            <h2>Password Sebelumnya</h2>
+                            <input onChange={e => setData('password', e.target.value)} type="password" className="w-full p-1.5 bg-[#666] rounded-lg text-white" />
+                            <h2>Password Baru</h2>
+                            <input onChange={e => setData('password', e.target.value)} type="password" className="w-full p-1.5 bg-[#666] rounded-lg text-white" />
+                        </div>
+                        <div className="flex justify-end gap-3 mt-6 w-full">
+                            <button
+                                type="button"
+                                onClick={() => setShowPassModal(false)}
+                                className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 cursor-pointer"
+                            >
+                                Batal
+                            </button>
+                            <button
+                                type="button"
                                 className="px-4 py-2 bg-[#FF5454] text-white rounded-lg hover:bg-[#E54747] cursor-pointer"
                             >
                                 Simpan

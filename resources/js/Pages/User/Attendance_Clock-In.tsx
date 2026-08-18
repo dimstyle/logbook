@@ -139,8 +139,8 @@ export default function ClockIn() {
                             <label
                                 className={`rounded-xl border p-4 flex items-center gap-3 cursor-pointer transition-all duration-200 ${
                                     attendance === "wfo"
-                                        ? "bg-[#FFD6D6] border-[#FF5454]"
-                                        : "bg-white border-[#A9A6A6] hover:border-[#FF5454]"
+                                        ? "bg-[#E0F2FE] border-[#0369A1]"
+                                        : "bg-white border-[#A9A6A6] hover:border-[#0369A1]"
                                 }`}
                             >
                                 <input
@@ -152,7 +152,7 @@ export default function ClockIn() {
                                         setAttendance(e.target.value);
                                         setReason("");
                                     }}
-                                    className="accent-[#FF5454]"
+                                    className="accent-[#0369A1]"
                                 />
 
                                 <span className="font-medium">WFO</span>
@@ -161,8 +161,8 @@ export default function ClockIn() {
                             <label
                                 className={`rounded-xl border p-4 flex items-center gap-3 cursor-pointer transition-all duration-200 ${
                                     attendance === "wfh"
-                                        ? "bg-[#FFD6D6] border-[#FF5454]"
-                                        : "bg-white border-[#A9A6A6] hover:border-[#FF5454]"
+                                        ? "bg-[#F3E8FF] border-[#7C3AED]"
+                                        : "bg-white border-[#A9A6A6] hover:border-[#7C3AED]"
                                 }`}
                             >
                                 <input
@@ -174,7 +174,7 @@ export default function ClockIn() {
                                         setAttendance(e.target.value);
                                         setReason("");
                                     }}
-                                    className="accent-[#FF5454]"
+                                    className="accent-[#7C3AED]"
                                 />
 
                                 <span className="font-medium">WFH</span>
@@ -183,8 +183,8 @@ export default function ClockIn() {
                             <label
                                 className={`rounded-xl border p-4 flex items-center gap-3 cursor-pointer transition-all duration-200 ${
                                     attendance === "izin"
-                                        ? "bg-[#FFD6D6] border-[#FF5454]"
-                                        : "bg-white border-[#A9A6A6] hover:border-[#FF5454]"
+                                        ? "bg-[#DBEAFE] border-[#1D4ED8]"
+                                        : "bg-white border-[#A9A6A6] hover:border-[#1D4ED8]"
                                 }`}
                             >
                                 <input
@@ -195,7 +195,7 @@ export default function ClockIn() {
                                     onChange={(e) =>
                                         setAttendance(e.target.value)
                                     }
-                                    className="accent-[#FF5454]"
+                                    className="accent-[#1D4ED8]"
                                 />
 
                                 <span className="font-medium">Izin</span>
@@ -204,8 +204,8 @@ export default function ClockIn() {
                             <label
                                 className={`rounded-xl border p-4 flex items-center gap-3 cursor-pointer transition-all duration-200 ${
                                     attendance === "sakit"
-                                        ? "bg-[#FFD6D6] border-[#FF5454]"
-                                        : "bg-white border-[#A9A6A6] hover:border-[#FF5454]"
+                                        ? "bg-[#F3E8FF] border-[#7E22CE]"
+                                        : "bg-white border-[#A9A6A6] hover:border-[#7E22CE]"
                                 }`}
                             >
                                 <input
@@ -216,7 +216,7 @@ export default function ClockIn() {
                                     onChange={(e) =>
                                         setAttendance(e.target.value)
                                     }
-                                    className="accent-[#FF5454]"
+                                    className="accent-[#7E22CE]"
                                 />
 
                                 <span className="font-medium">Sakit</span>
