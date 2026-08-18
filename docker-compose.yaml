@@ -1,0 +1,41 @@
+services:
+
+  app: 
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: laravel-app
+    volumes:
+      - laravel_storage:/var/www/storage
+    depends_on: 
+      - db
+    networks: 
+      - laravel
+
+  web:
+    image: nginx:alpine
+    container_name: nginx-proxy
+    ports: 
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - laravel
+
+  mysql:
+    image: mysql:alpine
+    environment:
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+    container_name: mysql-db
+    volumes:
+      - database:/var/lib/mysql
+    networks:
+      - laravel
+
+volumes:
+  database:
+
+networks:
+  laravel:

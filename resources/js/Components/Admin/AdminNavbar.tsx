@@ -177,13 +177,15 @@ export default function AdminNavbar({
                         )}
                     </div>
                     {/* Profile */}
-                    <a href="/admin/profile">
-                        <img
-                            className="rounded-full object-cover aspect-square max-h-14 max-w-14"
-                            src={url || ProfileIcon}
-                            alt="UserIcon"
-                        />
-                    </a>
+                    <div className="w-14 h-14">
+                        <a href="/admin/profile">
+                            <img
+                                className="rounded-full object-cover aspect-square"
+                                src={url || ProfileIcon}
+                                alt="UserIcon"
+                            />
+                        </a>
+                    </div>
                 </div>
             </nav>
         </>
