@@ -1,5 +1,6 @@
 import AdminNavbar from "../../Components/Admin/AdminNavbar.js";
 import ProfileIcon from "../../../../assets/download-removebg-preview.png";
+import NotVisible from "../../../../assets/not-visible-svgrepo-com.png";
 import React, { useEffect, useRef, useState } from "react";
 import { type getAdminProfileResponse, type UpdateAdminProfileRequest } from "../../types/user.js";
 import ReactCrop, { type Crop, centerCrop, makeAspectCrop } from "react-image-crop";
@@ -47,13 +48,17 @@ export default function AdminProfileEdit() {
     });
     const [completedCrop, setCompletedCrop] = useState<Crop | null>(null);
     const [showCropperModal, setShowCropperModal] = useState(false);
+    const [passwordError, setPasswordError] = useState("");
+    const [passwordLoading, setPasswordLoading] = useState(false);
+    const [oldshowPassword, setOldShowPassword] = useState(false);
+    const [newshowPassword, setNewShowPassword] = useState(false);
+    const [confirmshowPassword, setConfirmShowPassword] = useState(false);
     const [showPassModal, setShowPassModal] = useState(false);
     const imgRef = useRef<HTMLImageElement>(null);
 
     const { data, setData, processing, errors}  = useForm<UpdateAdminProfileRequest>({
         username: "",
         email: "",
-        password: "",
         nama_lengkap: "",
         perusahaan: "",
         divisi: "",
@@ -61,6 +66,23 @@ export default function AdminProfileEdit() {
         profile_photo: null as File | null
     })
 
+    const [passwordData, setPasswordData] = useState({
+        current_password: "",
+        new_password: "",
+        new_password_confirmation: ""
+    })
+    
+    const oldShowPassword = (): void => {
+        setOldShowPassword((prev) => !prev);
+    }
+    
+    const newShowPassword = (): void => {
+        setNewShowPassword((prev) => !prev);
+    }
+
+    const confirmShowPassword = (): void => {
+        setConfirmShowPassword((prev) => !prev);
+    }
 
     function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
         const { width, height } = e.currentTarget;
@@ -189,6 +211,52 @@ export default function AdminProfileEdit() {
 
         setIsSubmitted(true)
     }
+
+    const handlePasswordChange = async () => {
+        setPasswordError("");
+
+        if (!passwordData.current_password) {
+            setPasswordError("Password sebelumnya wajib diisi.")
+            return;
+        }
+
+        if (!passwordData.new_password) {
+            setPasswordError("Password baru wajib diisi.")
+            return;
+        }
+
+        if (
+            passwordData.new_password !==
+            passwordData.new_password_confirmation
+        ) {
+            setPasswordError("Konfirmasi password tidak sama.");
+            return;
+        }
+
+        setPasswordLoading(true);
+
+        try {
+            const response = await api.patch<DefaultResponse>('/api/user/updatepassword', passwordData)
+
+            alert(response.data.message);
+            
+            setPasswordData({
+                current_password: "",
+                new_password: "",
+                new_password_confirmation: ""
+            });
+
+            setShowPassModal(false);
+        } catch (err: unknown) {
+            const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
+            const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
+            const status = axiosError?.response?.status ?? 500;
+            setPasswordError(message)
+            setError(JSON.stringify({ message, status }));
+        } finally {
+            setPasswordLoading(false);
+        }
+    }
     
     if(loading){
         return <LoadingPage />
@@ -284,9 +352,7 @@ export default function AdminProfileEdit() {
                                 </div>
                                 <div className="bg-gray-200 w-full border-2 border-[#999] rounded-lg p-4">
                                     <h1 className="text-xl text-[#666]">Password</h1>
-                                    <div className="flex justify-center">
-                                        <button type="button" onClick={() => setShowPassModal(true)} className="bg-[#FF5454] text-white p-1.5 rounded-lg cursor-pointer shadow-lg">Ubah password</button>
-                                    </div>
+                                    <input value="••••••••" readOnly onClick={() => setShowPassModal(true)} type="text" className="w-full p-1.5 bg-[#666] rounded-lg text-white cursor-pointer" />
                                     {errors.password && <span className="text-red-500">{errors.password}</span>}
                                 </div>
                             </div>
@@ -347,9 +413,70 @@ export default function AdminProfileEdit() {
                         <h2 className="text-xl font-semibold mb-4">Ubah Password</h2>
                         <div className="flex flex-col gap-3 mt-6 w-full">
                             <h2>Password Sebelumnya</h2>
-                            <input onChange={e => setData('password', e.target.value)} type="password" className="w-full p-1.5 bg-[#666] rounded-lg text-white" />
+                            <div className="relative justify-between items-center w-full bg-white rounded-lg">
+                                <input
+                                    type={oldshowPassword ? 'text' : 'password'}
+                                    value={passwordData.current_password}
+                                    onChange={e => 
+                                        setPasswordData(prev => ({
+                                            ...prev,
+                                            current_password: e.target.value
+                                        }))
+                                    }
+                                    className="w-full p-1.5 bg-[#666] rounded-lg text-white"
+                                />
+                                <button
+                                    onClick={oldShowPassword}
+                                    className={`absolute ${oldshowPassword ? 'bg-[#FF5454]' : 'bg-[#666]'} inset-y-0 right-0 flex items-center pr-3 pl-3 border-l-2 border-black cursor-pointer rounded-r-lg transition-all`}
+                                >
+                                    <img src={NotVisible} width={25} />
+                                </button>
+                            </div>
                             <h2>Password Baru</h2>
-                            <input onChange={e => setData('password', e.target.value)} type="password" className="w-full p-1.5 bg-[#666] rounded-lg text-white" />
+                            <div className="relative justify-between items-center w-full bg-white rounded-lg">
+                                <input
+                                    type={newshowPassword ? 'text' : 'password'}
+                                    value={passwordData.new_password}
+                                    onChange={e => 
+                                        setPasswordData(prev => ({
+                                            ...prev,
+                                            new_password: e.target.value
+                                        }))
+                                    }
+                                    className="w-full p-1.5 bg-[#666] rounded-lg text-white"
+                                />
+                                <button
+                                    onClick={newShowPassword}
+                                    className={`absolute ${newshowPassword ? 'bg-[#FF5454]' : 'bg-[#666]'} inset-y-0 right-0 flex items-center pr-3 pl-3 border-l-2 border-black cursor-pointer rounded-r-lg transition-all`}
+                                >
+                                    <img src={NotVisible} width={25} />
+                                </button>
+                            </div>
+                            <h2>Konfirmasi Password Baru</h2>
+                            <div className="relative justify-between items-center w-full bg-white rounded-lg">
+                                <input
+                                    type={confirmshowPassword ? 'text' : 'password'}
+                                    value={passwordData.new_password_confirmation}
+                                    onChange={e => 
+                                        setPasswordData(prev => ({
+                                            ...prev,
+                                            new_password_confirmation: e.target.value
+                                        }))
+                                    }
+                                    className="w-full p-1.5 bg-[#666] rounded-lg text-white"
+                                />
+                                <button
+                                    onClick={confirmShowPassword}
+                                    className={`absolute ${confirmshowPassword ? 'bg-[#FF5454]' : 'bg-[#666]'} inset-y-0 right-0 flex items-center pr-3 pl-3 border-l-2 border-black cursor-pointer rounded-r-lg transition-all`}
+                                >
+                                    <img src={NotVisible} width={25} />
+                                </button>
+                            </div>
+                            {passwordError && (
+                                <span className="text-[#FF5454]">
+                                    {passwordError}
+                                </span>
+                            )}
                         </div>
                         <div className="flex justify-end gap-3 mt-6 w-full">
                             <button
@@ -361,9 +488,11 @@ export default function AdminProfileEdit() {
                             </button>
                             <button
                                 type="button"
-                                className="px-4 py-2 bg-[#FF5454] text-white rounded-lg hover:bg-[#E54747] cursor-pointer"
+                                onClick={handlePasswordChange}
+                                disabled={passwordLoading}
+                                className="px-4 py-2 bg-[#FF5454] text-white rounded-lg hover:bg-[#E54747] cursor-pointer disabled:bg-gray-400"
                             >
-                                Simpan
+                                {passwordLoading ? "Menyimpan..." : "Simpan"}
                             </button>
                         </div>
                     </div>

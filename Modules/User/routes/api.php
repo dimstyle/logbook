@@ -9,11 +9,16 @@ use Modules\User\Http\Controllers\GetUserProfileOnAdminController;
 use Modules\User\Http\Controllers\GetUserProfilePhotoController;
 use Modules\User\Http\Controllers\UpdateAdminProfileController;
 use Modules\User\Http\Controllers\UpdateUserProfileController;
+use Modules\User\Http\Controllers\UpdateUserPasswordController;
 
 Route::prefix('user')
 ->middleware('jwt')
 ->group(function (){
     Route::get('/getuserprofilephoto', [GetUserProfilePhotoController::class, 'handle']);
+    Route::patch(
+        '/updatepassword',
+        [UpdateUserPasswordController::class, 'handle']
+    );
 });
 
 Route::prefix('user')
