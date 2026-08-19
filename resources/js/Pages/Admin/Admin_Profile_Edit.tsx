@@ -240,13 +240,8 @@ export default function AdminProfileEdit() {
 
             alert(response.data.message);
             
-            setPasswordData({
-                current_password: "",
-                new_password: "",
-                new_password_confirmation: ""
-            });
+            window.location.href = "/admin/login";
 
-            setShowPassModal(false);
         } catch (err: unknown) {
             const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
             const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';

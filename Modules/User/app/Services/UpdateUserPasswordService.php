@@ -4,6 +4,7 @@ namespace Modules\User\Services;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class UpdateUserPasswordService
 {
@@ -31,5 +32,9 @@ class UpdateUserPasswordService
         );
 
         $user->save();
+
+        JWTAuth::invalidate(
+            JWTAuth::getToken()
+        );
     }
 }

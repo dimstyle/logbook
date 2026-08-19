@@ -19,8 +19,10 @@ class UpdateUserPasswordController extends Controller
             $request->validated()
         );
 
-        return response()->json([
-            'message' => 'Success to update password'
-        ], Response::HTTP_OK);
+        return response()
+            ->json([
+                'message' => 'Password berhasil diubah. Silakan login kembali.'
+            ], Response::HTTP_OK)
+            ->withoutCookie('access_token');
     }
 }
