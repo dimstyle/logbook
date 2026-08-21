@@ -49,7 +49,6 @@ export default function AdminProfileEdit() {
     const [completedCrop, setCompletedCrop] = useState<Crop | null>(null);
     const [showCropperModal, setShowCropperModal] = useState(false);
     const [passwordError, setPasswordError] = useState("");
-    const [passwordLoading, setPasswordLoading] = useState(false);
     const [oldshowPassword, setOldShowPassword] = useState(false);
     const [newshowPassword, setNewShowPassword] = useState(false);
     const [confirmshowPassword, setConfirmShowPassword] = useState(false);
@@ -172,7 +171,6 @@ export default function AdminProfileEdit() {
                         email: currentUser.email || "",
                         nomor_telepon: currentUser.nomor_telepon || "",
                         username: currentUser.username || "",
-                        password: "",
                         profile_photo: null
                     })
 
@@ -192,6 +190,7 @@ export default function AdminProfileEdit() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setPasswordError("");
 
         const requestData = EliminateEmptyString(data)
      
@@ -200,6 +199,17 @@ export default function AdminProfileEdit() {
             const resData = response.data;
 
             alert(resData.message);
+
+            if (passwordData.new_password) {
+                const response = await api.patch<DefaultResponse>('/api/user/updatepassword', passwordData)
+
+                alert(response.data.message);
+
+                window.location.href = "/admin/login";
+                return;
+            }
+
+            router.get('/admin/profile');
 
         }catch(err: unknown){
             const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
@@ -233,24 +243,7 @@ export default function AdminProfileEdit() {
             return;
         }
 
-        setPasswordLoading(true);
-
-        try {
-            const response = await api.patch<DefaultResponse>('/api/user/updatepassword', passwordData)
-
-            alert(response.data.message);
-            
-            window.location.href = "/admin/login";
-
-        } catch (err: unknown) {
-            const axiosError = err as { response?: { data?: { message?: string }; status?: number }; message?: string };
-            const message = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Something went wrong';
-            const status = axiosError?.response?.status ?? 500;
-            setPasswordError(message)
-            setError(JSON.stringify({ message, status }));
-        } finally {
-            setPasswordLoading(false);
-        }
+        setShowPassModal(false);
     }
     
     if(loading){
@@ -260,11 +253,6 @@ export default function AdminProfileEdit() {
     if (error){
         const errMessage = JSON.parse(error);
         return <ErrorPage errorMessage={errMessage} backPath="/admin/login"/>
-    }
-
-    if (isSubmitted) {
-        router.get('/admin/profile')
-        return;
     }
 
     return (
@@ -484,10 +472,9 @@ export default function AdminProfileEdit() {
                             <button
                                 type="button"
                                 onClick={handlePasswordChange}
-                                disabled={passwordLoading}
-                                className="px-4 py-2 bg-[#FF5454] text-white rounded-lg hover:bg-[#E54747] cursor-pointer disabled:bg-gray-400"
+                                className="px-4 py-2 bg-[#FF5454] text-white rounded-lg hover:bg-[#E54747] cursor-pointer"
                             >
-                                {passwordLoading ? "Menyimpan..." : "Simpan"}
+                                Simpan
                             </button>
                         </div>
                     </div>
